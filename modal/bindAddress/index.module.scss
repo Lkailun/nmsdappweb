@@ -1,0 +1,62 @@
+.view {
+    font-family: Kanit;
+
+    header {
+        text-align: center;
+        padding-top: 0.11rem;
+        color: #fff;
+        font-size: 0.18rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 1.5;
+    }
+    .label {
+        color: rgba($color: #fff, $alpha: 1);
+        font-size: 0.14rem;
+        font-weight: 600;
+        line-height: 1.5;
+        margin: 0.19rem 0 0.08rem;
+    }
+    .notice {
+        color: #fab427;
+    }
+    .input {
+        width: 100%;
+        height: 0.52rem;
+        position: relative;
+        border-radius: 0.1rem;
+        background: none;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        input {
+            width: 100%;
+            height: 100%;
+            background: none !important;
+            border: none !important;
+            letter-spacing: 0.7px;
+            padding: 0 0.12rem;
+            color: #fff;
+            font-size: 0.14rem;
+            font-weight: 600;
+
+            &::placeholder {
+                font-size: 0.14rem;
+                color: rgba(255, 255, 255, 0.4);
+            }
+        }
+    }
+
+    button {
+        margin-top: 0.22rem;
+        width: 100%;
+        height: 0.4rem;
+        border-radius: 0.24rem;
+        background: linear-gradient(237deg, #5a9ff1 0%, #3452c2 100%);
+        color: #fff;
+        font-size: 0.14rem;
+        font-weight: 600;
+        .icon {
+            height: 0.16rem;
+            margin-right: 0.08rem;
+        }
+    }
+}

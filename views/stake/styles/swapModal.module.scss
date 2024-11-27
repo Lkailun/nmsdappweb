@@ -1,0 +1,119 @@
+.view {
+    font-family: 'PingFang SC' !important;
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-family: 'PingFang SC';
+        font-size: 0.16rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 0.22rem;
+        margin-bottom: 0.25rem;
+        img {
+            width: 0.2rem;
+            margin-left: 0.03rem;
+        }
+    }
+    .item {
+        &.last {
+            margin-top: -0.1rem;
+        }
+        .label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.06rem;
+            color: #fff;
+            font-size: 0.14rem;
+            font-weight: 400;
+            line-height: 0.2rem;
+            .left {
+                display: flex;
+                align-items: center;
+                img {
+                    width: 0.18rem;
+                    margin-left: 0.03rem;
+                }
+            }
+            .right {
+                display: flex;
+                align-items: center;
+                color: rgba(255, 255, 255, 0.75);
+                padding-right: 0.04rem;
+                font-size: 0.13rem;
+            }
+        }
+        .input {
+            height: 0.52rem;
+            border-radius: 0.12rem;
+            border: 1.5px solid #5a9ff1;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            color: #fff;
+            font-size: 0.16rem;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            padding: 0 0.15rem;
+            input {
+                width: 100%;
+                height: 100%;
+                background: none !important;
+                border: none !important;
+                color: #fff;
+                font-size: 0.16rem;
+                font-weight: 400;
+                &::placeholder {
+                    font-size: 0.14rem;
+                    color: rgba(255, 255, 255, 0.4);
+                }
+            }
+            .rate {
+                position: absolute;
+                top: 50%;
+                right: 0.08rem;
+                transform: translateY(-50%);
+                display: flex;
+                div {
+                    border-radius: 0.13rem;
+                    padding: 0 0.09rem;
+                    color: rgba(255, 255, 255, 0.6);
+                    height: 0.26rem;
+                    margin-left: 0.04rem;
+                    font-size: 0.12rem;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 0.26rem;
+                    border: 1px solid rgba(255, 255, 255, 0.6);
+                    will-change: background, border-color, color;
+                    transition: all 0.2s;
+                    &.active {
+                        background: linear-gradient(237deg, #5a9ff1 0%, #3452c2 100%);
+                        border: none;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+    .got {
+        width: 0.24rem;
+        margin-top: 0.13rem;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    button {
+        width: 100%;
+        height: 0.44rem;
+        border-radius: 0.24rem;
+        background: linear-gradient(237deg, #5a9ff1 0%, #3452c2 100%);
+        color: #fff;
+        font-size: 0.16rem;
+        font-weight: 600;
+        margin-top: 0.23rem;
+    }
+}

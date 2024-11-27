@@ -1,0 +1,49 @@
+.footer {
+    display: flex;
+    align-items: center;
+    border-radius: 0.36rem;
+    background: linear-gradient(90deg, #223276 0%, #101952 100%);
+    position: fixed;
+    left: 50%;
+    bottom: 0.18rem;
+    transform: translateX(-50%);
+    padding: 0.06rem;
+    z-index: 99;
+    flex-wrap: nowrap;
+    gap: 0 0.08rem;
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        transition: all 0.4s;
+        width: 0.54rem;
+        height: 0.54rem;
+        border-radius: 0.54rem;
+        transition: all 0.2s;
+        background: #0a0a37;
+        &.active {
+            width: 1.46rem;
+            background: url('/images/nav/bg.png') no-repeat center/100% 100%;
+            span {
+                display: inline;
+                opacity: 1;
+            }
+            img {
+                height: 0.2rem;
+            }
+        }
+        img {
+            height: 0.2rem;
+        }
+        span {
+            display: none;
+            opacity: 0;
+            color: #fff;
+            font-size: 0.13rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            margin-left: 0.08rem;
+        }
+    }
+}

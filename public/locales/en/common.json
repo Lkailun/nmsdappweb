@@ -1,0 +1,28 @@
+{
+    "base": {
+        "InsufficientBalance": "Insufficient FLOKI balance",
+        "InsufficientGasBalance": "Insufficient Gas Balance",
+        "InsufficientUSDTBalance": "Insufficient USDT Balance",
+        "SignatureExpired": "Signature expired, please refresh the page",
+        "SwitchChain": "Switch chain",
+        "connectWallet": "Connect Wallet",
+        "Notice": "Notice !!",
+        "Known": "I Known",
+        "NoData": "No Data",
+        "BindingSuccessful": "Binding successful",
+        "BindingFailed": "Binding failed",
+        "BindingInviter": "Binding inviter",
+        "CurrentlyBindingInviter": "Currently binding inviter",
+        "CurrentLinkHasNoInviter": "Current link has no inviter",
+        "PleaseEnterTheInviter'sAddress": "Please enter the inviter's address",
+        "ConfirmBinding": "Confirm binding"
+    },
+    "nav": {
+        "game": "Game",
+        "stake": "Stake",
+        "my": "My"
+    },
+    "game": {},
+    "my": {},
+    "stake": {}
+}

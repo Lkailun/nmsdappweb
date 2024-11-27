@@ -1,0 +1,10 @@
+.view {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.2rem 0.12rem;
+    margin-top: 0.14rem;
+    img {
+        width: 100%;
+        cursor: pointer;
+    }
+}

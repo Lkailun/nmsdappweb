@@ -1,0 +1,156 @@
+import { FC, ReactElement, useEffect, useMemo, useRef, useState } from 'react';
+
+import css from '../styles/transferModal.module.scss';
+import { message, Modal } from 'antd';
+import Button from '@/components/Button';
+import { $BigNumber, $clearNoNum, $filterNumber, $onlyNumber } from '@/utils/met';
+import { useAuth, useUser } from '@/state/user/hooks';
+import { useProcessModal } from '@/state/base/hooks';
+import { useWallet, useSign } from '@/hooks';
+import Server from '@/service/api';
+import CountUp from 'react-countup';
+import moment from 'moment';
+import useTransfer from '@/hooks/useTransfer';
+import { useTranslation } from 'react-i18next';
+
+type IProps = {
+    onClose: Function;
+    type: string;
+};
+const TransferModal: FC<IProps> = ({ onClose, type }): ReactElement => {
+    const { t }: any = useTranslation<any>(['common']);
+    const [{ userinfo, config }, { updateUser }] = useUser();
+    const [, { handProcessModal, handMaxProcessTime }] = useProcessModal();
+
+    const [symbol, setSymbol] = useState<string>('USDT');
+    const [showSymbol, setShowSymbol] = useState<boolean>(false);
+
+    const [loading, setLoading] = useState<boolean>(false);
+    const { sendTransfer } = useTransfer();
+    const { account } = useWallet();
+    const [auth, handAuth] = useAuth();
+    const signMessage = useSign();
+
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+    const [amount, setAmount] = useState<string | number>('');
+    const [check, setCheck] = useState<number>(0);
+    const roteList: any[] = [
+        { label: '50%', value: 0.5 },
+        { label: '100%', value: 1 }
+    ];
+    const balance = useMemo(() => (type === 'out' ? userinfo.bankbalance : userinfo.flokibalance), [userinfo]);
+
+    const btnDisable = useMemo(() => {
+        if (!amount || $BigNumber(balance).isZero()) return true;
+        return $BigNumber(amount).gt(balance);
+    }, [balance, amount]);
+
+    const handSet = (value: number) => {
+        setAmount(Number($BigNumber(balance).multipliedBy(value).toFixed(1, 1)));
+        setCheck(value);
+    };
+
+    const hand = async () => {
+        try {
+            if ($BigNumber(amount).gt(balance)) throw new Error(t('common:base:InsufficientBalance'));
+            setLoading(true);
+
+            const params = {
+                address: account!,
+                amount: ['in', 'claim'].includes(type) ? Number(amount) : -1 * Number(amount)
+            };
+
+            let result: any;
+            if (type === 'claim') {
+                if (Date.now() > auth.expired) throw new Error(t('common:base:SignatureExpired'));
+                handMaxProcessTime(20);
+                const fee = Number(process.env.WITHDRAWAL_FEE);
+                const _auth = { message: auth.message, signature: auth.signature };
+
+                await sendTransfer({ token: '0x0000000000000000000000000000000000000000', to: config.outaddress, value: fee });
+                result = await Server.claim(params, _auth);
+            } else {
+                const message = `Auth FLOKI at:${Date.now()}`;
+                const signature = await signMessage(message);
+                handAuth({ message, signature });
+                result = await Server.transfer(params, { message, signature });
+            }
+            const { code, data, msg }: any = result;
+            if (code !== 200) throw new Error(msg);
+            updateUser(data);
+            message.success(type === 'claim' ? '提币成功' : type === 'in' ? '银行转入成功' : '银行转出成功');
+            onClose();
+        } catch (e: any) {
+            message.error(e.message || 'error');
+        } finally {
+            setLoading(false);
+            handProcessModal(false);
+        }
+    };
+
+    const handSetSymbol = (token: string) => {
+        setSymbol(token);
+        setShowSymbol(false);
+    };
+
+    const handleDocumentClick = (event: MouseEvent) => {
+        if (showSymbol && dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+            setShowSymbol(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', handleDocumentClick);
+        return () => {
+            document.removeEventListener('click', handleDocumentClick);
+        };
+    }, [showSymbol]);
+
+    return (
+        <Modal open={true} footer={null} onCancel={() => onClose()}>
+            <div className={css.view}>
+                <header>{type === 'recharge' ? '充值' : '提现'}</header>
+                <div className={css.input}>
+                    <div className={css.symbol} ref={dropdownRef}>
+                        <div className={css.cont} onClick={() => setShowSymbol(true)}>
+                            <img className={css.token} src={`/images/symbol/${symbol}.svg`} alt="" />
+                            <span>{symbol}</span>
+                            <img className={css.icon} src="/images/my/down.svg" alt="" />
+                        </div>
+                        {showSymbol && (
+                            <div className={css.dialog}>
+                                {['NMS', 'USDT'].map((ele) => (
+                                    <div key={ele} onClick={() => handSetSymbol(ele)}>
+                                        <img src={`/images/symbol/${ele}.svg`} alt="" />
+                                        {ele}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    <input type="text" value={amount} placeholder={type === 'recharge' ? '输入充值数量' : '输入提现数量'} onChange={(e: any) => setAmount($clearNoNum(e.target.value))} />
+                </div>
+                <div className={css.tip}>
+                    <div className={css.balance}>
+                        我的余额:
+                        <CountUp decimals={1} end={Number(balance)} />
+                        <img src={`/images/symbol/${symbol}.svg`} alt="" />
+                    </div>
+                    <div className={css.rate}>
+                        {roteList.map((ele) => (
+                            <div key={ele.value} className={check === ele.value ? css.active : ''} onClick={() => handSet(ele.value)}>
+                                {ele.label}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <Button disabled={btnDisable} loading={loading} onClick={() => hand()}>
+                    {type === 'recharge' ? '充值' : '提现'}
+                </Button>
+            </div>
+        </Modal>
+    );
+};
+
+export default TransferModal;

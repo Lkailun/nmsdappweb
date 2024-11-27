@@ -1,0 +1,81 @@
+.view {
+    margin-top: 0.14rem;
+    header {
+        color: #fff;
+        font-family: 'PingFang SC';
+        font-size: 0.16rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 0.22rem;
+    }
+    .section {
+        margin-top: 0.12rem;
+        .item {
+            padding: 0.12rem 0.24rem;
+            border-radius: 0.28rem;
+            border: 1.5px solid #19246b;
+            margin-bottom: 0.08rem;
+            .line {
+                display: flex;
+                align-items: center;
+                color: #fff;
+                font-family: 'PingFang SC';
+                font-size: 0.14rem;
+                font-weight: 400;
+                &:first-child {
+                    margin-bottom: 0.11rem;
+                }
+                .label {
+                    color: rgba(255, 255, 255, 0.4);
+                    font-family: 'PingFang SC';
+                    font-size: 0.12rem;
+                    font-weight: 400;
+                    line-height: 0.2rem;
+                    margin-right: 0.04rem;
+                }
+                .date {
+                    flex: 1.5;
+                }
+                .days {
+                    flex: 1;
+                }
+                .amount {
+                    flex: 1.5;
+                    display: flex;
+                    align-items: center;
+                    div {
+                        line-height: 0.21rem;
+                        font-size: 0.15rem;
+                        font-weight: 600;
+                        display: flex;
+                        align-items: center;
+                        img {
+                            width: 0.14rem;
+                            margin: 0 0.02rem;
+                        }
+                    }
+                }
+                .reward {
+                    display: flex;
+                    align-items: center;
+                    flex: 1;
+                    div {
+                        display: flex;
+                        align-items: center;
+                        b {
+                            font-size: 0.16rem;
+                            background: linear-gradient(237deg, #5a9ff1 0%, #7592ff 100%);
+                            background-clip: text;
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                        }
+                        img {
+                            width: 0.14rem;
+                            margin-left: 0.03rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

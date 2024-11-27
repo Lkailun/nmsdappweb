@@ -1,0 +1,87 @@
+.view {
+    margin-top: 0.06rem;
+    background: #131c41;
+    position: relative;
+    z-index: 3;
+    header {
+        color: #fff;
+        font-family: 'PingFang SC';
+        font-size: 0.16rem;
+        font-weight: 500;
+        line-height: 0.22rem;
+        span {
+            font-size: 0.1rem;
+            font-weight: 400;
+        }
+    }
+    .section {
+        margin-top: 0.07rem;
+        border-radius: 0.24rem;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.12rem 0.1rem;
+        .item {
+            padding: 0.12rem 0.12rem 0.1rem;
+            border-radius: 0.16rem;
+            margin-bottom: 0.08rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            &:last-child {
+                margin-bottom: 0;
+            }
+            .line {
+                display: flex;
+                align-items: center;
+                margin-bottom: 0.09rem;
+                color: #fff;
+                font-family: 'PingFang SC';
+                font-weight: 600;
+                font-size: 0.12rem;
+                line-height: 0.17rem;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+                .label {
+                    color: rgba(255, 255, 255, 0.6);
+                    font-family: 'PingFang SC';
+                    font-weight: 400;
+                    margin-right: 0.04rem;
+                }
+                .left {
+                    flex: 1.5;
+                    display: flex;
+                    align-items: center;
+                    div {
+                        display: flex;
+                        align-items: center;
+                        img {
+                            width: 0.15rem;
+                            margin-left: 0.03rem;
+                        }
+                    }
+                }
+                .right {
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    div {
+                        display: flex;
+                        align-items: center;
+                        &.success {
+                            color: #16b17a;
+                        }
+                        &.fail {
+                            color: #da4354;
+                        }
+
+                        &.know {
+                            color: #ffa143;
+                        }
+                        img {
+                            width: 0.15rem;
+                            margin-left: 0.03rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

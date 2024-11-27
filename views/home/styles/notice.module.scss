@@ -1,0 +1,26 @@
+.view {
+    position: relative;
+    padding: 0.08rem 0.09rem 0.08rem 0.34rem;
+    font-size: 0.13rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.4;
+    border-radius: 0.08rem;
+    margin-bottom: 0.08rem;
+    background: #222337;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'PingFang SC';
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    div {
+        overflow-x: hidden;
+    }
+    img {
+        position: absolute;
+        height: 0.18rem;
+        left: 0.08rem;
+        top: 0.08rem;
+        cursor: pointer;
+    }
+}

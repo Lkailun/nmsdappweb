@@ -1,0 +1,28 @@
+{
+    "base": {
+        "InsufficientBalance": "FLOKI余额不足",
+        "InsufficientGasBalance": "Gas费余额不足",
+        "InsufficientUSDTBalance": "USDT余额不足",
+        "SignatureExpired": "签名过期，请刷新页面",
+        "SwitchChain": "切换链",
+        "connectWallet": "链接钱包",
+        "Notice": "重要通知 !!",
+        "Known": "已知晓",
+        "NoData": "暂无数据",
+        "BindingSuccessful": "绑定成功",
+        "BindingFailed": "绑定失败",
+        "BindingInviter": "绑定邀请人",
+        "CurrentlyBindingInviter": "当前绑定的邀请人地址",
+        "CurrentLinkHasNoInviter": "当前链接无邀请人",
+        "PleaseEnterTheInviter'sAddress": "请输入邀请人地址",
+        "ConfirmBinding": "确认绑定"
+    },
+    "nav": {
+        "game": "游戏",
+        "stake": "质押",
+        "my": "我的"
+    },
+    "game": {},
+    "my": {},
+    "stake": {}
+}

@@ -1,0 +1,396 @@
+.main {
+    position: relative;
+    padding-top: 0.11rem;
+    .back {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 0.44rem;
+        height: 0.44rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+        z-index: 3;
+        img {
+            width: 0.2rem;
+        }
+    }
+
+    .title {
+        width: 3rem;
+        height: 1.24rem;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 3;
+    }
+    .bg {
+        width: 3.9rem;
+        height: 2.7rem;
+        position: absolute;
+        top: -0.2rem;
+        right: -1rem;
+    }
+
+    .info {
+        position: relative;
+        z-index: 3;
+        padding: 0 0.11rem;
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 0 0.12rem;
+        margin-top: -0.22rem;
+        &::after {
+            content: '';
+            width: 100%;
+            height: 0.8rem;
+            border-radius: 0.2rem;
+            background: linear-gradient(180deg, #1a1c75 0%, #3035db 29.14%);
+            position: absolute;
+            top: 0.43rem;
+            left: 0;
+        }
+        .item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 4;
+            &::before {
+                content: '';
+                width: 100%;
+                height: 0.44rem;
+                border-radius: 8px;
+                background: linear-gradient(0deg, #3636ca 59.09%, #2b2b6a 100%);
+                position: absolute;
+                top: 0.14rem;
+                left: 0;
+            }
+            .label {
+                width: 1.12rem;
+                height: 0.22rem;
+                border-radius: 0.3rem;
+                background: #3a1abc;
+                color: #fff;
+                text-align: center;
+                font-family: YouSheBiaoTiHei;
+                font-size: 0.14rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 0.22rem;
+                position: relative;
+                z-index: 3;
+            }
+            .content {
+                width: 100%;
+                height: 0.44rem;
+                border-radius: 8px;
+                border: 2px solid #5a9ff1;
+                background: #232352;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: rgba(255, 255, 255, 0.2);
+                font-family: DS-Digital;
+                font-size: 0.36rem;
+                font-weight: 700;
+                position: relative;
+                z-index: 3;
+                &::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 50%;
+                    background: #0a0a37;
+                    border-radius: 0 0 8px 8px;
+                }
+                span {
+                    position: relative;
+                    z-index: 3;
+                    &.tr {
+                        font-size: 0.28rem;
+                    }
+                    &.active {
+                        background: linear-gradient(237deg, #5a9ff1 0%, #3452c2 100%);
+                        background-clip: text;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                    }
+                }
+            }
+        }
+    }
+
+    .card {
+        position: relative;
+        z-index: 4;
+        margin-top: 0.08rem;
+        width: 100%;
+        background: url('/images/luckWheel/card-bg.png') no-repeat;
+        background-size: 100% 100%;
+        width: 3.58rem;
+        height: 3.58rem;
+        padding: 0.17rem;
+        overflow: hidden;
+        .view {
+            border-radius: 0.14rem;
+            background: linear-gradient(180deg, #0b1639 85.32%, #787adf 100%);
+            padding: 0.04rem;
+            height: 100%;
+            .mask_bg {
+                border-radius: 12px;
+                background: linear-gradient(180deg, #e1a9fe 0%, #282c96 100%);
+                position: relative;
+                height: 100%;
+
+                .list {
+                    .item {
+                        position: absolute;
+                        width: 0.6rem;
+                        height: 0.6rem;
+                        border-radius: 0.1rem;
+                        border: 2px solid #7387ed;
+                        // opacity: 0.8;
+                        cursor: pointer;
+                        background: linear-gradient(180deg, #e5e9ff 0%, #7386e8 100%);
+                        &:nth-of-type(1) {
+                            top: 0.04rem;
+                            left: 0.04rem;
+                        }
+                        &:nth-of-type(2) {
+                            top: 0.04rem;
+                            left: 0.66rem;
+                        }
+                        &:nth-of-type(3) {
+                            top: 0.04rem;
+                            left: 1.28rem;
+                        }
+                        &:nth-of-type(4) {
+                            top: 0.04rem;
+                            right: 0.66rem;
+                        }
+                        &:nth-of-type(5) {
+                            top: 0.04rem;
+                            right: 0.04rem;
+                        }
+                        &:nth-of-type(6) {
+                            top: 0.65rem;
+                            left: 0.04rem;
+                        }
+                        &:nth-of-type(7) {
+                            top: 0.65rem;
+                            right: 0.04rem;
+                        }
+                        &:nth-of-type(8) {
+                            top: 1.28rem;
+                            left: 0.04rem;
+                        }
+                        &:nth-of-type(9) {
+                            top: 1.28rem;
+                            right: 0.04rem;
+                        }
+                        &:nth-of-type(10) {
+                            top: 1.9rem;
+                            left: 0.04rem;
+                        }
+                        &:nth-of-type(11) {
+                            top: 1.9rem;
+                            right: 0.04rem;
+                        }
+
+                        &:nth-of-type(12) {
+                            bottom: 0.04rem;
+                            left: 0.04rem;
+                        }
+                        &:nth-of-type(13) {
+                            bottom: 0.04rem;
+                            left: 0.66rem;
+                        }
+                        &:nth-of-type(14) {
+                            bottom: 0.04rem;
+                            left: 1.28rem;
+                        }
+                        &:nth-of-type(15) {
+                            bottom: 0.04rem;
+                            right: 0.66rem;
+                        }
+                        &:nth-of-type(16) {
+                            bottom: 0.04rem;
+                            right: 0.04rem;
+                        }
+
+                        &.active {
+                            border-radius: 10px;
+                            border-color: #edc973;
+                            background: linear-gradient(180deg, #fff8e5 0%, #e8c873 100%);
+                            .icon {
+                                width: 0.33rem;
+                                height: 0.33rem;
+                                transform: translate(-50%, -43%);
+                            }
+                        }
+                        div {
+                            position: absolute;
+                            top: 0.03rem;
+                            width: 0.54rem;
+                            border-radius: 0.3rem;
+                            background: #e08033;
+                            height: 0.14rem;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            display: flex;
+                            color: #fff;
+                            font-family: 'PingFang SC';
+                            font-size: 0.08rem;
+                            font-weight: 600;
+                            img {
+                                width: 0.1rem;
+                                margin-left: 0.02rem;
+                            }
+                        }
+                        .icon {
+                            width: 0.44rem;
+                            height: 0.44rem;
+                            position: absolute;
+                            left: 50%;
+                            top: 50%;
+                            transform: translate(-50%, -50%);
+                        }
+                        p {
+                            color: rgba(0, 0, 0, 0.6);
+                            font-family: 'PingFang SC';
+                            font-size: 0.1rem;
+                            font-style: normal;
+                            font-weight: 600;
+                            line-height: 0.14rem;
+                            position: absolute;
+                            bottom: 0rem;
+                            left: 50%;
+                            transform: translateX(-50%);
+                        }
+                    }
+                }
+                .content {
+                    width: 1.8rem;
+                    height: 1.8rem;
+                    border-radius: 0.1rem;
+                    border: 2px solid #4759de;
+                    background: #2c1457;
+                    box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.25) inset, 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    padding: 0.07rem 0.08rem 0;
+                    h5 {
+                        color: #fff;
+                        text-align: center;
+                        font-family: DFPHaiBaoW12-GB;
+                        font-size: 0.15rem;
+                        font-weight: 400;
+                        line-height: 1;
+                        text-align: center;
+                    }
+                    .cont {
+                        border-radius: 8px;
+                        border: 1px solid #25328d;
+                        background: #282168;
+                        margin: 0.05rem 0 0.02rem;
+                        padding: 0.04rem 0.07rem 0.05rem;
+                        .label {
+                            color: rgba(255, 255, 255, 0.6);
+                            font-family: 'PingFang SC';
+                            font-size: 0.1rem;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: 0.14rem;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            span {
+                                margin: 0 0.05rem;
+                            }
+                            img {
+                                width: 0.1rem;
+                            }
+                        }
+                        section {
+                            margin-top: 0.05rem;
+                            display: grid;
+                            grid-template-columns: repeat(3, 1fr);
+                            gap: 0.04rem 0.05rem;
+                            div {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                color: #d96000;
+                                text-align: center;
+                                font-family: 'PingFang SC';
+                                font-size: 0.12rem;
+                                font-style: normal;
+                                font-weight: 600;
+                                height: 0.25rem;
+                                border-radius: 0.28rem;
+                                border-radius: 28px;
+                                border: 1.5px solid #2d408b;
+                                background: #2d408b;
+                                &.active {
+                                    border-color: #e07f33;
+                                    background: linear-gradient(245deg, #fff8e5 13.07%, #e8c873 86.93%);
+                                }
+                                img {
+                                    width: 0.09rem;
+                                    margin-left: 0.03rem;
+                                }
+                            }
+                        }
+                    }
+                    .tip {
+                        border-radius: 8px;
+                        border: 1px solid #25328d;
+                        height: 0.32rem;
+                        position: relative;
+                        padding: 0.05rem 0.1rem 0 0.3rem;
+                        .icon {
+                            width: 0.14rem;
+                            position: absolute;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            left: 0.1rem;
+                        }
+                        color: #fff;
+                        font-family: 'PingFang SC';
+                        font-size: 0.08rem;
+                        font-style: normal;
+                        font-weight: 600;
+                        line-height: 1.2;
+                        span {
+                            color: #fab427;
+                            font-family: 'PingFang SC';
+                            font-size: 0.07rem;
+                            font-style: normal;
+                            font-weight: 600;
+                            line-height: normal;
+                            text-decoration-line: underline;
+                            text-decoration-style: solid;
+                            text-decoration-skip-ink: none;
+                            text-decoration-thickness: auto;
+                            text-underline-offset: 25%; /* 1.75px */
+                            text-underline-position: from-font;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

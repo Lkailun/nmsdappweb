@@ -1,0 +1,39 @@
+.view {
+    text-align: center;
+    border-radius: 0.24rem !important;
+    background: #fff !important;
+    padding: 0.25rem 0.24rem 0.4rem;
+
+    header {
+        font-size: 0.21rem;
+        font-weight: 500;
+        line-height: 0.27rem;
+        margin-bottom: 0.27rem;
+        color: #000;
+    }
+    img {
+        width: 0.44rem;
+        height: 0.44rem;
+        animation: rotate 1s linear infinite;
+    }
+    .tips {
+        margin-top: 0.27rem;
+        font-size: 0.18rem;
+        line-height: 0.24rem;
+        color: #000;
+    }
+    .remark {
+        color: red;
+        /* margin-top: 0.06rem; */
+        font-size: 0.14rem;
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

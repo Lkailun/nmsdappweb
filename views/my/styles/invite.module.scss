@@ -1,0 +1,46 @@
+.view {
+    margin-top: 0.21rem;
+    h4 {
+        color: #fff;
+        font-family: 'PingFang SC';
+        font-size: 0.16rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 0.22rem;
+    }
+    .content {
+        margin-top: 0.08rem;
+        display: flex;
+        align-items: center;
+        padding: 0.1rem;
+        border-radius: 0.32rem;
+        border: 1px solid #5a9ff1;
+        .text {
+            flex: 1;
+            height: 0.4rem;
+            border-radius: 0.24rem;
+            padding: 0 0.18rem;
+            color: #fff;
+            font-family: 'PingFang SC';
+            font-size: 0.14rem;
+            font-weight: 600;
+            line-height: 0.4rem;
+            background: linear-gradient(249deg, #5a9ff1 13.88%, #3452c2 86.12%);
+        }
+        .copy {
+            width: 0.4rem;
+            height: 0.4rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 0.2rem;
+            border: 1px solid #5a9ff1;
+            margin-left: 0.1rem;
+            img {
+                height: 0.22rem;
+            }
+        }
+    }
+}

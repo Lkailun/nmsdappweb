@@ -1,0 +1,88 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 0.7rem;
+    padding: 0.06rem 0.2rem;
+    position: fixed;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 450px;
+    z-index: 99;
+    background: #070725;
+    &.opacity {
+        background: rgb(7, 7, 37, 0.8);
+    }
+    .logo {
+        height: 0.32rem;
+    }
+    .content {
+        display: flex;
+        align-items: center;
+        position: relative;
+        z-index: 3;
+        .wallet {
+            height: 0.35rem;
+            border-radius: 0.14rem;
+            border: 1px solid #c3c3c3;
+            background: #1d1e37;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 0.1rem;
+            cursor: pointer;
+
+            color: #c3c3c3;
+            font-size: 0.13rem;
+            font-weight: 400;
+            img {
+                height: 0.21rem;
+                margin-right: 0.03rem;
+            }
+        }
+        .lang {
+            cursor: pointer;
+            margin-right: 0.16rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            & > img {
+                height: 0.22rem;
+            }
+            .modal {
+                position: absolute;
+                top: 0.3rem;
+                left: 50%;
+                transform: translateX(-50%);
+                overflow: hidden;
+                transition: height 0.3s ease-in-out;
+                section {
+                    border-radius: 0.08rem;
+                    border: 1px solid rgba(255, 255, 255, 0.4);
+                    background: #3b3c50;
+                    padding: 0.12rem 0.1rem;
+                    div {
+                        display: flex;
+                        align-items: center;
+                        color: #aa5ce6;
+                        font-size: 0.14rem;
+                        font-style: normal;
+                        font-weight: 600;
+                        line-height: 0.18rem;
+                        white-space: nowrap;
+                        margin-bottom: 0.09rem;
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+                        img {
+                            height: 0.16rem;
+                            margin-right: 0.08rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

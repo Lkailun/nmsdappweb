@@ -1,0 +1,82 @@
+.view {
+    min-height: 2.5rem;
+    h2 {
+        padding-top: 0.12rem;
+        color: #fff;
+        font-family: 'PingFang SC';
+        font-size: 0.16rem;
+        font-weight: 600;
+        line-height: 0.22rem;
+        text-align: center;
+    }
+    .content {
+        padding: 0.16rem 0 0;
+        .nav {
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: 'PingFang SC';
+            font-size: 0.12rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 0.17rem;
+            padding: 0 0 0.12rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+            & > div {
+                // padding: 0 0.03rem 0 0.06rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                img {
+                    width: 0.18rem;
+                    margin-left: 0.04rem;
+                }
+                &:first-child {
+                    flex: 1.2;
+                }
+                &:nth-of-type(2) {
+                    flex: 1;
+                }
+                &:nth-of-type(3) {
+                    flex: 0.7;
+                }
+            }
+            .pending {
+                color: #ffa143;
+            }
+            .success {
+                color: #16b17a;
+                // text-decoration-line: underline;
+                // text-decoration-style: solid;
+                // text-decoration-skip-ink: auto;
+                // text-decoration-thickness: auto;
+                // text-underline-offset: 1px; /* 3.5px */
+                // text-underline-position: from-font;
+            }
+            .fail {
+                color: #da4354;
+            }
+        }
+        .list {
+            padding: 0.13rem 0 0;
+            color: #fff;
+            font-size: 0.14rem;
+            border-bottom: none;
+        }
+        .cont {
+            max-height: 60vh;
+            min-height: 20vh;
+            overflow-y: auto;
+        }
+    }
+    p {
+        text-align: center;
+        color: rgba($color: #fff, $alpha: 0.6);
+        font-family: 'PingFang SC';
+        font-size: 0.14rem;
+        font-weight: 400;
+        line-height: 0.2rem;
+        margin-top: 0.5rem;
+    }
+}
