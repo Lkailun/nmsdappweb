@@ -12,6 +12,7 @@ import { message } from 'antd';
 import generatedDataList from './generatedDataList';
 import RuleModal from '../modal/rule';
 import { useRouter } from 'next/router';
+import { ConfirmModal } from '../modal';
 
 // declare var klinecharts: any;
 
@@ -73,6 +74,7 @@ function getTooltipOptions() {
 const Header: FC = (): ReactElement => {
     const { t }: any = useTranslation<any>(['common']);
     const [showRule, setShowRule] = useState<boolean>(false);
+    const [showConfirm, setShowConfirm] = useState<boolean>(false);
 
     const [transferType, setTransferType] = useState<string>('in');
     const [direction, setDirection] = useState<string>('up');
@@ -142,13 +144,16 @@ const Header: FC = (): ReactElement => {
                         ))}
                     </section>
                 </div>
-                <Button className={css.btn}>下注竞猜</Button>
+                <Button className={css.btn} onClick={() => setShowConfirm(true)}>
+                    下注竞猜
+                </Button>
                 <div className={css.rule}>
                     <img className={css.icon} src={`/images/luckWheel/warn.svg`} alt="" />
                     <span onClick={() => setShowRule(true)}>竞猜规则</span>
                 </div>
             </div>
             {showRule && <RuleModal onClose={() => setShowRule(false)} />}
+            {showConfirm && <ConfirmModal onClose={() => setShowConfirm(false)} />}
         </>
     );
 };

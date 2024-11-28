@@ -12,6 +12,7 @@ import { message } from 'antd';
 import RuleModal from '../modal/rule';
 import ResultModal from '../modal/result';
 import { useRouter } from 'next/router';
+import { ConfirmModal } from '../modal';
 
 const list = [
     { label: 'You', amount: '0.05', icon: 1 },
@@ -28,8 +29,6 @@ const list = [
     { label: '', amount: '', icon: 12 },
     { label: '', amount: '', icon: 13 },
     { label: '', amount: '', icon: 14 },
-    // { label: '', amount: '', icon: 15 },
-    // { label: '', amount: '', icon: 16 },
     { label: '0xqw..123', amount: '0.05', icon: 15 },
     { label: '', amount: '', icon: 16 }
 ];
@@ -40,7 +39,7 @@ const Header: FC = (): ReactElement => {
     const { t }: any = useTranslation<any>(['common']);
     const [showRule, setShowRule] = useState<boolean>(false);
     const [showResult, setShowResult] = useState<boolean>(false);
-    const [transferType, setTransferType] = useState<string>('in');
+    const [showConfirm, setShowConfirm] = useState<boolean>(false);
     const [{ userinfo }] = useUser();
     const router = useRouter();
 
@@ -77,7 +76,7 @@ const Header: FC = (): ReactElement => {
                         <div className={css.mask_bg}>
                             <div className={css.list}>
                                 {list.map((ele, index) => (
-                                    <div key={index} className={classNames(css.item, ele.amount ? css.active : '')}>
+                                    <div key={index} onClick={() => setShowConfirm(true)} className={classNames(css.item, ele.amount ? css.active : '')}>
                                         {ele.amount && (
                                             <div>
                                                 下注:{ele.amount}
@@ -118,6 +117,7 @@ const Header: FC = (): ReactElement => {
             </div>
             {showRule && <RuleModal onClose={() => setShowRule(false)} />}
             {showResult && <ResultModal onClose={() => setShowResult(false)} data={{}} />}
+            {showConfirm && <ConfirmModal onClose={() => setShowConfirm(false)} />}
         </>
     );
 };
