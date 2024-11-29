@@ -84,7 +84,7 @@ const Order: FC = (): ReactElement => {
                                         '--'
                                     ) : (
                                         <>
-                                            +{ele.rewardamount} <img src={ele.state === 'success' ? '/images/stake/color-point.svg' : '/images/symbol/NMS.svg'} alt="" />
+                                            +{BigNumber(ele.rewardamount).toFixed(4, 1)} <img src={ele.state === 'success' ? '/images/stake/color-point.svg' : '/images/symbol/NMS.svg'} alt="" />
                                         </>
                                     )}
                                 </div>
