@@ -22,7 +22,26 @@
         "stake": "Stake",
         "my": "My"
     },
-    "game": {},
+    "game": {
+        "YouHaveJoinedThisRound": "This round you have participated!!!",
+        "ThisRoundParticipants": "This Round Participants",
+        "RemainingCountdown": "Remaining Countdown",
+        "SelectStakeAmount": "Select Stake Amount",
+        "Bet": "Bet",
+        "GameInProgress": "Game In Progress",
+        "AfterSelectingStakeAmountClickAnyCellToCompleteStake": "After selecting,click anycell to complete!",
+        "ViewGameRules": "View Rules",
+        "WaitingForResults": "Pending",
+        "Winning": "Win",
+        "Failed": "Failed",
+        "NoOneWon": "No Won",
+        "MyGameRecords": "My Game Records",
+        "Recent20BetRecords": "Recent 20 Records",
+        "BetTime": "Bet Time",
+        "LotteryStatus": "Status",
+        "BetAmount": "Bet Amount",
+        "Reward": "Reward"
+    },
     "my": {
         "NMSBalance": "NMS Balance",
         "USDTBalance": "USDT Balance",

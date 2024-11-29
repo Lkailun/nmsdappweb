@@ -22,7 +22,26 @@
         "stake": "质押",
         "my": "我的"
     },
-    "game": {},
+    "game": {
+        "YouHaveJoinedThisRound": "本轮游戏您已参与!!!",
+        "ThisRoundParticipants": "本局参与人数",
+        "RemainingCountdown": "剩余倒计时",
+        "SelectStakeAmount": "选择下注数量(NMS)",
+        "Bet": "下注",
+        "GameInProgress": "游戏进行中...",
+        "AfterSelectingStakeAmountClickAnyCellToCompleteStake": "选择下注金额后点击任一格子 即可完成进行下注!",
+        "ViewGameRules": "查看游戏规则",
+        "WaitingForResults": "等待开奖",
+        "Winning": "已中奖",
+        "Failed": "未中奖",
+        "NoOneWon": "无人获奖",
+        "MyGameRecords": "我的游戏记录",
+        "Recent20BetRecords": "最近20条下注记录",
+        "BetTime": "下注时间",
+        "LotteryStatus": "开奖状态",
+        "BetAmount": "下注金额",
+        "Reward": "获得奖励"
+    },
     "my": {
         "NMSBalance": "NMS余额",
         "USDTBalance": "USDT余额",

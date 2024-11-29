@@ -66,7 +66,7 @@ const Header: FC = (): ReactElement => {
 
     const handStake = (index: number) => {
         if ((luckgameinfo[0]?.betaddresslist || []).includes(userinfo.address)) {
-            message.warning('本轮游戏您已参与!!!');
+            message.warning(t('common:game:YouHaveJoinedThisRound'));
             return;
         }
         setCheckIndex(index);
@@ -102,7 +102,7 @@ const Header: FC = (): ReactElement => {
 
                 <div className={css.info}>
                     <div className={css.item}>
-                        <div className={css.label}>本局参与人数</div>
+                        <div className={css.label}>{t('common:game:ThisRoundParticipants')}</div>
                         <div className={css.content}>
                             <span className={joined > 0 ? css.active : ''}>{joined < 10 ? `0${joined}` : `${joined}`}</span>
                             <span className={classNames(css.active, css.tr)}>/</span>
@@ -110,7 +110,7 @@ const Header: FC = (): ReactElement => {
                         </div>
                     </div>
                     <div className={css.item}>
-                        <div className={css.label}>剩余倒计时</div>
+                        <div className={css.label}>{t('common:game:RemainingCountdown')}</div>
                         <div className={css.content}>
                             <span>00</span>:<span>00</span>:<span className={luckgameinfo[0]?.gametime ? css.active : ''}>{time}</span>
                         </div>
@@ -126,7 +126,7 @@ const Header: FC = (): ReactElement => {
                                         {joinInfo[ele.index]?.address && (
                                             <>
                                                 <div>
-                                                    下注:{joinInfo[ele.index].amount}
+                                                    {t('common:game:Bet')}:{joinInfo[ele.index].amount}
                                                     <img src={`/images/symbol/NMS.svg`} alt="" />
                                                 </div>
                                                 <p>{joinInfo[ele.index].address === userinfo.address ? 'You' : $hash(joinInfo[ele.index].address, 4, 3)}</p>
@@ -138,11 +138,11 @@ const Header: FC = (): ReactElement => {
                                 ))}
                             </div>
                             <div className={css.content}>
-                                <h5>游戏进行中...</h5>
+                                <h5>{t('common:game:GameInProgress')}</h5>
                                 <div className={css.cont}>
                                     <div className={css.label}>
                                         <img src={`/images/luckWheel/right.svg`} alt="" />
-                                        <span>选择下注数量(NMS)</span>
+                                        <span>{t('common:game:SelectStakeAmount')}</span>
                                         <img src={`/images/luckWheel/left.svg`} alt="" />
                                     </div>
                                     <section>
@@ -156,7 +156,7 @@ const Header: FC = (): ReactElement => {
                                 </div>
                                 <div className={css.tip}>
                                     <img className={css.icon} src={`/images/luckWheel/warn.svg`} alt="" />
-                                    选择下注金额后点击任一格子 即可完成进行下注! <span onClick={() => setShowRule(true)}>查看游戏规则</span>
+                                    {t('common:game:AfterSelectingStakeAmountClickAnyCellToCompleteStake')} <span onClick={() => setShowRule(true)}>{t('common:game:ViewGameRules')}</span>
                                 </div>
                             </div>
                         </div>
