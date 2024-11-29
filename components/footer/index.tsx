@@ -12,7 +12,7 @@ const Footer: FC<any> = (): ReactElement => {
     const router = useRouter();
     const navList = [
         { title: 'game', href: '/', icon: 'game', includesPath: ['/', '/lucky-wheel', '/rise-fall'] },
-        { title: 'stake', href: '/stake', icon: 'stake', includesPath: ['/stake'] }, 
+        { title: 'stake', href: '/stake', icon: 'stake', includesPath: ['/stake'] },
         { title: 'my', href: '/my', icon: 'my', includesPath: ['/my'] }
     ];
 
@@ -29,26 +29,28 @@ const Footer: FC<any> = (): ReactElement => {
     };
 
     return (
-        <footer className={css.footer}>
+        <>
             {isLoading && (
                 <div className={css.loading}>
                     <div className={css.spinner}></div>
                 </div>
             )}
-            {navList.map((ele) => (
-                <div 
-                    key={ele.href} 
-                    className={classNames({
-                        [css.active]: ele.includesPath.includes(router.pathname),
-                        [css.disabled]: isLoading
-                    })}
-                    onClick={() => handleNavClick(ele.href)}
-                >
-                    <img src={`/images/nav/${ele.icon}.svg`} />
-                    <span>{t(`common:nav:${ele.title}`)}</span>
-                </div>
-            ))}
-        </footer>
+            <footer className={css.footer}>
+                {navList.map((ele) => (
+                    <div
+                        key={ele.href}
+                        className={classNames({
+                            [css.active]: ele.includesPath.includes(router.pathname),
+                            [css.disabled]: isLoading
+                        })}
+                        onClick={() => handleNavClick(ele.href)}
+                    >
+                        <img src={`/images/nav/${ele.icon}.svg`} />
+                        <span>{t(`common:nav:${ele.title}`)}</span>
+                    </div>
+                ))}
+            </footer>
+        </>
     );
 };
 
