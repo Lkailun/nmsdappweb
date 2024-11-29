@@ -14,6 +14,7 @@ import ResultModal from '../modal/result';
 import { useRouter } from 'next/router';
 import { ConfirmModal } from '../modal';
 import { useLuck } from '@/state/game/hooks';
+import { Storage } from '@/utils/storage';
 
 const list = [
     { icon: 1, index: 0 },
@@ -105,10 +106,28 @@ const Header: FC = (): ReactElement => {
         };
     }, []);
 
+    useEffect(() => {
+        let backgroundAudio: HTMLAudioElement | null = null;
+
+        if (router.pathname === '/lucky-wheel' && Storage.getItem('audio') === 'true') {
+            backgroundAudio = new Audio('/voice/background.mp3');
+            backgroundAudio.loop = true;
+            backgroundAudio.play();
+        }
+        return () => {
+            if (backgroundAudio) {
+                backgroundAudio.pause();
+                backgroundAudio = null;
+            }
+        };
+    }, [router.pathname]);
+
     return (
         <>
             <div className={css.main}>
-                <div className={css.back} onClick={() => router.push('/')}>
+                <div className={css.back} onClick={() => {
+                    router.push('/');
+                }}>
                     <img src="/images/luckWheel/back.svg" alt="" />
                 </div>
                 <img className={css.title} src="/images/luckWheel/title.png" alt="" />

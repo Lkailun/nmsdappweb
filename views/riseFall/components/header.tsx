@@ -14,6 +14,7 @@ import RuleModal from '../modal/rule';
 import { useRouter } from 'next/router';
 import { ConfirmModal, ResultModal } from '../modal';
 import { useBtc } from '@/state/game/hooks';
+import { Storage } from '@/utils/storage';
 
 const stakeList = [0.05, 0.1, 0.3, 0.6, 1, 3, 10, 20];
 
@@ -96,6 +97,21 @@ const Header: FC = (): ReactElement => {
             dispose('k-line');
         };
     }, []);
+
+    useEffect(() => {
+        let backgroundAudio: HTMLAudioElement | null = null;
+        if (Storage.getItem('audio') === 'true') {
+            backgroundAudio = new Audio('/voice/background.mp3');
+            backgroundAudio.loop = true;
+            backgroundAudio.play();
+        }
+        return () => {
+            if (backgroundAudio) {
+                backgroundAudio.pause();
+                backgroundAudio = null;
+            }
+        };
+    }, [router.pathname]);
 
     return (
         <>

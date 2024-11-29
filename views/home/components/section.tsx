@@ -2,6 +2,7 @@ import { FC, ReactElement, useState } from 'react';
 import css from '../styles/section.module.scss';
 import { useUser } from '@/state/user/hooks';
 import { useRouter } from 'next/router';
+import { Storage } from '@/utils/storage';
 
 const Section: FC = (): ReactElement => {
     const [{ config }] = useUser();

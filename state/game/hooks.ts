@@ -148,6 +148,10 @@ export function useBtc(): [{ [key: string]: any }, { closeResultModal: () => voi
                         direction: result.direction,
                         createtime: result.createtime
                     };
+                    console.log("voice::::::");
+                    let remindAudio: HTMLAudioElement | null = null;
+                    remindAudio = new Audio('/voice/remind.mp3');
+                    remindAudio.play();
                     dispatch(setBtcGameResult(params));
                 }
                 return '';

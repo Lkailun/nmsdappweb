@@ -62,15 +62,16 @@
                     margin-right: 0.04rem;
                 }
                 .left {
-                    flex: 1.5;
+                    flex: 1.32;
                     display: flex;
                     align-items: center;
                     div {
                         display: flex;
                         align-items: center;
                         img {
-                            width: 0.15rem;
-                            margin-left: 0.03rem;
+                            width: 0.14rem;
+                            margin-left: 0.02rem;
+                            margin-bottom: 0.01rem;
                         }
                     }
                 }
@@ -92,8 +93,9 @@
                             color: #ffa143;
                         }
                         img {
-                            width: 0.15rem;
-                            margin-left: 0.03rem;
+                            width: 0.14rem;
+                            margin-left: 0.02rem;
+                            margin-bottom: 0.01rem;
                         }
                     }
                 }

@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useWalletClient } from 'wagmi';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
+import { Storage } from '@/utils/storage';
 
 const langs = [
     { icon: 'zh', title: '中文', key: 'zh' },
@@ -57,7 +58,13 @@ const Header: FC<any> = (): ReactElement => {
     };
 
     const handVoice = () => {
-        setVoice(!voice);
+        if (voice) {
+            Storage.setItem('audio', 'false');
+            setVoice(false);
+        } else {
+            Storage.setItem('audio', 'true');
+            setVoice(true);
+        }
     };
 
     useLayoutEffect(() => {
@@ -73,6 +80,8 @@ const Header: FC<any> = (): ReactElement => {
     }, [show]);
     useEffect(() => {
         i18n.changeLanguage('zh');
+        const audio = Storage.getItem('audio');
+        setVoice(audio === 'true')
     }, []);
 
     useEffect(() => {
