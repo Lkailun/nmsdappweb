@@ -3,18 +3,29 @@
     padding: 0 !important;
 
     .main {
-        height: 3.76rem;
+        height: 4.16rem;
         background: url('/images/rise-fall/modal/fail.png') no-repeat;
         background-size: 100% 100%;
         position: relative;
+
         &.success {
             background: url('/images/rise-fall/modal/success.png') no-repeat;
             background-size: 100% 100%;
+            height: 3.76rem;
+            .tip {
+                top: 0.23rem;
+            }
+            .cont {
+                padding-top: 1.43rem;
+                h5 {
+                    color: #e38500;
+                }
+            }
         }
 
         .tip {
             position: absolute;
-            top: 0.23rem;
+            top: 0.75rem;
             left: 50%;
             transform: translateX(-50%);
             width: 2.41rem;
@@ -37,47 +48,51 @@
         .cont {
             position: relative;
             z-index: 3;
-            padding-top: 1.43rem;
+            padding-top: 2rem;
             display: flex;
             align-items: center;
             flex-direction: column;
-            img {
-                width: 0.5rem;
-                height: 0.5rem;
-                margin-bottom: 0.08rem;
-            }
-            .success_content {
+            h5 {
                 color: #212972;
                 text-align: center;
                 font-family: 'PingFang SC';
                 font-size: 0.2rem;
+                font-style: normal;
                 font-weight: 500;
                 line-height: 0.28rem;
                 span {
                     font-size: 0.15rem;
+                    font-weight: 600;
                 }
             }
-            .base_content {
-                h5 {
-                    color: #e38500;
-                    text-align: center;
-                    font-family: 'PingFang SC';
-                    font-size: 0.2rem;
-                    font-style: normal;
-                    font-weight: 500;
-                    line-height: 0.28rem;
-                    span {
-                        font-size: 0.15rem;
-                    }
+            p {
+                color: rgba(25, 26, 33, 0.6);
+                font-family: 'PingFang SC';
+                font-size: 0.12rem;
+                font-weight: 500;
+                line-height: 0.17rem;
+                margin-top: -0.05rem;
+                text-align: center;
+            }
+            div {
+                margin-top: 0.04rem;
+                border-radius: 0.16rem;
+                background: rgba(22, 177, 122, 0.2);
+                padding: 0 0.08rem;
+                color: #00935f;
+                font-family: 'PingFang SC';
+                font-size: 0.12rem;
+                font-style: normal;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                height: 0.21rem;
+                &.down {
+                    background: rgba(218, 67, 84, 0.2);
+                    color: #da4354;
                 }
-                p {
-                    color: rgba(25, 26, 33, 0.6);
-                    font-family: 'PingFang SC';
-                    font-size: 0.12rem;
-                    font-weight: 500;
-                    line-height: 0.17rem;
-                    margin-top: -0.03rem;
-                    text-align: center;
+                img {
+                    width: 0.12rem;
                 }
             }
         }

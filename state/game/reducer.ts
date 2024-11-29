@@ -38,7 +38,7 @@ const initialState = {
         type: ResultStatus.success,
         amount: 0,
         reward: 0,
-        direction: 'up',
+        direction: 'down',
         createtime: 0
     } as GameResult
 };

@@ -33,14 +33,19 @@ const ResultModal: FC<IProps> = ({ onClose }): ReactElement => {
             <section className={classNames(css.main, openBtcGameResult.type === ResultStatus.success ? css.success : '')}>
                 <div className={classNames(css.tip, openBtcGameResult.type === ResultStatus.success ? css.tip_success : '')}>{getTipFont(openBtcGameResult.type)}</div>
                 <div className={css.cont}>
-                    <div className={css.base_content}>
+                    {openBtcGameResult.type === ResultStatus.success ? (
                         <h5>
                             + {openBtcGameResult.reward} <span>NMS</span>
                         </h5>
-                        {openBtcGameResult.type === ResultStatus.success && <p>(下注+奖励)</p>}
-                        <div className={openBtcGameResult.direction === 'down' ? css.down : ''}>
-                            竞猜方向: <img src={`/images/rise-fall/modal/${openBtcGameResult.direction === 'down' ? 'down' : 'up'}.svg`} alt="" />
-                        </div>
+                    ) : (
+                        <h5>
+                            + {openBtcGameResult.reward} <span>游戏积分</span>
+                        </h5>
+                    )}
+
+                    {openBtcGameResult.type === ResultStatus.success && <p>(下注+奖励)</p>}
+                    <div className={openBtcGameResult.direction === 'down' ? css.down : ''}>
+                        竞猜方向: <img src={`/images/rise-fall/modal/${openBtcGameResult.direction === 'down' ? 'down' : 'up'}.svg`} alt="" />
                     </div>
                 </div>
                 <div className={classNames(css.content, openBtcGameResult.type === ResultStatus.noJoin ? css.notJoinContent : '')}>
