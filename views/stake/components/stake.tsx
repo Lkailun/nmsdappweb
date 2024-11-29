@@ -32,11 +32,9 @@ const Stake: FC = (): ReactElement => {
     const getOptions = (xData: any[], yData: any[]) => {
         return {
             tooltip: {
-                // show: false
                 formatter: (params: { value: number }[]) => `${params[0].value} USD`,
                 position: 'top',
                 backgroundColor: '#0f172a',
-                classNames: 'tooltip',
                 padding: [5, 9],
                 textStyle: {
                     fontSize: 12,
@@ -52,110 +50,60 @@ const Stake: FC = (): ReactElement => {
                 }
             },
             grid: {
-                left: '2%',
-                right: '2%',
-                top: '1%',
+                left: '-2%',
+                right: '-2%', 
+                top: '2%',
                 bottom: '0%',
                 containLabel: true
             },
             xAxis: {
-                show: false, // 不显示x轴
-                data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                show: false,
+                data: xData
             },
-            // yAxis: {
-            //     show: false // 不显示y轴
-            // },
             yAxis: [
                 {
                     name: 'price',
-                    show: false // 不显示y轴
+                    show: false,
+                    scale: true,
+                    min: function(value: { min: number }) {
+                        return value.min * 0.95;
+                    }
                 },
                 {
-                    name: 'kline',
-                    show: false // 不显示y轴
+                    name: 'kline', 
+                    show: false,
+                    scale: true,
+                    min: function(value: { min: number }) {
+                        return value.min * 0.95;
+                    }
                 }
             ],
-            // xAxis: {
-            //     type: 'category',
-            //     axisLine: {
-            //         lineStyle: {
-            //             color: '#E7E8E8'
-            //         }
-            //     },
-            //     axisTick: {
-            //         show: false,
-            //         alignWithLabel: true
-            //     },
-            //     axisLabel: {
-            //         color: '#626E7F',
-            //         fontSize: 12
-            //         // fontFamily: "Poppins"
-            //     },
-            //     data: xData
-            // },
-            // yAxis: {
-            //     name: 'USD',
-            //     type: 'value',
-            //     scale: true,
-            //     nameTextStyle: {
-            //         fontSize: 12,
-            //         fontFamily: 'Poppins',
-            //         color: '#9DABB7'
-            //     },
-
-            //     axisLine: {
-            //         show: true,
-            //         lineStyle: {
-            //             color: '#E7E8E8'
-            //         }
-            //     },
-            //     // axisTick: {
-            //     //     show: false
-            //     // },
-            //     axisLabel: {
-            //         color: '#626E7F',
-            //         fontSize: 12
-            //         // fontFamily: "Poppins",
-            //         // align: "left",
-            //         // margin: 30,
-            //     },
-            //     splitLine: {
-            //         show: false
-            //     }
-            // },
             series: [
                 {
-                    // data: yData.map((ele) => new BigNumber(ele).multipliedBy(0.5).toNumber()),
                     data: yData,
                     name: 'price',
                     type: 'bar',
                     yAxisIndex: 0,
-                    // barWidth: 26,
-                    // barGap: '2px',
                     itemStyle: {
-                        // color: '#9DABB7',
                         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                             { offset: 0, color: '#6FF0F7' },
-                            { offset: 0.3, color: '#486FCF' },
+                            { offset: 0.35, color: '#486FCF' },
                             { offset: 1, color: '#192B5C' }
                         ]),
                         borderRadius: 6
-                        // opacity: 0.32
                     }
                 },
                 {
-                    type: 'line',
+                    type: 'line', 
                     name: 'kline',
                     yAxisIndex: 1,
-                    smooth: 0.6,
+                    smooth: 0.3,
                     symbol: 'none',
                     lineStyle: {
                         color: '#5ED675',
                         width: 2
                     },
-                    // data: yData.map((ele) => new BigNumber(ele).multipliedBy(1).toNumber())
-                    data: yData
-                    // areaStyle: {},
+                    data: yData.map(v => v * 1.3)
                 }
             ]
         };
@@ -171,7 +119,6 @@ const Stake: FC = (): ReactElement => {
             });
 
             const options = getOptions(xData, yData);
-            // const options = getOptions(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]);
             chartRef.current.hideLoading();
             chartRef.current.setOption(options);
         }
