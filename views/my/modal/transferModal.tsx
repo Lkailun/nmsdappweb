@@ -67,7 +67,6 @@ const TransferModal: FC<IProps> = ({ onClose, type }): ReactElement => {
             if (type === 'recharge') {
                 // handMaxProcessTime(20);
                 await sendTransfer({ token: symbol === 'USDT' ? platforminfo.usdttoken : platforminfo.nmstoken, to: platforminfo.receive, value: amount });
-                onClose(true);
             } else {
                 const params = {
                     address: account!,
@@ -82,8 +81,8 @@ const TransferModal: FC<IProps> = ({ onClose, type }): ReactElement => {
                 if (result.code !== 200) throw new Error(result.message);
                 updateUser(result.data);
                 message.success('提现成功');
-                onClose();
             }
+            onClose(true, type);
         } catch (e: any) {
             message.error(e.message || 'error');
         } finally {

@@ -58,23 +58,25 @@ const List: FC = (): ReactElement => {
                     <div>累计金额</div>
                     <div>最近游戏</div>
                 </div>
-                {userinfo.teamlist.map((item: any) => (
-                    <div key={item._id} className={classNames(css.td, css.item)}>
-                        <div className={css.user}>
-                            {$hash(item.address, 3, 5)}
-                            <img className={css.copy} onClick={() => $copy(item.address)} src="/images/my/copy1.svg" alt="" />
+                <div className={css.max_content}>
+                    {userinfo.teamlist.map((item: any) => (
+                        <div key={item._id} className={classNames(css.td, css.item)}>
+                            <div className={css.user}>
+                                {$hash(item.address, 3, 5)}
+                                <img className={css.copy} onClick={() => $copy(item.address)} src="/images/my/copy1.svg" alt="" />
+                            </div>
+                            <div className={css.total}>
+                                <CountUp decimals={0} end={item.totalgamecount} />
+                            </div>
+                            <div className={css.cost}>
+                                <CountUp decimals={3} end={item.totalspendnms} />
+                                <img className={css.symbol} src="/images/symbol/NMS.svg" alt="" />
+                            </div>
+                            <div className={css.date}>{item.lastgametime === 0 ? '无记录' : moment(item.lastgametime).endOf('m').fromNow()}</div>
                         </div>
-                        <div className={css.total}>
-                            <CountUp decimals={0} end={item.totalgamecount} />
-                        </div>
-                        <div className={css.cost}>
-                            <CountUp decimals={3} end={item.totalspendnms} />
-                            <img className={css.symbol} src="/images/symbol/NMS.svg" alt="" />
-                        </div>
-                        <div className={css.date}>{item.lastgametime === 0 ? '无记录' : moment(item.lastgametime).endOf('m').fromNow()}</div>
-                    </div>
-                ))}
-                {userinfo.teamlist.length === 0 && <NoData />}
+                    ))}
+                    {userinfo.teamlist.length === 0 && <NoData />}
+                </div>
             </section>
         </div>
     );

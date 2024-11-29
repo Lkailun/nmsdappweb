@@ -8,13 +8,14 @@ import { useTranslation } from 'next-i18next';
 import moment from 'moment';
 import classNames from 'classnames';
 import { Button } from '@/components';
-import { RechargeHistoryModal, RechargeTipsModal, TransferModal, WithdrawalHistoryModal } from '../modal';
+import { RechargeHistoryModal, RechargeTipsModal, TransferModal, WithdrawalHistoryModal, WithdrawalTipsModal } from '../modal';
 import { message } from 'antd';
 
 const Header: FC = (): ReactElement => {
     const { t }: any = useTranslation<any>(['common']);
     const [show, setShow] = useState<boolean>(false);
     const [showRechargeTips, setShowRechargeTips] = useState<boolean>(false);
+    const [showWithdrawalTips, setShowWithdrawalTips] = useState<boolean>(false);
     const [showRechargeHistory, setShowRechargeHistory] = useState<boolean>(false);
     const [showWithdrawalHistory, setShowWithdrawalHistory] = useState<boolean>(false);
     const [transferType, setTransferType] = useState<string>('recharge');
@@ -64,8 +65,13 @@ const Header: FC = (): ReactElement => {
             </div>
             {show && (
                 <TransferModal
-                    onClose={(flag: any) => {
-                        flag && setShowRechargeTips(true);
+                    onClose={(flag: any, type: string) => {
+                        if (type === 'recharge') {
+                            flag && setShowRechargeTips(true);
+                        } else {
+                            flag && setShowWithdrawalTips(true);
+                        }
+
                         setShow(false);
                     }}
                     type={transferType}
@@ -74,6 +80,7 @@ const Header: FC = (): ReactElement => {
             {showRechargeHistory && <RechargeHistoryModal onClose={() => setShowRechargeHistory(false)} list={[]} />}
             {showWithdrawalHistory && <WithdrawalHistoryModal onClose={() => setShowWithdrawalHistory(false)} list={[]} />}
             {showRechargeTips && <RechargeTipsModal onClose={() => setShowRechargeTips(false)} />}
+            {showWithdrawalTips && <WithdrawalTipsModal onClose={() => setShowWithdrawalTips(false)} />}
         </>
     );
 };

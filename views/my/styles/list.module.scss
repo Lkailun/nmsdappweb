@@ -69,6 +69,10 @@
         padding: 0.16rem 0.21rem;
         border-radius: 0.14rem;
         background: rgba(50, 51, 77, 0.4);
+        .max_content {
+            max-height: 6rem;
+            overflow-y: auto;
+        }
         .td {
             display: flex;
             text-align: center;
