@@ -14,6 +14,10 @@ type IProps = {
 const RechargeHistoryModal: FC<IProps> = ({ onClose }: IProps): ReactElement => {
     const [{ depositrecords }] = useUser();
 
+    const openLink = (url: string) => {
+        typeof window !== 'undefined' && window.open(`https://bscscan.com/tx/${url}`);
+    };
+
     return (
         <Modal open={true} footer={null} onCancel={() => onClose()} className={css.view}>
             <h2>充值记录</h2>
@@ -31,7 +35,9 @@ const RechargeHistoryModal: FC<IProps> = ({ onClose }: IProps): ReactElement => 
                                 +{$BigNumber(ele.amount).toFixed(2, 1)}
                                 <img src={`/images/symbol/${ele.tokenname.toUpperCase()}.svg`} alt="" />
                             </div>
-                            <div className={css.success}>已完成</div>
+                            <div className={css.success} onClick={() => openLink(ele.hash)}>
+                                已完成
+                            </div>
                         </div>
                     ))}
                 </div>

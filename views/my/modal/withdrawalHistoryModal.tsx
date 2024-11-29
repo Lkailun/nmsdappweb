@@ -29,15 +29,12 @@ const WithdrawalHistoryModal: FC<IProps> = ({ onClose, list }: IProps): ReactEle
         }
         return info;
     };
-    list = [
-        { createtime: '2024-07-12 12:21:12', amount: '12121.231', status: 'review', symbol: 'USDT' },
-        { createtime: '2024-07-12 12:21:12', amount: '12121.231', status: 'success', symbol: 'NMS' },
-        { createtime: '2024-07-12 12:21:12', amount: '12121.231', status: 'fail', symbol: 'NMS' },
-        { createtime: '2024-07-12 12:21:12', amount: '12121.231', status: 'review', symbol: 'USDT' },
-        { createtime: '2024-07-12 12:21:12', amount: '12121.231', status: 'success', symbol: 'NMS' },
-        { createtime: '2024-07-12 12:21:12', amount: '12121.231', status: 'fail', symbol: 'NMS' },
-        { createtime: '2024-07-12 12:21:12', amount: '12121.231', status: 'success', symbol: 'USDT' }
-    ];
+
+    const openLink = (url: string) => {
+        if (!url || typeof window === 'undefined') return;
+        window.open(`https://bscscan.com/tx/${url}`);
+    };
+
     return (
         <Modal open={true} footer={null} onCancel={() => onClose()} className={css.view}>
             <h2>提现记录</h2>
@@ -55,12 +52,14 @@ const WithdrawalHistoryModal: FC<IProps> = ({ onClose, list }: IProps): ReactEle
                                 -{$BigNumber(ele.amount).toFixed(2, 1)}
                                 <img src={`/images/symbol/${ele.tokenname.toUpperCase()}.svg`} alt="" />
                             </div>
-                            <div className={css[getStatus(ele.state).class]}>{getStatus(ele.state).font}</div>
+                            <div className={css[getStatus(ele.state).class]} onClick={() => openLink(ele.claimhash)}>
+                                {getStatus(ele.state).font}
+                            </div>
                         </div>
                     ))}
                 </div>
             </div>
-            {list.length === 0 && <NoData />}
+            {withdrawrecords.length === 0 && <NoData />}
         </Modal>
     );
 };
