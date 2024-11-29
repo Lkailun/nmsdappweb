@@ -70,7 +70,7 @@ const ResultModal: FC<IProps> = ({ onClose }): ReactElement => {
                             </div>
                             <div className={classNames(css.line, css.last)}>
                                 <span>下注时间:</span>
-                                <div>{moment(openLuckGameResult.time).format('YYYY.MM.DD HH:mm')}</div>
+                                <div>{moment(openLuckGameResult.createtime).format('YYYY.MM.DD HH:mm')}</div>
                             </div>
                         </>
                     )}

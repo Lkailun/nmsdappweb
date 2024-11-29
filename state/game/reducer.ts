@@ -90,7 +90,7 @@ const GameSlice = createSlice({
             localStorage.setItem('btcData', JSON.stringify(state.btcData));
         },
         setBtcGameResult(state, { payload: info }) {
-            state.openLuckGameResult = { ...state.openLuckGameResult, ...info };
+            state.openBtcGameResult = { ...state.openBtcGameResult, ...info };
         }
     }
 });

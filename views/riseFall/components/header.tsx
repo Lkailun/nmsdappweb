@@ -82,7 +82,6 @@ const Header: FC = (): ReactElement => {
                 volume: Number(ele[5]),
                 timestamp: Number(ele[0])
             }));
-            console.log('kline_data', kline_data);
             chart.current?.applyNewData(kline_data);
         }
     }, [klines]);

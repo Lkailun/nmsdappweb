@@ -34,6 +34,7 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
 
                     let type = ResultStatus.know,
                         reward = 0,
+                        createtime = 0,
                         amount = 0;
 
                     if (!betaddresslist.includes(user)) {
@@ -41,6 +42,8 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
                     } else {
                         const selfIndex = betaddresslist.findIndex((ele: any) => ele === user);
                         amount = betamountlist[selfIndex];
+                        const find = _newdata.luckgamerecords.find((ele: any) => ele._id === _id);
+                        createtime = find['createtime'] || 0;
 
                         if (betaddresslist[winindex] === user) {
                             type = ResultStatus.success;
@@ -50,7 +53,6 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
                             reward = amount;
                         } else {
                             type = ResultStatus.failed;
-                            const find = _newdata.luckgamerecords.find((ele: any) => ele._id === _id);
                             reward = Number(new BigNumber(find.rewardamount || 0).toFixed(4, 1));
                         }
                     }
@@ -60,7 +62,7 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
                         type,
                         amount,
                         reward,
-                        createtime: 0
+                        createtime
                     };
                     dispatch(setLuckGameResult(params));
                 }
@@ -102,6 +104,7 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
         dispatch(setLuckGameResult({ open: false }));
         dispatch(setLuckData({ luckgameinfo: [], luckgamerecords: [] }));
         clearTimeout(timer.current);
+        localStorage.removeItem('luckData');
     }, [dispatch]);
 
     return [
@@ -126,7 +129,7 @@ export function useBtc(): [{ [key: string]: any }, { closeResultModal: () => voi
             try {
                 const data = JSON.parse(localStorage.getItem('btcData') || '{}');
                 const oldData = data.btcgamerecords || [];
-                if (oldData.length === 0 || newData.length < 2) return;
+                if (oldData.length === 0 || newData.length === 0) return;
                 if (newData[0].state !== 'pending' && oldData[0].state === 'pending') {
                     const result = newData[0];
                     let type = ResultStatus.failed,
@@ -184,6 +187,7 @@ export function useBtc(): [{ [key: string]: any }, { closeResultModal: () => voi
         dispatch(setBtcGameResult({ open: false }));
         dispatch(updateBtcGameData({ btcgamerecords: [] }));
         clearTimeout(timer.current);
+        localStorage.removeItem('btcData');
     }, [dispatch]);
 
     return [
