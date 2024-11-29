@@ -202,7 +202,7 @@ export const $toExponential = (val: string | number, acc: number = 2) => {
     return _val;
 };
 
-export const $momentTimes = (date: any, type: string = 'start'): Record<string, number> => {
+export const $momentTimes = (date: any, type: 'start' | 'end' = 'start'): Record<string, number> => {
     let startT = moment(date);
     let curT = moment(new Date());
     let diff = type === 'start' ? startT.diff(curT) : curT.diff(startT);
@@ -215,10 +215,10 @@ export const $momentTimes = (date: any, type: string = 'start'): Record<string, 
         seconds: Math.max(timeDiff.seconds(), 0)
     };
 };
-export const $diffDate = (date: any, unit: MomentUnit = MomentUnit.days): number => {
+export const $diffDate = (date: any, unit: MomentUnit = MomentUnit.days, type: 'start' | 'end' = 'start'): number => {
     let startT = moment(date);
     let endT = moment(new Date());
-    return endT.diff(startT, unit);
+    return type === 'start' ? startT.diff(endT, unit) : endT.diff(startT, unit);
 };
 
 export const $formatNumber = (val: string | number) => {

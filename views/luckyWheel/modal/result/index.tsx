@@ -38,29 +38,6 @@ const ResultModal: FC<IProps> = ({ onClose }): ReactElement => {
         }
     };
 
-    const hand = async () => {
-        try {
-            if (!config.cansellpower || !userinfo.cansellpower) throw new Error('暂不支持出售!');
-            setLoading(true);
-            const _messsage = `Sell Power at:${Date.now()}`;
-            const signature = await signMessage(_messsage);
-            const params = {
-                address: account,
-                orderid: data._id
-            };
-
-            const { code, data: _data, msg }: any = await Server.trade(params, { message: _messsage, signature });
-            if (code !== 200) throw new Error(msg);
-            updateUser(_data);
-            message.success('出售成功');
-            onClose();
-        } catch (e: any) {
-            message.error(e.message || '出售失败');
-        } finally {
-            setLoading(false);
-        }
-    };
-
     return (
         <Modal open={true} footer={null} onCancel={() => onClose()} className={classNames(css.view, 'luckyWheel-result-modal')}>
             <section className={classNames(css.main, data.type === 'success' ? css.success : data.type === 'noJoin' ? css.noJoin : data.type === 'fail' ? css.fail : '')}>

@@ -1,15 +1,16 @@
 import { FC, ReactElement, useState } from 'react';
 import css from '../styles/order.module.scss';
 import { Button, NoData } from '@/components';
-import { useUser } from '@/state/user/hooks';
 import moment from 'moment';
-import { $diffDate, $toFixed } from '@/utils/met';
+import { $BigNumber, $diffDate, $toFixed } from '@/utils/met';
 import CountUp from 'react-countup';
 import { useTranslation } from 'react-i18next';
+import { useLuck } from '@/state/game/hooks';
+import BigNumber from 'bignumber.js';
 
 const Order: FC = (): ReactElement => {
     const { t }: any = useTranslation<any>(['common']);
-    // const [{ orderinfo }] = useUser();
+    const [{ luckgamerecords }] = useLuck();
     const [list, setList] = useState([
         { status: 'pending' }, //
         { status: 'success' },
@@ -24,13 +25,26 @@ const Order: FC = (): ReactElement => {
         { status: 'know' }
     ]);
 
+    const getReward = (data: any) => {
+        switch (data.state) {
+            case 'pending':
+                return '--';
+            case 'success':
+                return 20;
+            case 'failed':
+                return '--';
+            default:
+                return '--';
+        }
+    };
+
     const getFont = (status: string) => {
         switch (status) {
             case 'pending':
                 return '等待开奖';
             case 'success':
                 return '已中奖';
-            case 'fail':
+            case 'failed':
                 return '未中奖';
             default:
                 return '无人获奖';
@@ -44,33 +58,33 @@ const Order: FC = (): ReactElement => {
                 <p>(最近20条下注记录)</p>
             </header>
             <div className={css.section}>
-                {list.map((ele: any, index: number) => (
+                {luckgamerecords.map((ele: any, index: number) => (
                     <div className={css.item} key={index}>
                         <div className={css.line}>
                             <div className={css.left}>
                                 <span className={css.label}>下注时间:</span>
-                                <div>2024.10.12 12:00</div>
+                                <div>{moment(ele.createtime).format('YYYY.MM.DD HH:mm')}</div>
                             </div>
                             <div className={css.right}>
                                 <span className={css.label}>开奖状态:</span>
-                                <div className={ele.status === 'success' ? css.success : ele.status === 'fail' ? css.fail : ele.status === 'pending' ? css.pending : css.know}>{getFont(ele.status)}</div>
+                                <div className={ele.state === 'success' ? css.success : ele.state === 'failed' ? css.fail : ele.state === 'pending' ? css.pending : css.know}>{getFont(ele.state)}</div>
                             </div>
                         </div>
                         <div className={css.line}>
                             <div className={css.left}>
                                 <span className={css.label}>下注金额:</span>
                                 <div>
-                                    -0.005 <img src="/images/symbol/NMS.svg" alt="" />
+                                    -{Number(BigNumber(ele.betamount).toFixed(3, 1))} <img src="/images/symbol/NMS.svg" alt="" />
                                 </div>
                             </div>
                             <div className={css.right}>
                                 <span className={css.label}>获得奖励:</span>
                                 <div>
-                                    {ele.status === 'pending' ? (
+                                    {ele.state === 'pending' ? (
                                         '--'
                                     ) : (
                                         <>
-                                            +1.3 <img src="/images/stake/color-point.svg" alt="" />
+                                            +{ele.rewardamount} <img src={ele.state === 'success' ? '/images/stake/color-point.svg' : '/images/symbol/NMS.svg'} alt="" />
                                         </>
                                     )}
                                 </div>
@@ -78,7 +92,7 @@ const Order: FC = (): ReactElement => {
                         </div>
                     </div>
                 ))}
-                {list.length === 0 && <NoData />}
+                {luckgamerecords.length === 0 && <NoData />}
             </div>
         </div>
     );

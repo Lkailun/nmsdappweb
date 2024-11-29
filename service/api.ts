@@ -45,22 +45,24 @@ class Server {
         return await service.post(`${this.meta.baseUrl}/user/stakingintegral`, data, Object.assign(_options, { headers: { Authorization: `${sign.message}-${sign.signature}` } }));
     };
 
-    /////////////
-
-    // 获取用户信息
-    static checkOrder = async (params: ApiType.checkOrder, sign: ApiType.sign, _options: Record<string, any> = {}): Promise<any> => {
-        const option = Object.assign(_options, { headers: { Authorization: `${sign.message}-${sign.signature}` } });
-        return await service.get(`${this.meta.baseUrl}/user/checkOrder`, { params, ..._options });
+    // 获得幸运转转转游戏信息
+    static getluckgamedata = async (data: any, sign: ApiType.sign, _options: Record<string, any> = {}): Promise<any> => {
+        return await service.get(`${this.meta.baseUrl}/game/getluckgamedata`, Object.assign(_options, { params: data, headers: { Authorization: `${sign.message}-${sign.signature}` } }));
     };
 
-    // 出售算力
-    static trade = async (data: ApiType.trade, sign: ApiType.sign, _options: Record<string, any> = {}): Promise<any> => {
-        return await service.post(`${this.meta.baseUrl}/user/sellpower`, data, Object.assign(_options, { headers: { Authorization: `${sign.message}-${sign.signature}` } }));
+    // 幸运转转转游戏下注
+    static betluckgame = async (data: any, sign: ApiType.sign, _options: Record<string, any> = {}): Promise<any> => {
+        return await service.post(`${this.meta.baseUrl}/game/betluckgame`, data, Object.assign(_options, { headers: { Authorization: `${sign.message}-${sign.signature}` } }));
     };
 
-    // 余额提币
-    static claim = async (data: ApiType.claim, sign: ApiType.sign, _options: Record<string, any> = {}): Promise<any> => {
-        return await service.post(`${this.meta.baseUrl}/user/claimfloki`, data, Object.assign(_options, { headers: { Authorization: `${sign.message}-${sign.signature}` } }));
+    // 获得BTC猜涨跌游戏信息
+    static getbtcgamedata = async (data: any, sign: ApiType.sign, _options: Record<string, any> = {}): Promise<any> => {
+        return await service.get(`${this.meta.baseUrl}/game/getbtcgamedata`, Object.assign(_options, { params: data, headers: { Authorization: `${sign.message}-${sign.signature}` } }));
+    };
+
+    // BTC猜涨跌游戏下注
+    static betrisefall = async (data: any, sign: ApiType.sign, _options: Record<string, any> = {}): Promise<any> => {
+        return await service.post(`${this.meta.baseUrl}/game/betrisefall`, data, Object.assign(_options, { headers: { Authorization: `${sign.message}-${sign.signature}` } }));
     };
 }
 

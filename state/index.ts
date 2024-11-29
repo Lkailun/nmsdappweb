@@ -2,10 +2,12 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import base from './base/reducer';
 import user from './user/reducer';
+import game from './game/reducer';
 
 const store = configureStore({
     reducer: {
         user,
+        game,
         base
     },
     middleware: (getDefaultMiddleware: any) =>

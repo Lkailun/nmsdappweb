@@ -45,11 +45,27 @@
                 font-family: 'PingFang SC';
                 font-size: 0.24rem;
                 font-weight: 600;
+                span {
+                    font-size: 0.15rem;
+                }
             }
             .right {
                 display: flex;
                 flex-direction: column;
                 align-items: flex-end;
+                &.down {
+                    p {
+                        color: #da4354;
+                    }
+                    .desc {
+                        div {
+                            background: #da4354;
+                            img {
+                                transform: rotate(0deg);
+                            }
+                        }
+                    }
+                }
                 p {
                     color: #16b17b;
                     font-family: 'PingFang SC';
@@ -78,6 +94,7 @@
                         margin-left: 0.06rem;
                         img {
                             height: 0.07rem;
+                            transform: rotate(180deg);
                         }
                     }
                 }

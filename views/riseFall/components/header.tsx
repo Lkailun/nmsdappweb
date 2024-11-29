@@ -13,29 +13,7 @@ import generatedDataList from './generatedDataList';
 import RuleModal from '../modal/rule';
 import { useRouter } from 'next/router';
 import { ConfirmModal } from '../modal';
-
-// declare var klinecharts: any;
-
-const list = [
-    { label: 'You', amount: '0.05', icon: 1 },
-    { label: '0xqw..123', amount: '0.05', icon: 2 },
-    { label: '0xqw..123', amount: '0.05', icon: 3 },
-    { label: '', amount: '', icon: 4 },
-    { label: '', amount: '', icon: 5 },
-    { label: '', amount: '', icon: 6 },
-    { label: '', amount: '', icon: 7 },
-    { label: '', amount: '', icon: 8 },
-    { label: '', amount: '', icon: 9 },
-    { label: '', amount: '', icon: 10 },
-    { label: '', amount: '', icon: 11 },
-    { label: '', amount: '', icon: 12 },
-    { label: '', amount: '', icon: 13 },
-    { label: '', amount: '', icon: 14 },
-    // { label: '', amount: '', icon: 15 },
-    // { label: '', amount: '', icon: 16 },
-    { label: '0xqw..123', amount: '0.05', icon: 15 },
-    { label: '', amount: '', icon: 16 }
-];
+import { useBtc } from '@/state/game/hooks';
 
 const stakeList = [0.05, 0.1, 0.3, 0.6, 1, 3, 10, 20];
 
@@ -75,24 +53,46 @@ const Header: FC = (): ReactElement => {
     const { t }: any = useTranslation<any>(['common']);
     const [showRule, setShowRule] = useState<boolean>(false);
     const [showConfirm, setShowConfirm] = useState<boolean>(false);
-
-    const [transferType, setTransferType] = useState<string>('in');
-    const [direction, setDirection] = useState<string>('up');
+    const [direction, setDirection] = useState<'up' | 'down'>('up');
+    const [amount, setAmount] = useState<number>(stakeList[0]);
     const chart = useRef<Chart | null>();
 
     const [{ userinfo }] = useUser();
+    const [{ klines }, { getData, clearLoopData }] = useBtc();
+
     const router = useRouter();
 
-    const handDirection = (type: string) => {
-        setDirection(type);
-    };
+    const change = useMemo(() => {
+        if (klines.length === 0) return 0;
+        const first = klines[klines.length - 1],
+            now = klines[0];
+        return $BigNumber(first[4] - now[1])
+            .dividedBy(now[1])
+            .multipliedBy(100)
+            .toFixed(2, 1);
+    }, [klines]);
+
+    useEffect(() => {
+        if (klines.length > 0) {
+            const kline_data = klines.map((ele: any[]) => ({
+                open: Number(ele[1]),
+                low: Number(ele[3]),
+                high: Number(ele[2]),
+                close: Number(ele[4]),
+                volume: Number(ele[5]),
+                timestamp: Number(ele[0])
+            }));
+            console.log('kline_data', kline_data);
+            chart.current?.applyNewData(kline_data);
+        }
+    }, [klines]);
 
     useLayoutEffect(() => {
         chart.current = init('k-line');
-        chart.current?.applyNewData(generatedDataList());
         chart.current?.setStyles('dark');
         chart.current?.setLocale('en-US');
         chart.current?.setStyles(getTooltipOptions() as any); // 自定义配置
+        // chart.current?.applyNewData(generatedDataList());
         return () => {
             dispose('k-line');
         };
@@ -107,14 +107,19 @@ const Header: FC = (): ReactElement => {
                 <img className={css.title} src="/images/rise-fall/bg.png" alt="" />
                 <div className={css.kline}>
                     <div className={css.info}>
-                        <b>BTC/USDT</b>
-                        <div className={css.right}>
-                            <p>29,440.6</p>
+                        <b>
+                            BTC/USDT <span>3m</span>
+                        </b>
+                        <div className={classNames(css.right, Number(change) < 0 ? css.down : '')}>
+                            <p>{$BigNumber(klines[0]?.[4]).toFixed(1, 1)}</p>
                             <div className={css.desc}>
-                                ≈￥206,163.3
+                                ≈￥
+                                {$BigNumber(klines[0]?.[4] ?? 0)
+                                    .multipliedBy(7.2)
+                                    .toFixed(2, 1)}
                                 <div>
                                     <img src="/images/rise-fall/direction.svg" alt="" />
-                                    -0.5%
+                                    {change}%
                                 </div>
                             </div>
                         </div>
@@ -122,10 +127,10 @@ const Header: FC = (): ReactElement => {
                     <div className={css.content} id="k-line"></div>
                 </div>
                 <div className={css.action}>
-                    <div className={classNames(css.down, direction === 'up' ? css.active : '')} onClick={() => handDirection('up')}>
+                    <div className={classNames(css.down, direction === 'up' ? css.active : '')} onClick={() => setDirection('up')}>
                         看涨{direction === 'up' && <img src="/images/rise-fall/check.svg" alt="" />}
                     </div>
-                    <div className={classNames(css.up, direction === 'down' ? css.active : '')} onClick={() => handDirection('down')}>
+                    <div className={classNames(css.up, direction === 'down' ? css.active : '')} onClick={() => setDirection('down')}>
                         看跌{direction === 'down' && <img src="/images/rise-fall/check.svg" alt="" />}
                     </div>
                 </div>
@@ -137,7 +142,7 @@ const Header: FC = (): ReactElement => {
                     </div>
                     <section>
                         {stakeList.map((ele, index) => (
-                            <div key={ele} className={classNames(index === 0 ? css.active : '', direction === 'up' ? css.up : '')}>
+                            <div key={ele} onClick={() => setAmount(ele)} className={classNames(amount === ele ? css.active : '', direction === 'up' ? css.up : '')}>
                                 {ele}
                                 <img className={css.icon} src={`/images/symbol/NMS.svg`} alt="" />
                             </div>
@@ -153,7 +158,7 @@ const Header: FC = (): ReactElement => {
                 </div>
             </div>
             {showRule && <RuleModal onClose={() => setShowRule(false)} />}
-            {showConfirm && <ConfirmModal onClose={() => setShowConfirm(false)} />}
+            {showConfirm && <ConfirmModal direction={direction} amount={amount} onClose={() => setShowConfirm(false)} />}
         </>
     );
 };

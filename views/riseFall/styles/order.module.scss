@@ -1,6 +1,5 @@
 .view {
     margin-top: 0.06rem;
-    background: #131c41;
     position: relative;
     z-index: 3;
     header {
@@ -19,6 +18,8 @@
         border-radius: 0.24rem;
         background: rgba(255, 255, 255, 0.1);
         padding: 0.12rem 0.1rem;
+        max-height: 6rem;
+        overflow-y: auto;
         .item {
             padding: 0.12rem 0.12rem 0.1rem;
             border-radius: 0.16rem;

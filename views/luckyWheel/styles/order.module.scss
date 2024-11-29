@@ -33,6 +33,9 @@
     }
     .section {
         margin-top: 0.12rem;
+        max-height: 6rem;
+        min-height: 3rem;
+        overflow-y: auto;
         .item {
             padding: 0.12rem 0.14rem 0.11rem;
             border-radius: 0.16rem;
