@@ -3,7 +3,6 @@
     border-radius: 0.3rem;
     background: #131c41;
     position: relative;
-    min-height: 3rem;
     padding: 0.46rem 0.16rem 0.25rem;
     header {
         height: 0.4rem;
@@ -34,7 +33,7 @@
     .section {
         margin-top: 0.12rem;
         max-height: 6rem;
-        min-height: 3rem;
+        min-height: 1rem;
         overflow-y: auto;
         .item {
             padding: 0.12rem 0.14rem 0.11rem;

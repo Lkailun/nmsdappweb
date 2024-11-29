@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import { useTranslation } from 'react-i18next';
 import { useBtc } from '@/state/game/hooks';
+import BigNumber from 'bignumber.js';
 
 const Order: FC = (): ReactElement => {
     const { t }: any = useTranslation<any>(['common']);
@@ -72,7 +73,7 @@ const Order: FC = (): ReactElement => {
                                         '--'
                                     ) : (
                                         <>
-                                            +{ele.state === 'success' ? ele.rewardamount : ele.integralreward} <img src={ele.state === 'success' ? '/images/stake/color-point.svg' : '/images/symbol/NMS.svg'} alt="" />
+                                            +{Number(BigNumber(ele.state === 'success' ? ele.rewardamount : ele.integralreward).toFixed(3, 1))} <img src={ele.state === 'success' ? '/images/symbol/NMS.svg' : '/images/stake/color-point.svg'} alt="" />
                                         </>
                                     )}
                                 </div>
