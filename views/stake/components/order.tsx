@@ -15,18 +15,18 @@ const Item: FC<{ [key: string]: any }> = ({ data }): ReactElement => {
             <div className={css.item}>
                 <div className={css.line}>
                     <div className={css.date}>
-                        <span className={css.label}>开始时间:</span>
+                        <span className={css.label}>{t('common:stake:StartTime')}:</span>
                         {moment(data.createtime).format('YYYY.MM.DD HH:mm')}
                     </div>
                     <div className={css.days}>
-                        <span className={css.label}>已产天数:</span>
+                        <span className={css.label}>{t('common:stake:Days')}:</span>
                         {/* {moment(data.createtime).endOf('m').fromNow()} */}
                         { Math.floor((Date.now() - data.createtime) / (1000 * 60 * 60 * 24)) }天
                     </div>
                 </div>
                 <div className={css.line}>
                     <div className={css.amount}>
-                        <span className={css.label}>质押数量:</span>
+                        <span className={css.label}>{t('common:stake:StakeAmount')}:</span>
                         <div>
                             {data.usdtamount}
                             <img src="/images/symbol/USDT.svg" alt="" />+{data.usdtamount}
@@ -34,7 +34,7 @@ const Item: FC<{ [key: string]: any }> = ({ data }): ReactElement => {
                         </div>
                     </div>
                     <div className={css.reward}>
-                        <span className={css.label}>已产收益:</span>
+                        <span className={css.label}>{t('common:stake:Reward')}:</span>
                         <div>
                             <b>{$BigNumber(data.totalrelease).toFixed(3, 1)} </b> <img src="/images/stake/point.svg" alt="" />
                         </div>
@@ -53,7 +53,7 @@ const Order: FC = (): ReactElement => {
     }, []);
     return (
         <div className={css.view}>
-            <header>我的质押记录:</header>
+            <header>{t('common:stake:MyStakeRecord')}:</header>
             <div className={css.section}>
                 {stakingrecords.map((ele: any, index: number) => (
                     <Item key={index} data={ele} />

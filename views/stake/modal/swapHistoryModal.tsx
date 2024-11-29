@@ -6,22 +6,22 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { useUser } from '@/state/user/hooks';
 import { NoData } from '@/components';
-
+import { useTranslation } from 'next-i18next';
 type IProps = {
     list: any[];
     onClose: Function;
 };
 const SwapHistoryModal: FC<IProps> = ({ onClose, list }: IProps): ReactElement => {
     const [{ swaprecords }] = useUser();
-
+    const { t }: any = useTranslation<any>(['common']);
     return (
         <Modal open={true} footer={null} onCancel={() => onClose()} className={css.view}>
-            <h2>闪兑记录</h2>
+            <h2>{t('common:stake:SwapRecord')}</h2>
             <div className={css.content}>
                 <div className={css.nav}>
-                    <div>闪兑时间</div>
-                    <div>卖出NMM</div>
-                    <div>获得USDT</div>
+                    <div>{t('common:stake:StartTime')}</div>
+                    <div>{t('common:stake:SellNMM')}</div>
+                    <div>{t('common:stake:GetUSDT')}</div>
                 </div>
                 <div className={classNames(css.cont, 'hidden-scroll')}>
                     {swaprecords.map((ele: any, index: number) => (

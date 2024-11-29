@@ -7,30 +7,31 @@ import moment from 'moment';
 import { useWallet } from '@/hooks';
 import { useUser } from '@/state/user/hooks';
 import { NoData } from '@/components';
-
+import { useTranslation } from 'react-i18next';
 type IProps = {
     list: any[];
     onClose: Function;
 };
 const TransferHistoryModal: FC<IProps> = ({ onClose }: IProps): ReactElement => {
+    const { t }: any = useTranslation<any>(['common']);
     const [{ integraltransferrecords }] = useUser();
     const { account } = useWallet();
     return (
         <Modal open={true} footer={null} onCancel={() => onClose()} className={css.view}>
-            <h2>积分转移记录</h2>
+            <h2>{t('common:stake:TransferRecord')}</h2>
             <div className={css.content}>
                 <div className={css.nav}>
-                    <div>转移时间</div>
-                    <div>类型</div>
-                    <div>对手地址</div>
-                    <div>转移金额</div>
+                    <div>{t('common:stake:StartTime')}</div>
+                    <div>{t('common:stake:Type')}</div>
+                    <div>{t('common:stake:OppositeAddress')}</div>
+                    <div>{t('common:stake:TransferAmount')}</div>
                 </div>
                 <div className={classNames(css.cont, 'hidden-scroll')}>
                     {integraltransferrecords.map((ele: any, index: number) => (
                         <div key={index} className={classNames(css.nav, css.list)}>
                             <div>{moment(ele.createtime).format('YYYY.MM.DD HH:mm')}</div>
                             <div className={css[ele.from === account?.toLowerCase() ? 'out' : 'in']}>
-                                {ele.from === account?.toLowerCase() ? '转出' : '转入'}
+                                {ele.from === account?.toLowerCase() ? t('common:stake:TransferOut') : t('common:stake:TransferIn')}
                             </div>
                             <div>
                                 {$hash(

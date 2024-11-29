@@ -40,27 +40,27 @@ const Header: FC = (): ReactElement => {
             <div className={classNames(css.view, 'animate__animated animate__zoomIn')}>
                 <div className={css.item}>
                     <div className={css.title}>
-                        NMS余额 <img src="/images/symbol/NMS.svg" alt="" />
+                        {t('common:my:NMSBalance')} <img src="/images/symbol/NMS.svg" alt="" />
                     </div>
                     <h5>
                         <CountUp decimals={5} end={Number(userinfo.nmsbalance)} /> <img className={loading ? css.loading : ''} onClick={() => refreshAssets()} src="/images/my/reload.svg" alt="" />
                     </h5>
 
-                    <Button onClick={() => handTransfer('withdrawal')}>提现</Button>
-                    <span onClick={() => setShowWithdrawalHistory(true)}>提现记录</span>
+                    <Button onClick={() => handTransfer('withdrawal')}>{t('common:my:Withdrawal')}</Button>
+                    <span onClick={() => setShowWithdrawalHistory(true)}>{t('common:my:WithdrawalRecord')}</span>
                 </div>
                 <div className={css.item}>
                     <div className={css.title}>
-                        USDT余额 <img src="/images/symbol/USDT.svg" alt="" />
+                        {t('common:my:USDTBalance')} <img src="/images/symbol/USDT.svg" alt="" />
                     </div>
                     <h5>
                         <CountUp decimals={1} end={Number(userinfo.usdtbalance)} /> <img className={loading ? css.loading : ''} onClick={() => refreshAssets()} src="/images/my/reload.svg" alt="" />
                     </h5>
 
                     <Button className={css.recharge} onClick={() => handTransfer('recharge')}>
-                        充值
+                        {t('common:my:Recharge')}
                     </Button>
-                    <span onClick={() => setShowRechargeHistory(true)}>充值记录</span>
+                    <span onClick={() => setShowRechargeHistory(true)}>{t('common:my:RechargeRecord')}</span>
                 </div>
             </div>
             {show && (

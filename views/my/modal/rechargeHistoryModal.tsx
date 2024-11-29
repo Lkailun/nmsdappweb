@@ -6,26 +6,26 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { useUser } from '@/state/user/hooks';
 import { NoData } from '@/components';
-
+import { useTranslation } from 'next-i18next';
 type IProps = {
     list: any[];
     onClose: Function;
 };
 const RechargeHistoryModal: FC<IProps> = ({ onClose }: IProps): ReactElement => {
     const [{ depositrecords }] = useUser();
-
+    const { t }: any = useTranslation<any>(['common']);
     const openLink = (url: string) => {
         typeof window !== 'undefined' && window.open(`https://bscscan.com/tx/${url}`);
     };
 
     return (
         <Modal open={true} footer={null} onCancel={() => onClose()} className={css.view}>
-            <h2>充值记录</h2>
+            <h2>{t('common:my:RechargeRecord')}</h2>
             <div className={css.content}>
                 <div className={css.nav}>
-                    <div>充值时间</div>
-                    <div>充值金额</div>
-                    <div>状态</div>
+                    <div>{t('common:my:RechargeTime')}</div>
+                    <div>{t('common:my:CumulativeAmount')}</div>
+                    <div>{t('common:my:Status')}</div>
                 </div>
                 <div className={classNames(css.cont, 'hidden-scroll')}>
                     {depositrecords.map((ele: any) => (
@@ -36,7 +36,7 @@ const RechargeHistoryModal: FC<IProps> = ({ onClose }: IProps): ReactElement => 
                                 <img src={`/images/symbol/${ele.tokenname.toUpperCase()}.svg`} alt="" />
                             </div>
                             <div className={css.success} onClick={() => openLink(ele.hash)}>
-                                已完成
+                                {t('common:my:Completed')}
                             </div>
                         </div>
                     ))}

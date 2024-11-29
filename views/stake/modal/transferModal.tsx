@@ -67,7 +67,7 @@ const TransferModal: FC<IProps> = ({ onClose }): ReactElement => {
             const { code, data, message: msg }: any = result;
             if (code !== 200) throw new Error(msg);
             updateUser(data);
-            message.success('积分转移成功');
+            message.success(t('common:stake:TransferSuccess'));
             onClose();
         } catch (e: any) {
             message.error(e.message || 'error');
@@ -80,21 +80,21 @@ const TransferModal: FC<IProps> = ({ onClose }): ReactElement => {
         <Modal open={true} footer={null} onCancel={() => onClose()}>
             <div className={css.view}>
                 <header>
-                    积分转移 <img src="/images/stake/color-point.svg" alt="" />
+                    {t('common:stake:IntegralTransfer')} <img src="/images/stake/color-point.svg" alt="" />
                 </header>
 
                 <div className={css.item}>
-                    <div className={css.label}>目标地址:</div>
+                    <div className={css.label}>{t('common:stake:ToAddress')}:</div>
                     <div className={css.input}>
-                        <input type="text" value={address} placeholder="请输入转入的目标地址" onChange={(e: any) => setAddress(e.target.value)} />
+                        <input type="text" value={address} placeholder={t('common:stake:InputToAddress')} onChange={(e: any) => setAddress(e.target.value)} />
                     </div>
                 </div>
 
                 <div className={classNames(css.item, css.last)}>
                     <div className={css.label}>
-                        转移数量:
+                        {t('common:stake:TransferAmount')}:
                         <div>
-                            积分余额:
+                            {t('common:stake:IntegralBalance')}:
                             <CountUp decimals={1} end={Number(balance)} />
                             <img src="/images/stake/color-point.svg" alt="" />
                         </div>
@@ -112,7 +112,7 @@ const TransferModal: FC<IProps> = ({ onClose }): ReactElement => {
                 </div>
 
                 <Button disabled={btnDisable} loading={loading} onClick={() => hand()}>
-                    转移
+                    {t('common:stake:Transfer')}
                 </Button>
             </div>
         </Modal>

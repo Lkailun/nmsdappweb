@@ -29,29 +29,29 @@ const Header: FC = (): ReactElement => {
             <div className={classNames(css.view, 'animate__animated animate__zoomIn')}>
                 <div className={css.item}>
                     <div className={css.title}>
-                        积分余额 <img src="/images/stake/white-point.svg" alt="" />
+                        {t('common:stake:IntegralBalance')} <img src="/images/stake/white-point.svg" alt="" />
                     </div>
                     <h5>
                         <CountUp decimals={1} end={Number(userinfo.integralbalance)} />
                     </h5>
 
                     <Button onClick={() => setShow(true)}>
-                        <img src="/images/stake/transfer.svg" alt="" /> 转移
+                        <img src="/images/stake/transfer.svg" alt="" /> {t('common:stake:Transfer')}
                     </Button>
-                    <span onClick={() => setShowTransferHistory(true)}>转移记录</span>
+                    <span onClick={() => setShowTransferHistory(true)}>{t('common:stake:TransferRecord')}</span>
                 </div>
                 <div className={css.item}>
                     <div className={css.title}>
-                        NMM余额 <img src="/images/stake/point.svg" alt="" />
+                        {t('common:stake:NMMBalance')} <img src="/images/stake/point.svg" alt="" />
                     </div>
                     <h5>
                         <CountUp decimals={1} end={Number(userinfo.nmmbalance)} />
                     </h5>
 
                     <Button className={css.recharge} onClick={() => setShowSwap(true)}>
-                        <img src="/images/stake/swap.svg" alt="" /> 闪兑
+                        <img src="/images/stake/swap.svg" alt="" /> {t('common:stake:Swap')}
                     </Button>
-                    <span onClick={() => setShowSwapHistory(true)}>闪兑记录</span>
+                    <span onClick={() => setShowSwapHistory(true)}>{t('common:stake:SwapRecord')}</span>
                 </div>
             </div>
             {show && <TransferModal onClose={() => setShow(false)} />}

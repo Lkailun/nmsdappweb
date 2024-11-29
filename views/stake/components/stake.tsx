@@ -16,7 +16,7 @@ import * as echarts from 'echarts';
 
 const Stake: FC = (): ReactElement => {
     const { t }: any = useTranslation<any>(['common']);
-    const [{ config, userinfo, orderinfo }] = useUser();
+    const [{ platforminfo }] = useUser();
     const [show, setShow] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [list, setList] = useState<any[]>([]);
@@ -337,7 +337,7 @@ const Stake: FC = (): ReactElement => {
             <div className={css.view}>
                 <div className={css.dashboard}>
                     <div className={css.tip}>
-                        NMM当日价格: <b>${BigNumber(price).toFixed(4, 1)}</b> <span>+0.2%</span>
+                        {t('common:stake:NMMPrice')}: <b>${BigNumber(price).toFixed(4, 1)}</b> <span>+{ BigNumber(platforminfo?.nmmriserate).multipliedBy(100).toFixed(2, 1) }%</span>
                     </div>
                     <div className={css.kline} ref={chartRef}></div>
                 </div>
@@ -352,7 +352,7 @@ const Stake: FC = (): ReactElement => {
                         </h4>
                         <div>
                             ({100 * amount}U
-                            <img src="/images/stake/USDT.svg" alt="" />+{100 * amount}积分
+                            <img src="/images/stake/USDT.svg" alt="" />+{100 * amount} {t('common:stake:Integral')}
                             <img src="/images/stake/color-point.svg" alt="" />)
                         </div>
                     </div>
@@ -360,10 +360,10 @@ const Stake: FC = (): ReactElement => {
                         +
                     </div>
                 </div>
-                <Button onClick={() => setShowConfirm(true)}>质押</Button>
+                <Button onClick={() => setShowConfirm(true)}>{t('common:stake:Stake')}</Button>
                 <p className={css.rule}>
                     <img src="/images/stake/rule.svg" alt="" />
-                    <span onClick={() => setShow(true)}>质押规则</span>
+                    <span onClick={() => setShow(true)}>{t('common:stake:StakeRule')}</span>
                 </p>
             </div>
             {show && <RuleModal onClose={() => setShow(false)} />}

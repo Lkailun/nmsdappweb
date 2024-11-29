@@ -52,15 +52,15 @@ const ConfirmStakeModal: FC<IProps> = ({ onClose, amount }: IProps): ReactElemen
     };
     return (
         <Modal open={true} footer={null} className={css.view} onCancel={() => onClose()}>
-            <h2>确认操作</h2>
+            <h2>{t('common:stake:ConfirmOperation')}</h2>
             <section>
-                <p>我已知悉质押规则,确定将 </p>
+                <p>{t('common:stake:IHaveKnownTheStakeRule')}</p>
                 <p className={css.tip}>
-                    {100 * amount}USDT+{100 * amount}游戏积分
+                    {100 * amount} USDT + {100 * amount} {t('common:stake:Integral')}
                 </p>
-                <p>进行质押</p>
+                <p>{t('common:stake:GoStake')}</p>
                 <Button onClick={handStake} loading={loading}>
-                    确认质押
+                    {t('common:stake:ConfirmStake')}
                 </Button>
             </section>
         </Modal>

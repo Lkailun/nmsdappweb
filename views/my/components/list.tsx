@@ -2,9 +2,7 @@ import { FC, ReactElement, SyntheticEvent, useEffect, useMemo, useRef, useState 
 import css from '../styles/list.module.scss';
 import { useUser } from '@/state/user/hooks';
 import { $copy, $hash, $sleep } from '@/utils/met';
-
 import classNames from 'classnames';
-
 import { useTranslation } from 'next-i18next';
 import { NoData } from '@/components';
 import CountUp from 'react-countup';
@@ -27,25 +25,25 @@ const List: FC = (): ReactElement => {
 
     return (
         <div className={css.view}>
-            <h4>我的团队</h4>
+            <h4>{t('common:my:MyTeam')}</h4>
             <header>
                 <div className={css.item}>
                     <img className={css.img} src="/images/my/people.svg" alt="" />
-                    <p>我的直推人数</p>
+                    <p>{t('common:my:MyDirectReferrals')}</p>
                     <h5>
                         <CountUp decimals={0} end={userinfo.teamlist.length} />
                     </h5>
                 </div>
                 <div className={css.item}>
                     <img className={css.img} src="/images/my/other.svg" alt="" />
-                    <p>团队累计场次</p>
+                    <p>{t('common:my:TeamCumulativeGames')}</p>
                     <h5>
                         <CountUp decimals={0} end={total} />
                     </h5>
                 </div>
                 <div className={css.item}>
                     <img className={css.img} src="/images/my/fanyong.svg" alt="" />
-                    <p>我的累计返佣(NMS)</p>
+                    <p>{t('common:my:MyCumulativeRebate')}</p>
                     <h5>
                         <CountUp decimals={6} end={userinfo.totalrebatenms} /> <img src="/images/symbol/NMS.svg" alt="" />
                     </h5>
@@ -53,10 +51,10 @@ const List: FC = (): ReactElement => {
             </header>
             <section>
                 <div className={classNames(css.nav, css.td)}>
-                    <div>用户地址</div>
-                    <div>累计场次</div>
-                    <div>累计金额</div>
-                    <div>最近游戏</div>
+                    <div>{t('common:my:UserAddress')}</div>
+                    <div>{t('common:my:CumulativeGames')}</div>
+                    <div>{t('common:my:CumulativeAmount')}</div>
+                    <div>{t('common:my:RecentGame')}</div>
                 </div>
                 <div className={css.max_content}>
                     {userinfo.teamlist.map((item: any) => (
@@ -72,7 +70,7 @@ const List: FC = (): ReactElement => {
                                 <CountUp decimals={3} end={item.totalspendnms} />
                                 <img className={css.symbol} src="/images/symbol/NMS.svg" alt="" />
                             </div>
-                            <div className={css.date}>{item.lastgametime === 0 ? '无记录' : moment(item.lastgametime).endOf('m').fromNow()}</div>
+                            <div className={css.date}>{item.lastgametime === 0 ? t('common:my:NoRecord') : moment(item.lastgametime).endOf('m').fromNow()}</div>
                         </div>
                     ))}
                     {userinfo.teamlist.length === 0 && <NoData />}

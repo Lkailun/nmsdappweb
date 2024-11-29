@@ -17,7 +17,7 @@ const Invite: FC = (): ReactElement => {
 
     return (
         <div className={classNames(css.view)}>
-            <h4>我的邀请链接</h4>
+            <h4>{t('common:my:MyInviteLink')}</h4>
             <div className={css.content}>
                 <div className={css.text}>{$hash(inviteLink, 18, 12)}</div>
                 <div className={css.copy} onClick={() => $copy(inviteLink)}>

@@ -11,7 +11,7 @@ import Server from '@/service/api';
 import CountUp from 'react-countup';
 import moment from 'moment';
 import useTransfer from '@/hooks/useTransfer';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 type IProps = {
     onClose: Function;
@@ -80,7 +80,7 @@ const TransferModal: FC<IProps> = ({ onClose, type }): ReactElement => {
                 result = await Server.withdrawassets(params, { message: _message, signature });
                 if (result.code !== 200) throw new Error(result.message);
                 updateUser(result.data);
-                message.success('提现成功');
+                // message.success(t('common:my:WithdrawalSuccess'));
             }
             onClose(true, type);
         } catch (e: any) {
@@ -134,7 +134,7 @@ const TransferModal: FC<IProps> = ({ onClose, type }): ReactElement => {
     return (
         <Modal open={true} footer={null} onCancel={() => onClose()}>
             <div className={css.view}>
-                <header>{type === 'recharge' ? '充值' : '提现'}</header>
+                <header>{type === 'recharge' ? t('common:my:Recharge') : t('common:my:Withdrawal')}</header>
                 <div className={css.input}>
                     <div className={css.symbol} ref={dropdownRef}>
                         <div className={css.cont} onClick={() => setShowSymbol(true)}>
@@ -153,11 +153,11 @@ const TransferModal: FC<IProps> = ({ onClose, type }): ReactElement => {
                             </div>
                         )}
                     </div>
-                    <input type="text" value={amount} placeholder={type === 'recharge' ? '输入充值数量' : '输入提现数量'} onChange={(e: any) => setAmount($clearNoNum(e.target.value))} />
+                    <input type="text" value={amount} placeholder={type === 'recharge' ? t('common:my:InputRechargeAmount') : t('common:my:InputWithdrawalAmount')} onChange={(e: any) => setAmount($clearNoNum(e.target.value))} />
                 </div>
                 <div className={css.tip}>
                     <div className={css.balance}>
-                        我的余额:
+                        {t('common:my:MyBalance')}:
                         <CountUp decimals={1} end={Number(balance)} />
                         <img src={`/images/symbol/${symbol}.svg`} alt="" />
                     </div>
@@ -170,7 +170,7 @@ const TransferModal: FC<IProps> = ({ onClose, type }): ReactElement => {
                     </div>
                 </div>
                 <Button disabled={btnDisable} loading={loading} onClick={() => hand()}>
-                    {type === 'recharge' ? '充值' : '提现'}
+                    {type === 'recharge' ? t('common:my:Recharge') : t('common:my:Withdrawal')}
                 </Button>
             </div>
         </Modal>

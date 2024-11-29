@@ -6,25 +6,25 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { useUser } from '@/state/user/hooks';
 import { NoData } from '@/components';
-
+import { useTranslation } from 'next-i18next';
 type IProps = {
     list: any[];
     onClose: Function;
 };
 const WithdrawalHistoryModal: FC<IProps> = ({ onClose, list }: IProps): ReactElement => {
     const [{ withdrawrecords }] = useUser();
-
+    const { t }: any = useTranslation<any>(['common']);
     const getStatus = (status: string | number) => {
         let info = { font: '', class: '' };
         switch (status) {
             case 'pending':
-                info = { font: '上链中', class: 'pending' };
+                info = { font: t('common:my:Pending'), class: 'pending' };
                 break;
             case 'success':
-                info = { font: '已完成', class: 'success' };
+                info = { font: t('common:my:Completed'), class: 'success' };
                 break;
             case 'failed':
-                info = { font: '失败', class: 'fail' };
+                info = { font: t('common:my:Failed'), class: 'fail' };
                 break;
         }
         return info;
@@ -37,12 +37,12 @@ const WithdrawalHistoryModal: FC<IProps> = ({ onClose, list }: IProps): ReactEle
 
     return (
         <Modal open={true} footer={null} onCancel={() => onClose()} className={css.view}>
-            <h2>提现记录</h2>
+            <h2>{t('common:my:WithdrawalRecord')}</h2>
             <div className={css.content}>
                 <div className={css.nav}>
-                    <div>提现时间</div>
-                    <div>提现金额</div>
-                    <div>状态</div>
+                    <div>{t('common:my:WithdrawalTime')}</div>
+                    <div>{t('common:my:WithdrawalAmount')}</div>
+                    <div>{t('common:my:Status')}</div>
                 </div>
                 <div className={classNames(css.cont, 'hidden-scroll')}>
                     {withdrawrecords.map((ele: any) => (

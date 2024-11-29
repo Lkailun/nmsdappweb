@@ -11,7 +11,7 @@ import Server from '@/service/api';
 import CountUp from 'react-countup';
 import moment from 'moment';
 import useTransfer from '@/hooks/useTransfer';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import classNames from 'classnames';
 import BigNumber from 'bignumber.js';
 
@@ -76,7 +76,7 @@ const SwapModal: FC<IProps> = ({ onClose }): ReactElement => {
             const { code, data, msg }: any = result;
             if (code !== 200) throw new Error(msg);
             updateUser(data);
-            message.success('闪兑成功');
+            message.success(t('common:stake:SwapSuccess'));
             onClose();
         } catch (e: any) {
             message.error(e.message || 'error');
@@ -88,21 +88,26 @@ const SwapModal: FC<IProps> = ({ onClose }): ReactElement => {
     return (
         <Modal open={true} footer={null} onCancel={() => onClose()}>
             <div className={css.view}>
-                <header>NMM闪兑</header>
+                <header>{t('common:stake:Swap')}</header>
 
                 <div className={css.item}>
                     <div className={css.label}>
                         <div className={css.left}>
-                            卖出NMM数量
+                            {t('common:stake:SellNMM')}
                             <img src="/images/stake/point.svg" alt="" />
                         </div>
                         <div className={css.right}>
-                            NMM余额:
+                            {t('common:stake:NMMBalance')}:
                             <CountUp decimals={1} end={Number(userinfo.nmmbalance)} />
                         </div>
                     </div>
                     <div className={css.input}>
-                        <input type="text" value={amount} placeholder="请输入卖出的数量" onChange={(e: any) => setAmount($clearNoNum(e.target.value))} />
+                        <input
+                            type="text"
+                            value={amount}
+                            placeholder={t('common:stake:InputSellNMM')}
+                            onChange={(e: any) => setAmount($clearNoNum(e.target.value))}
+                        />
                         <div className={css.rate}>
                             {roteList.map((ele) => (
                                 <div key={ele.value} className={check === ele.value ? css.active : ''} onClick={() => handSet(ele.value)}>
@@ -116,11 +121,11 @@ const SwapModal: FC<IProps> = ({ onClose }): ReactElement => {
                 <div className={classNames(css.item, css.last)}>
                     <div className={css.label}>
                         <div className={css.left}>
-                            预计获得USDT
+                            {t('common:stake:ExpectedGetUSDT')}
                             <img src="/images/symbol/USDT.svg" alt="" />
                         </div>
                         <div className={css.right}>
-                            USDT余额:
+                            {t('common:stake:USDTBalance')}:
                             <CountUp decimals={1} end={Number(userinfo.usdtbalance)} />
                         </div>
                     </div>
@@ -128,7 +133,7 @@ const SwapModal: FC<IProps> = ({ onClose }): ReactElement => {
                 </div>
 
                 <Button disabled={btnDisable} loading={loading} onClick={() => hand()}>
-                    兑换
+                    {t('common:stake:Swap')}
                 </Button>
             </div>
         </Modal>
