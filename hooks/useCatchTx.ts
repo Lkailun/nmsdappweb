@@ -25,7 +25,7 @@ export default function useCatchTx() {
                 const hash = typeof tx === 'string' ? tx : tx.hash;
                 setHash(hash);
 
-                handProcessModal(true);
+                // handProcessModal(true);
                 let receipt: any = null,
                     i = 0;
                 await sleep(5000);

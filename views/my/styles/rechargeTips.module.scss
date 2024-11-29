@@ -1,0 +1,53 @@
+.view {
+    padding-bottom: 0.2rem;
+    h2 {
+        color: #fff;
+        font-family: 'PingFang SC';
+        font-size: 0.16rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 0.22rem;
+        padding-bottom: 0.2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        text-align: center;
+    }
+    section {
+        padding: 0.14rem 0 0;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        img {
+            width: 0.68rem;
+            margin-bottom: 0.19rem;
+        }
+        p {
+            color: #fff;
+            text-align: center;
+            font-family: 'PingFang SC';
+            font-size: 0.15rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1.5;
+            width: 2.2rem;
+            span {
+                color: #ffa143;
+                text-decoration-line: underline;
+                text-decoration-style: solid;
+                text-decoration-skip-ink: auto;
+                text-decoration-thickness: auto;
+                text-underline-offset: auto;
+                text-underline-position: from-font;
+            }
+        }
+        button {
+            margin-top: 0.26rem;
+            width: 100%;
+            height: 0.44rem;
+            border-radius: 0.24rem;
+            background: linear-gradient(237deg, #5a9ff1 0%, #3452c2 100%);
+            color: #fff;
+            font-size: 0.14rem;
+            font-weight: 600;
+        }
+    }
+}

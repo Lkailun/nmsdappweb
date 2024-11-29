@@ -1,7 +1,6 @@
 import { FC, ReactElement, useState } from 'react';
 import css from '../styles/order.module.scss';
 import { Button, NoData } from '@/components';
-import { TradeModal } from '../modal';
 import { useUser } from '@/state/user/hooks';
 import moment from 'moment';
 import { $diffDate, $toFixed } from '@/utils/met';

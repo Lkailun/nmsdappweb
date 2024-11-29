@@ -1,31 +1,38 @@
-import { FC, ReactElement, useMemo, useState } from 'react';
+import { FC, ReactElement, useEffect, useMemo, useState } from 'react';
 
 import css from '../styles/header.module.scss';
-import { useLogs, usePrice, useUser } from '@/state/user/hooks';
+import { useAssets, useLogs, usePrice, useUser, useUserRecords } from '@/state/user/hooks';
 import { $BigNumber, $toFixed } from '@/utils/met';
 import CountUp from 'react-countup';
 import { useTranslation } from 'next-i18next';
 import moment from 'moment';
 import classNames from 'classnames';
 import { Button } from '@/components';
-import { RechargeHistoryModal, TransferModal, WithdrawalHistoryModal } from '../modal';
+import { RechargeHistoryModal, RechargeTipsModal, TransferModal, WithdrawalHistoryModal } from '../modal';
 import { message } from 'antd';
 
 const Header: FC = (): ReactElement => {
     const { t }: any = useTranslation<any>(['common']);
     const [show, setShow] = useState<boolean>(false);
+    const [showRechargeTips, setShowRechargeTips] = useState<boolean>(false);
     const [showRechargeHistory, setShowRechargeHistory] = useState<boolean>(false);
     const [showWithdrawalHistory, setShowWithdrawalHistory] = useState<boolean>(false);
     const [transferType, setTransferType] = useState<string>('recharge');
 
     const [{ userinfo }] = useUser();
-    const price = usePrice();
-    const logs = useLogs();
+    const [getUserRecords] = useUserRecords();
+    const [loading, refreshAssets] = useAssets();
 
     const handTransfer = (type: string) => {
         setShow(true);
         setTransferType(type);
     };
+
+    useEffect(() => {
+        if (userinfo.address) {
+            getUserRecords();
+        }
+    }, [userinfo.address]);
 
     return (
         <>
@@ -35,7 +42,7 @@ const Header: FC = (): ReactElement => {
                         NMS余额 <img src="/images/symbol/NMS.svg" alt="" />
                     </div>
                     <h5>
-                        <CountUp decimals={1} end={100} /> <img src="/images/my/reload.svg" alt="" />
+                        <CountUp decimals={1} end={Number(userinfo.nmsbalance)} /> <img className={loading ? css.loading : ''} onClick={() => refreshAssets()} src="/images/my/reload.svg" alt="" />
                     </h5>
 
                     <Button onClick={() => handTransfer('withdrawal')}>提现</Button>
@@ -46,7 +53,7 @@ const Header: FC = (): ReactElement => {
                         USDT余额 <img src="/images/symbol/USDT.svg" alt="" />
                     </div>
                     <h5>
-                        <CountUp decimals={1} end={100} /> <img src="/images/my/reload.svg" alt="" />
+                        <CountUp decimals={1} end={Number(userinfo.usdtbalance)} /> <img className={loading ? css.loading : ''} onClick={() => refreshAssets()} src="/images/my/reload.svg" alt="" />
                     </h5>
 
                     <Button className={css.recharge} onClick={() => handTransfer('recharge')}>
@@ -55,9 +62,18 @@ const Header: FC = (): ReactElement => {
                     <span onClick={() => setShowRechargeHistory(true)}>充值记录</span>
                 </div>
             </div>
-            {show && <TransferModal onClose={() => setShow(false)} type={transferType} />}
+            {show && (
+                <TransferModal
+                    onClose={(flag: any) => {
+                        flag && setShowRechargeTips(true);
+                        setShow(false);
+                    }}
+                    type={transferType}
+                />
+            )}
             {showRechargeHistory && <RechargeHistoryModal onClose={() => setShowRechargeHistory(false)} list={[]} />}
             {showWithdrawalHistory && <WithdrawalHistoryModal onClose={() => setShowWithdrawalHistory(false)} list={[]} />}
+            {showRechargeTips && <RechargeTipsModal onClose={() => setShowRechargeTips(false)} />}
         </>
     );
 };

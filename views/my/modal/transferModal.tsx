@@ -6,7 +6,7 @@ import Button from '@/components/Button';
 import { $BigNumber, $clearNoNum, $filterNumber, $onlyNumber } from '@/utils/met';
 import { useAuth, useUser } from '@/state/user/hooks';
 import { useProcessModal } from '@/state/base/hooks';
-import { useWallet, useSign } from '@/hooks';
+import { useWallet, useSign, useBalance } from '@/hooks';
 import Server from '@/service/api';
 import CountUp from 'react-countup';
 import moment from 'moment';
@@ -19,10 +19,12 @@ type IProps = {
 };
 const TransferModal: FC<IProps> = ({ onClose, type }): ReactElement => {
     const { t }: any = useTranslation<any>(['common']);
-    const [{ userinfo, config }, { updateUser }] = useUser();
+    const [{ userinfo, platforminfo }, { updateUser }] = useUser();
     const [, { handProcessModal, handMaxProcessTime }] = useProcessModal();
+    const [, getBalance] = useBalance();
+    const { chainId } = useWallet();
 
-    const [symbol, setSymbol] = useState<string>('USDT');
+    const [symbol, setSymbol] = useState<'USDT' | 'NMS'>('USDT');
     const [showSymbol, setShowSymbol] = useState<boolean>(false);
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -35,11 +37,16 @@ const TransferModal: FC<IProps> = ({ onClose, type }): ReactElement => {
 
     const [amount, setAmount] = useState<string | number>('');
     const [check, setCheck] = useState<number>(0);
+    const [balanceInfo, setBalanceInfo] = useState<{ NMS: string; USDT: string }>({
+        NMS: '--',
+        USDT: '--'
+    });
     const roteList: any[] = [
         { label: '50%', value: 0.5 },
         { label: '100%', value: 1 }
     ];
-    const balance = useMemo(() => (type === 'out' ? userinfo.bankbalance : userinfo.flokibalance), [userinfo]);
+
+    const balance = useMemo(() => balanceInfo[symbol], [balanceInfo, symbol]);
 
     const btnDisable = useMemo(() => {
         if (!amount || $BigNumber(balance).isZero()) return true;
@@ -47,7 +54,7 @@ const TransferModal: FC<IProps> = ({ onClose, type }): ReactElement => {
     }, [balance, amount]);
 
     const handSet = (value: number) => {
-        setAmount(Number($BigNumber(balance).multipliedBy(value).toFixed(1, 1)));
+        setAmount(Number($BigNumber(balance).multipliedBy(value).toFixed(2, 1)));
         setCheck(value);
     };
 
@@ -56,31 +63,29 @@ const TransferModal: FC<IProps> = ({ onClose, type }): ReactElement => {
             if ($BigNumber(amount).gt(balance)) throw new Error(t('common:base:InsufficientBalance'));
             setLoading(true);
 
-            const params = {
-                address: account!,
-                amount: ['in', 'claim'].includes(type) ? Number(amount) : -1 * Number(amount)
-            };
-
             let result: any;
-            if (type === 'claim') {
-                if (Date.now() > auth.expired) throw new Error(t('common:base:SignatureExpired'));
-                handMaxProcessTime(20);
-                const fee = Number(process.env.WITHDRAWAL_FEE);
-                const _auth = { message: auth.message, signature: auth.signature };
-
-                await sendTransfer({ token: '0x0000000000000000000000000000000000000000', to: config.outaddress, value: fee });
-                result = await Server.claim(params, _auth);
+            if (type === 'recharge') {
+                // handMaxProcessTime(20);
+                await sendTransfer({ token: symbol === 'USDT' ? platforminfo.usdttoken : platforminfo.nmstoken, to: platforminfo.receive, value: amount });
+                onClose(true);
             } else {
-                const message = `Auth FLOKI at:${Date.now()}`;
-                const signature = await signMessage(message);
-                handAuth({ message, signature });
-                result = await Server.transfer(params, { message, signature });
+                if (Date.now() > auth.expired) throw new Error(t('common:base:SignatureExpired'));
+
+                const params = {
+                    address: account!,
+                    tokenname: symbol.toLowerCase(),
+                    withdrawamount: Number(amount)
+                };
+
+                const _message = `Auth NMS at:${Date.now()}`;
+                const signature = await signMessage(_message);
+                handAuth({ message: _message, signature });
+                result = await Server.withdrawassets(params, { message: _message, signature });
+                if (result.code !== 200) throw new Error(result.message);
+                updateUser(result.data);
+                message.success('提现成功');
+                onClose();
             }
-            const { code, data, msg }: any = result;
-            if (code !== 200) throw new Error(msg);
-            updateUser(data);
-            message.success(type === 'claim' ? '提币成功' : type === 'in' ? '银行转入成功' : '银行转出成功');
-            onClose();
         } catch (e: any) {
             message.error(e.message || 'error');
         } finally {
@@ -89,9 +94,25 @@ const TransferModal: FC<IProps> = ({ onClose, type }): ReactElement => {
         }
     };
 
-    const handSetSymbol = (token: string) => {
+    const handSetSymbol = (token: any) => {
         setSymbol(token);
         setShowSymbol(false);
+    };
+
+    const getBalanceInfo = async () => {
+        try {
+            let info = {
+                NMS: userinfo.nmsbalance,
+                USDT: userinfo.usdtbalance
+            };
+            if (type === 'recharge') {
+                const [NMS, USDT] = await Promise.all([getBalance(platforminfo.nmstoken), getBalance(platforminfo.usdttoken)]);
+                info = { NMS, USDT };
+            }
+            setBalanceInfo(info);
+        } catch (e: any) {
+            message.error(e.message || 'error');
+        }
     };
 
     const handleDocumentClick = (event: MouseEvent) => {
@@ -106,6 +127,12 @@ const TransferModal: FC<IProps> = ({ onClose, type }): ReactElement => {
             document.removeEventListener('click', handleDocumentClick);
         };
     }, [showSymbol]);
+
+    useEffect(() => {
+        if (chainId && userinfo.address) {
+            getBalanceInfo();
+        }
+    }, [chainId, userinfo.address]);
 
     return (
         <Modal open={true} footer={null} onCancel={() => onClose()}>

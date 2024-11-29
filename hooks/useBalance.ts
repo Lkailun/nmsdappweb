@@ -13,6 +13,7 @@ function useBalance(): [string | number, (token: Address, user?: Address) => Pro
         async (tokenAddress: Address, user?: Address) => {
             try {
                 let _balance = '0';
+                console.log('user:::::', user);
                 if (tokenAddress !== '0x0000000000000000000000000000000000000000') {
                     const [decimals, result]: any = await Promise.all([
                         client(chain).readContract({ abi: abi_erc20, address: tokenAddress, functionName: 'decimals', args: [] }),

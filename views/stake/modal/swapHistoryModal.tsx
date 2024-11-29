@@ -4,33 +4,16 @@ import css from '../styles/swapHistory.module.scss';
 import { Modal } from 'antd';
 import classNames from 'classnames';
 import moment from 'moment';
+import { useUser } from '@/state/user/hooks';
+import { NoData } from '@/components';
 
 type IProps = {
     list: any[];
     onClose: Function;
 };
 const SwapHistoryModal: FC<IProps> = ({ onClose, list }: IProps): ReactElement => {
-    const getStatus = (status: string | number) => {
-        let info = { font: '', class: '' };
-        switch (status) {
-            case 'review':
-                info = { font: '審核中', class: 'approve' };
-                break;
-            case 'success':
-                info = { font: '已發放', class: 'send' };
-                break;
-            case 'reject':
-                info = { font: '已駁回', class: 'back' };
-                break;
-        }
-        return info;
-    };
-    list = [
-        { createtime: '2024-07-12 12:21:12', amount: '12121.231', got: 232.24 },
-        { createtime: '2024-07-12 12:21:12', amount: '12121.231', got: 232.24 },
-        { createtime: '2024-07-12 12:21:12', amount: '12121.231', got: 232.24 },
-        { createtime: '2024-07-12 12:21:12', amount: '12121.231', got: 232.24 }
-    ];
+    const [{ swaprecords }] = useUser();
+
     return (
         <Modal open={true} footer={null} onCancel={() => onClose()} className={css.view}>
             <h2>闪兑记录</h2>
@@ -41,22 +24,22 @@ const SwapHistoryModal: FC<IProps> = ({ onClose, list }: IProps): ReactElement =
                     <div>获得USDT</div>
                 </div>
                 <div className={classNames(css.cont, 'hidden-scroll')}>
-                    {list.map((ele, index) => (
+                    {swaprecords.map((ele: any, index: number) => (
                         <div key={index} className={classNames(css.nav, css.list)}>
                             <div>{moment(ele.createtime).format('YYYY.MM.DD HH:mm')}</div>
                             <div>
-                                -{$BigNumber(ele.amount).toFixed(2, 1)}
+                                {$BigNumber(ele.nmmamount).toFixed(2, 1)}
                                 <img src="/images/stake/point.svg" alt="" />
                             </div>
                             <div>
-                                +{ele.got}
+                                +{$BigNumber(ele.usdtamount).toFixed(4, 1)}
                                 <img src={`/images/symbol/USDT.svg`} alt="" />
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
-            {list.length === 0 && <p>暂无数据</p>}
+            {swaprecords.length === 0 && <NoData />}
         </Modal>
     );
 };

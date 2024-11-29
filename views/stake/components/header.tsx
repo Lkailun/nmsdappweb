@@ -1,15 +1,12 @@
-import { FC, ReactElement, useMemo, useState } from 'react';
+import { FC, ReactElement, useEffect, useMemo, useState } from 'react';
 
 import css from '../styles/header.module.scss';
-import { useLogs, usePrice, useUser } from '@/state/user/hooks';
-import { $BigNumber, $toFixed } from '@/utils/met';
+import { useUser, useUserRecords } from '@/state/user/hooks';
 import CountUp from 'react-countup';
 import { useTranslation } from 'next-i18next';
-import moment from 'moment';
 import classNames from 'classnames';
 import { Button } from '@/components';
 import { SwapHistoryModal, SwapModal, TransferHistoryModal, TransferModal } from '../modal';
-import { message } from 'antd';
 
 const Header: FC = (): ReactElement => {
     const { t }: any = useTranslation<any>(['common']);
@@ -17,16 +14,15 @@ const Header: FC = (): ReactElement => {
     const [showSwap, setShowSwap] = useState<boolean>(false);
     const [showSwapHistory, setShowSwapHistory] = useState<boolean>(false);
     const [showTransferHistory, setShowTransferHistory] = useState<boolean>(false);
-    const [transferType, setTransferType] = useState<string>('in');
 
     const [{ userinfo }] = useUser();
-    const price = usePrice();
-    const logs = useLogs();
+    const [getUserRecords] = useUserRecords();
 
-    const handTransfer = (type: string) => {
-        setShow(true);
-        setTransferType(type);
-    };
+    useEffect(() => {
+        if (userinfo.address) {
+            getUserRecords();
+        }
+    }, [userinfo.address]);
 
     return (
         <>
@@ -36,7 +32,7 @@ const Header: FC = (): ReactElement => {
                         积分余额 <img src="/images/stake/white-point.svg" alt="" />
                     </div>
                     <h5>
-                        <CountUp decimals={1} end={100} />
+                        <CountUp decimals={1} end={Number(userinfo.integralbalance)} />
                     </h5>
 
                     <Button onClick={() => setShow(true)}>
@@ -46,10 +42,10 @@ const Header: FC = (): ReactElement => {
                 </div>
                 <div className={css.item}>
                     <div className={css.title}>
-                        USDT余额 <img src="/images/stake/point.svg" alt="" />
+                        NMM余额 <img src="/images/stake/point.svg" alt="" />
                     </div>
                     <h5>
-                        <CountUp decimals={1} end={100} />
+                        <CountUp decimals={1} end={Number(userinfo.nmmbalance)} />
                     </h5>
 
                     <Button className={css.recharge} onClick={() => setShowSwap(true)}>

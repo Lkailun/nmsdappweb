@@ -4,22 +4,26 @@ import css from '../styles/withdrawalHistory.module.scss';
 import { Modal } from 'antd';
 import classNames from 'classnames';
 import moment from 'moment';
+import { useUser } from '@/state/user/hooks';
+import { NoData } from '@/components';
 
 type IProps = {
     list: any[];
     onClose: Function;
 };
 const WithdrawalHistoryModal: FC<IProps> = ({ onClose, list }: IProps): ReactElement => {
+    const [{ withdrawrecords }] = useUser();
+
     const getStatus = (status: string | number) => {
         let info = { font: '', class: '' };
         switch (status) {
-            case 'review':
+            case 'pending':
                 info = { font: '上链中', class: 'pending' };
                 break;
             case 'success':
                 info = { font: '已完成', class: 'success' };
                 break;
-            case 'fail':
+            case 'failed':
                 info = { font: '失败', class: 'fail' };
                 break;
         }
@@ -44,19 +48,19 @@ const WithdrawalHistoryModal: FC<IProps> = ({ onClose, list }: IProps): ReactEle
                     <div>状态</div>
                 </div>
                 <div className={classNames(css.cont, 'hidden-scroll')}>
-                    {list.map((ele, index) => (
-                        <div key={index} className={classNames(css.nav, css.list)}>
+                    {withdrawrecords.map((ele: any) => (
+                        <div key={ele._id} className={classNames(css.nav, css.list)}>
                             <div>{moment(ele.createtime).format('YYYY.MM.DD HH:mm')}</div>
                             <div>
                                 -{$BigNumber(ele.amount).toFixed(2, 1)}
-                                <img src={`/images/symbol/${ele.symbol}.svg`} alt="" />
+                                <img src={`/images/symbol/${ele.tokenname.toUpperCase()}.svg`} alt="" />
                             </div>
-                            <div className={css[getStatus(ele.status).class]}>{getStatus(ele.status).font}</div>
+                            <div className={css[getStatus(ele.state).class]}>{getStatus(ele.state).font}</div>
                         </div>
                     ))}
                 </div>
             </div>
-            {list.length === 0 && <p>暂无数据</p>}
+            {list.length === 0 && <NoData />}
         </Modal>
     );
 };

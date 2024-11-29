@@ -1,6 +1,6 @@
 import { FC, ReactElement } from 'react';
 
-import { Header, Stake, Order } from './components';
+import { Header, Order } from './components';
 const Main: FC = (): ReactElement => {
     return (
         <>

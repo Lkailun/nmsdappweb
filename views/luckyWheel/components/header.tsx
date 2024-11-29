@@ -15,22 +15,22 @@ import { useRouter } from 'next/router';
 import { ConfirmModal } from '../modal';
 
 const list = [
-    { label: 'You', amount: '0.05', icon: 1 },
-    { label: '0xqw..123', amount: '0.05', icon: 2 },
-    { label: '0xqw..123', amount: '0.05', icon: 3 },
-    { label: '', amount: '', icon: 4 },
-    { label: '', amount: '', icon: 5 },
-    { label: '', amount: '', icon: 6 },
-    { label: '', amount: '', icon: 7 },
-    { label: '', amount: '', icon: 8 },
-    { label: '', amount: '', icon: 9 },
-    { label: '', amount: '', icon: 10 },
-    { label: '', amount: '', icon: 11 },
-    { label: '', amount: '', icon: 12 },
-    { label: '', amount: '', icon: 13 },
-    { label: '', amount: '', icon: 14 },
-    { label: '0xqw..123', amount: '0.05', icon: 15 },
-    { label: '', amount: '', icon: 16 }
+    { label: 'You', amount: '0.05', icon: 1, index: 1 },
+    { label: '0xqw..123', amount: '0.05', icon: 2, index: 2 },
+    { label: '0xqw..123', amount: '0.05', icon: 3, index: 3 },
+    { label: '', amount: '', icon: 4, index: 4 },
+    { label: '', amount: '', icon: 5, index: 5 },
+    { label: '', amount: '', icon: 6, index: 16 },
+    { label: '', amount: '', icon: 7, index: 6 },
+    { label: '', amount: '', icon: 8, index: 15 },
+    { label: '', amount: '', icon: 9, index: 7 },
+    { label: '', amount: '', icon: 10, index: 14 },
+    { label: '', amount: '', icon: 11, index: 8 },
+    { label: '', amount: '', icon: 12, index: 13 },
+    { label: '', amount: '', icon: 13, index: 12 },
+    { label: '', amount: '', icon: 14, index: 11 },
+    { label: '0xqw..123', amount: '0.05', icon: 15, index: 10 },
+    { label: '', amount: '', icon: 1, index: 9 }
 ];
 
 const stakeList = [0.05, 0.1, 0.3, 0.5, 1, 3, 5, 10, 20];

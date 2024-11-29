@@ -1,3 +1,5 @@
+@import '../../../styles/animation.module.scss';
+
 .view {
     width: 100%;
     border-radius: 0.28rem;
@@ -40,6 +42,9 @@
                 width: 0.15rem;
                 margin-left: 0.07rem;
                 cursor: pointer;
+                &.loading {
+                    animation: rotate 1s infinite linear;
+                }
             }
         }
         button {

@@ -21,6 +21,8 @@ const Stake: FC = (): ReactElement => {
     const [showConfirm, setShowConfirm] = useState(false);
     const [list, setList] = useState<any[]>([]);
     const chartRef = useRef<any>(null);
+    const price = usePrice();
+    const [amount, setAmount] = useState(1);
 
     const mockList = [
         {
@@ -156,11 +158,6 @@ const Stake: FC = (): ReactElement => {
             date: '2024-11-26'
         }
     ];
-
-    const deal = () => {
-        const _max = max(list),
-            _min = min(list);
-    };
 
     const getOptions = (xData: any[], yData: any[]) => {
         return {
@@ -340,24 +337,28 @@ const Stake: FC = (): ReactElement => {
             <div className={css.view}>
                 <div className={css.dashboard}>
                     <div className={css.tip}>
-                        NMM当日价格: <b>$3.2</b> <span>+0.2%</span>
+                        NMM当日价格: <b>${BigNumber(price).toFixed(4, 1)}</b> <span>+0.2%</span>
                     </div>
                     <div className={css.kline} ref={chartRef}></div>
                 </div>
                 <div className={css.content}>
-                    <div className={css.action}>-</div>
+                    <div className={css.action} onClick={() => setAmount(Math.max(1, amount - 1))}>
+                        -
+                    </div>
                     <div className={css.text}>
                         <h4>
-                            <b>×</b>1
+                            <b>×</b>
+                            {amount}
                         </h4>
                         <div>
-                            (100U
-                            <img src="/images/stake/USDT.svg" alt="" />
-                            +100积分
+                            ({100 * amount}U
+                            <img src="/images/stake/USDT.svg" alt="" />+{100 * amount}积分
                             <img src="/images/stake/color-point.svg" alt="" />)
                         </div>
                     </div>
-                    <div className={css.action}>+</div>
+                    <div className={css.action} onClick={() => setAmount(amount + 1)}>
+                        +
+                    </div>
                 </div>
                 <Button onClick={() => setShowConfirm(true)}>质押</Button>
                 <p className={css.rule}>
@@ -366,7 +367,7 @@ const Stake: FC = (): ReactElement => {
                 </p>
             </div>
             {show && <RuleModal onClose={() => setShow(false)} />}
-            {showConfirm && <ConfirmStakeModal onClose={() => setShowConfirm(false)} />}
+            {showConfirm && <ConfirmStakeModal onClose={() => setShowConfirm(false)} amount={amount} />}
         </>
     );
 };

@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { handUpdateUser, setAuth, setInviter, setUserInfo } from './actions';
 import { AppState, useAppDispatch } from '../index';
 import Server from '@/service/api';
@@ -24,12 +24,12 @@ export function useUser(): [{ [key: string]: any }, { login: (forceSign?: boolea
             try {
                 if (!account) return;
                 let { expired, message, signature } = auth;
-                const diff = Number(process.env.EXPIRED) - 10 * 60 * 1000;
-                // if (Date.now() > expired - diff || forceSign) {
-                //     message = `Auth FLOKI at:${Date.now()}`;
-                //     signature = await signMessage(message);
-                // }
-                // fetchUser(account!, { message, signature });
+                const diff = Number(process.env.EXPIRED) - 120 * 60 * 1000;
+                if (Date.now() > expired - diff || forceSign) {
+                    // message = `Auth NMS at:${Date.now()}`;
+                    // signature = await signMessage(message);
+                }
+                fetchUser(account!, { message, signature });
             } catch (error: any) {
                 message.error(error.message.split('.')[0]);
             }
@@ -52,11 +52,11 @@ export function useUser(): [{ [key: string]: any }, { login: (forceSign?: boolea
                     handAuth(sign);
                     if (Object.keys(data.userinfo).length > 0 && data.userinfo.address) {
                         dispatch(setUserInfo(data));
-                        if (data.config.announcement?.[1]) handleNoticeModal(true);
-                        if (address.toLowerCase() !== '0xb53cc5f6c1074f660e218e63c0ee9069ce7a8c47' && !data.userinfo.inviter) handBindModal(true);
+                        // if (data.config.announcement?.[1]) handleNoticeModal(true);
+                        if (address.toLowerCase() !== data.platforminfo.topaddress.toLowerCase() && !data.userinfo.inviter) handBindModal(true);
                         else handBindModal(false);
                     } else {
-                        if (address.toLowerCase() !== '0xb53cc5f6c1074f660e218e63c0ee9069ce7a8c47') handBindModal(true);
+                        if (address.toLowerCase() !== data.platforminfo.topaddress.toLowerCase()) handBindModal(true);
                     }
                 }
             } catch (e: any) {
@@ -88,6 +88,51 @@ export function useInviter(): [string, (address: string) => void] {
     return [inviter, handInviter];
 }
 
+export function useAssets(): [boolean, () => void] {
+    const { account } = useWallet();
+    const [, { updateUser }] = useUser();
+    const dispatch = useAppDispatch();
+    const auth = useSelector<AppState, AppState['user']['auth']>((state: AppState) => state.user.auth);
+
+    const [loading, setLoading] = useState(false);
+    const refreshAssets = useCallback(async () => {
+        try {
+            setLoading(true);
+            const { code, data, message } = await Server.refreshassets({ address: account }, auth);
+            if (code !== 200) throw new Error(message);
+            updateUser(data);
+        } catch (e: any) {
+            message.error(e.message || 'error');
+        } finally {
+            setLoading(false);
+        }
+    }, [dispatch, account]);
+    return [loading, refreshAssets];
+}
+
+export function useUserRecords(): [() => void, boolean] {
+    const { account } = useWallet();
+    const [, { updateUser }] = useUser();
+    const dispatch = useAppDispatch();
+    const auth = useSelector<AppState, AppState['user']['auth']>((state: AppState) => state.user.auth);
+
+    const [loading, setLoading] = useState(false);
+
+    const getUserRecords = useCallback(async () => {
+        try {
+            setLoading(true);
+            const { code, data, message } = await Server.userrecords({ address: account }, auth);
+            if (code !== 200) throw new Error(message);
+            updateUser(data);
+        } catch (e: any) {
+            message.error(e.message || 'error');
+        } finally {
+            setLoading(false);
+        }
+    }, [dispatch, account]);
+    return [getUserRecords, loading];
+}
+
 export function useAuth(): [auth: ApiType.auth, handAuth: (sign: ApiType.sign) => void] {
     const dispatch = useAppDispatch();
     const auth = useSelector<AppState, AppState['user']['auth']>((state: AppState) => state.user.auth);
@@ -103,7 +148,7 @@ export function useAuth(): [auth: ApiType.auth, handAuth: (sign: ApiType.sign) =
 }
 
 export function usePrice(): number {
-    const price = useSelector<AppState, AppState['user']['flokiPrice']>((state: AppState) => state.user.flokiPrice);
+    const price = useSelector<AppState, AppState['user']['nmmprice']>((state: AppState) => state.user.nmmprice);
     return price;
 }
 

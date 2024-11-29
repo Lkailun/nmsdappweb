@@ -19,7 +19,7 @@ type IProps = {
 };
 const TransferModal: FC<IProps> = ({ onClose }): ReactElement => {
     const { t }: any = useTranslation<any>(['common']);
-    const [{ userinfo, config }, { updateUser }] = useUser();
+    const [{ userinfo }, { updateUser }] = useUser();
     const [, { handProcessModal, handMaxProcessTime }] = useProcessModal();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -35,7 +35,7 @@ const TransferModal: FC<IProps> = ({ onClose }): ReactElement => {
         { label: '50%', value: 0.5 },
         { label: '100%', value: 1 }
     ];
-    const balance = useMemo(() => userinfo.bankbalance, [userinfo]);
+    const balance = useMemo(() => userinfo.integralbalance, [userinfo]);
 
     const btnDisable = useMemo(() => {
         if (!amount || $BigNumber(balance).isZero() || address.length !== 42) return true;
@@ -54,16 +54,17 @@ const TransferModal: FC<IProps> = ({ onClose }): ReactElement => {
 
             const params = {
                 address: account!,
+                to: address,
                 amount: Number(amount)
             };
 
             let result: any;
 
-            const _message = `Auth FLOKI at:${Date.now()}`;
+            const _message = `Auth NMS at:${Date.now()}`;
             const signature = await signMessage(_message);
             handAuth({ message: _message, signature });
-            result = await Server.transfer(params, { message: _message, signature });
-            const { code, data, msg }: any = result;
+            result = await Server.transferintegral(params, { message: _message, signature });
+            const { code, data, message: msg }: any = result;
             if (code !== 200) throw new Error(msg);
             updateUser(data);
             message.success('积分转移成功');
@@ -72,7 +73,6 @@ const TransferModal: FC<IProps> = ({ onClose }): ReactElement => {
             message.error(e.message || 'error');
         } finally {
             setLoading(false);
-            handProcessModal(false);
         }
     };
 
@@ -94,7 +94,8 @@ const TransferModal: FC<IProps> = ({ onClose }): ReactElement => {
                     <div className={css.label}>
                         转移数量:
                         <div>
-                            积分余额:999
+                            积分余额:
+                            <CountUp decimals={1} end={Number(balance)} />
                             <img src="/images/stake/color-point.svg" alt="" />
                         </div>
                     </div>

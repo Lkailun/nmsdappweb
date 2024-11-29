@@ -4,7 +4,7 @@ import css from '../styles/swapModal.module.scss';
 import { message, Modal } from 'antd';
 import Button from '@/components/Button';
 import { $BigNumber, $clearNoNum, $filterNumber, $onlyNumber } from '@/utils/met';
-import { useAuth, useUser } from '@/state/user/hooks';
+import { useAuth, usePrice, useUser } from '@/state/user/hooks';
 import { useProcessModal } from '@/state/base/hooks';
 import { useWallet, useSign } from '@/hooks';
 import Server from '@/service/api';
@@ -13,29 +13,39 @@ import moment from 'moment';
 import useTransfer from '@/hooks/useTransfer';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
+import BigNumber from 'bignumber.js';
 
 type IProps = {
     onClose: Function;
 };
 const SwapModal: FC<IProps> = ({ onClose }): ReactElement => {
     const { t }: any = useTranslation<any>(['common']);
-    const [{ userinfo, config }, { updateUser }] = useUser();
-    const [, { handProcessModal, handMaxProcessTime }] = useProcessModal();
+    const [{ userinfo }, { updateUser }] = useUser();
 
     const [loading, setLoading] = useState<boolean>(false);
-    const { sendTransfer } = useTransfer();
     const { account } = useWallet();
+    const price = usePrice();
     const [auth, handAuth] = useAuth();
     const signMessage = useSign();
 
-    const [got, setGot] = useState<string>('');
     const [amount, setAmount] = useState<string | number>('');
     const [check, setCheck] = useState<number>(0);
     const roteList: any[] = [
         { label: '50%', value: 0.5 },
         { label: '100%', value: 1 }
     ];
-    const balance = useMemo(() => userinfo.bankbalance, [userinfo]);
+    const balance = useMemo(() => userinfo.nmmbalance, [userinfo]);
+    const gotAmount = useMemo(
+        () =>
+            Number(
+                new BigNumber(
+                    $BigNumber(amount || 0)
+                        .multipliedBy(price)
+                        .toFixed(4, 1)
+                )
+            ),
+        [price, amount]
+    );
 
     const btnDisable = useMemo(() => {
         if (!amount || $BigNumber(balance).isZero()) return true;
@@ -54,25 +64,24 @@ const SwapModal: FC<IProps> = ({ onClose }): ReactElement => {
 
             const params = {
                 address: account!,
-                amount: Number(amount)
+                nmmamount: Number(amount)
             };
 
             let result: any;
 
-            const _message = `Auth FLOKI at:${Date.now()}`;
+            const _message = `Auth NMS at:${Date.now()}`;
             const signature = await signMessage(_message);
             handAuth({ message: _message, signature });
-            result = await Server.transfer(params, { message: _message, signature });
+            result = await Server.swapnmmtousdt(params, { message: _message, signature });
             const { code, data, msg }: any = result;
             if (code !== 200) throw new Error(msg);
             updateUser(data);
-            message.success('积分转移成功');
+            message.success('闪兑成功');
             onClose();
         } catch (e: any) {
             message.error(e.message || 'error');
         } finally {
             setLoading(false);
-            handProcessModal(false);
         }
     };
 
@@ -87,7 +96,10 @@ const SwapModal: FC<IProps> = ({ onClose }): ReactElement => {
                             卖出NMM数量
                             <img src="/images/stake/point.svg" alt="" />
                         </div>
-                        <div className={css.right}>NMM余额:999</div>
+                        <div className={css.right}>
+                            NMM余额:
+                            <CountUp decimals={1} end={Number(userinfo.nmmbalance)} />
+                        </div>
                     </div>
                     <div className={css.input}>
                         <input type="text" value={amount} placeholder="请输入卖出的数量" onChange={(e: any) => setAmount($clearNoNum(e.target.value))} />
@@ -107,9 +119,12 @@ const SwapModal: FC<IProps> = ({ onClose }): ReactElement => {
                             预计获得USDT
                             <img src="/images/symbol/USDT.svg" alt="" />
                         </div>
-                        <div className={css.right}>USDT余额:999</div>
+                        <div className={css.right}>
+                            USDT余额:
+                            <CountUp decimals={1} end={Number(userinfo.usdtbalance)} />
+                        </div>
                     </div>
-                    <div className={css.input}>≈ 12.34665</div>
+                    <div className={css.input}>≈ {gotAmount}</div>
                 </div>
 
                 <Button disabled={btnDisable} loading={loading} onClick={() => hand()}>

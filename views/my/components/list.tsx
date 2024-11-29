@@ -1,6 +1,6 @@
 import { FC, ReactElement, SyntheticEvent, useEffect, useMemo, useRef, useState } from 'react';
 import css from '../styles/list.module.scss';
-import { useLogs } from '@/state/user/hooks';
+import { useUser } from '@/state/user/hooks';
 import { $copy, $hash, $sleep } from '@/utils/met';
 
 import classNames from 'classnames';
@@ -8,12 +8,22 @@ import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 import { NoData } from '@/components';
 import CountUp from 'react-countup';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
 
 const List: FC = (): ReactElement => {
     const { t }: any = useTranslation<any>(['common']);
-    const logs = useLogs();
-    const dialog_ref = useRef<any>();
-    const [list, setList] = useState(new Array(10).fill(0));
+    const [{ userinfo }] = useUser();
+
+    const total = useMemo(() => {
+        return userinfo.teamlist.reduce((pre: number, cur: any) => {
+            return pre + cur.totalgamecount;
+        }, 0);
+    }, [userinfo.teamlist]);
+
+    useEffect(() => {
+        moment.locale('zh-cn');
+    }, []);
 
     return (
         <div className={css.view}>
@@ -23,21 +33,21 @@ const List: FC = (): ReactElement => {
                     <img className={css.img} src="/images/my/people.svg" alt="" />
                     <p>我的直推人数</p>
                     <h5>
-                        <CountUp decimals={1} end={100} />
+                        <CountUp decimals={0} end={userinfo.teamlist.length} />
                     </h5>
                 </div>
                 <div className={css.item}>
                     <img className={css.img} src="/images/my/other.svg" alt="" />
                     <p>团队累计场次</p>
                     <h5>
-                        <CountUp decimals={1} end={100} />
+                        <CountUp decimals={0} end={total} />
                     </h5>
                 </div>
                 <div className={css.item}>
                     <img className={css.img} src="/images/my/fanyong.svg" alt="" />
                     <p>我的累计返佣</p>
                     <h5>
-                        <CountUp decimals={1} end={100} /> <img src="/images/symbol/NMS.svg" alt="" />
+                        <CountUp decimals={6} end={userinfo.totalrebatenms} /> <img src="/images/symbol/NMS.svg" alt="" />
                     </h5>
                 </div>
             </header>
@@ -48,23 +58,23 @@ const List: FC = (): ReactElement => {
                     <div>累计金额</div>
                     <div>最近游戏</div>
                 </div>
-                {list.map((item, index) => (
-                    <div key={index} className={classNames(css.td, css.item)}>
+                {userinfo.teamlist.map((item: any) => (
+                    <div key={item._id} className={classNames(css.td, css.item)}>
                         <div className={css.user}>
-                            {$hash('xxxxxxxxxxxxxx', 4, 3)}
-                            <img className={css.copy} src="/images/my/copy1.svg" alt="" />
+                            {$hash(item.address, 3, 3)}
+                            <img className={css.copy} onClick={() => $copy(item.address)} src="/images/my/copy1.svg" alt="" />
                         </div>
                         <div className={css.total}>
-                            <CountUp decimals={0} end={100} />
+                            <CountUp decimals={0} end={item.totalgamecount} />
                         </div>
                         <div className={css.cost}>
-                            <CountUp decimals={1} end={100} />
+                            <CountUp decimals={2} end={item.totalspendnms} />
                             <img className={css.symbol} src="/images/symbol/NMS.svg" alt="" />
                         </div>
-                        <div className={css.date}>1天前</div>
+                        <div className={css.date}>{item.lastgametime === 0 ? '无记录' : moment(item.lastgametime).endOf('m').fromNow()}</div>
                     </div>
                 ))}
-                {list.length === 0 && <NoData />}
+                {userinfo.teamlist.length === 0 && <NoData />}
             </section>
         </div>
     );
