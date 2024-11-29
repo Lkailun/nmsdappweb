@@ -22,10 +22,9 @@ const ConfirmModal: FC<IProps> = ({ onClose, amount, direction }: IProps): React
     const [loading, setLoading] = useState<boolean>(false);
     const { t }: any = useTranslation<any>(['common']);
     const [{ userinfo }, { updateUser }] = useUser();
-    const [{ btcgamerecords }, { updateGameData }] = useBtc();
+    const [{}, { updateGameData }] = useBtc();
 
-    const [, handAuth] = useAuth();
-    const signMessage = useSign();
+    const [auth] = useAuth();
 
     const handStake = async () => {
         try {
@@ -40,10 +39,7 @@ const ConfirmModal: FC<IProps> = ({ onClose, amount, direction }: IProps): React
 
             let result: any;
 
-            const _message = `Auth NMS at:${Date.now()}`;
-            const signature = await signMessage(_message);
-            handAuth({ message: _message, signature });
-            result = await Server.betrisefall(params, { message: _message, signature });
+            result = await Server.betrisefall(params, auth);
             const { code, data, msg }: any = result;
             if (code !== 200) throw new Error(msg);
             updateGameData(omit(data, 'userinfo'));

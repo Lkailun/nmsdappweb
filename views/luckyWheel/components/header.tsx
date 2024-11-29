@@ -75,6 +75,7 @@ const Header: FC = (): ReactElement => {
     const loopTime = () => {
         timer.current = setInterval(() => {
             const seconds = $diffDate(luckgameinfo[0].gametime, MomentUnit.seconds, 'start');
+            console.log('loopTime:::::', seconds);
             setTime(seconds < 10 ? `0${seconds}` : `${seconds}`);
             if (seconds <= 0) {
                 clearInterval(timer.current);
@@ -83,12 +84,26 @@ const Header: FC = (): ReactElement => {
     };
 
     useEffect(() => {
-        if (luckgameinfo[0]) {
+        return () => {
+            clearInterval(timer.current);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (luckgameinfo[0] && luckgameinfo[0].gametime) {
+            clearInterval(timer.current);
             loopTime();
         } else {
+            setTime('00');
             timer.current && clearInterval(timer.current);
         }
     }, [luckgameinfo[0]]);
+
+    useEffect(() => {
+        return () => {
+            timer.current && clearInterval(timer.current);
+        };
+    }, []);
 
     return (
         <>
@@ -111,7 +126,15 @@ const Header: FC = (): ReactElement => {
                     <div className={css.item}>
                         <div className={css.label}>{t('common:game:RemainingCountdown')}</div>
                         <div className={css.content}>
-                            <span>00</span>:<span>00</span>:<span className={luckgameinfo[0]?.gametime ? css.active : ''}>{time}</span>
+                            {time === '00' ? (
+                                <>
+                                    <span className={css.active}>--</span>:<span className={css.active}>--</span>:<span className={css.active}>--</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span>00</span>:<span>00</span>:<span className={luckgameinfo[0]?.gametime ? css.active : ''}>{time}</span>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>

@@ -43,12 +43,13 @@ const initialState = {
     } as GameResult
 };
 
-const BaseSlice = createSlice({
+const GameSlice = createSlice({
     name: 'game',
     initialState,
     reducers: {
         setLuckData(state, { payload: data }) {
             state.luckData = data;
+            localStorage.setItem('luckData', JSON.stringify(data));
         },
         updateLuckGameData(state, { payload: info }) {
             let update: { [key: string]: any } = {};
@@ -63,6 +64,7 @@ const BaseSlice = createSlice({
                 }
             });
             state.luckData = { ...state.luckData, ...update };
+            localStorage.setItem('luckData', JSON.stringify(state.luckData));
         },
         setLuckGameResult(state, { payload: info }) {
             state.openLuckGameResult = { ...state.openLuckGameResult, ...info };
@@ -70,6 +72,7 @@ const BaseSlice = createSlice({
 
         setBtcData(state, { payload: data }) {
             state.btcData = data;
+            localStorage.setItem('btcData', JSON.stringify(data));
         },
         updateBtcGameData(state, { payload: info }) {
             let update: { [key: string]: any } = {};
@@ -84,10 +87,11 @@ const BaseSlice = createSlice({
                 }
             });
             state.btcData = { ...state.btcData, ...update };
+            localStorage.setItem('btcData', JSON.stringify(state.btcData));
         },
         setBtcGameResult(state, { payload: info }) {
             state.openLuckGameResult = { ...state.openLuckGameResult, ...info };
         }
     }
 });
-export default BaseSlice.reducer;
+export default GameSlice.reducer;

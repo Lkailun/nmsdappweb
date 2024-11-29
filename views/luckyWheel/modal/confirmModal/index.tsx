@@ -7,7 +7,6 @@ import { Button } from '@/components';
 import { useAuth, useUser } from '@/state/user/hooks';
 import { useTranslation } from 'react-i18next';
 import BigNumber from 'bignumber.js';
-import { useSign } from '@/hooks';
 import Server from '@/service/api';
 import { useLuck } from '@/state/game/hooks';
 import { omit } from 'lodash';
@@ -21,10 +20,9 @@ const ConfirmModal: FC<IProps> = ({ onClose, checkIndex, amount }: IProps): Reac
     const [loading, setLoading] = useState<boolean>(false);
     const { t }: any = useTranslation<any>(['common']);
     const [{ userinfo }, { updateUser }] = useUser();
-    const [{ luckgameinfo }, { updateGameData }] = useLuck();
+    const [{}, { updateGameData }] = useLuck();
 
-    const [, handAuth] = useAuth();
-    const signMessage = useSign();
+    const [auth] = useAuth();
 
     const handStake = async () => {
         try {
@@ -38,10 +36,7 @@ const ConfirmModal: FC<IProps> = ({ onClose, checkIndex, amount }: IProps): Reac
 
             let result: any;
 
-            const _message = `Auth NMS at:${Date.now()}`;
-            const signature = await signMessage(_message);
-            handAuth({ message: _message, signature });
-            result = await Server.betluckgame(params, { message: _message, signature });
+            result = await Server.betluckgame(params, auth);
             const { code, data, msg }: any = result;
             if (code !== 200) throw new Error(msg);
             updateGameData(omit(data, 'userinfo'));

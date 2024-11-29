@@ -20,8 +20,11 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
     const openLuckGameResult = useSelector<AppState, AppState['game']['openLuckGameResult']>((state: AppState) => state.game.openLuckGameResult);
 
     const dealData = useCallback(
-        async (newData: any[], oldData: any[]) => {
+        async (newData: any[]) => {
             try {
+                const data = JSON.parse(localStorage.getItem('luckData') || '{}');
+                const oldData = data.luckgameinfo || [];
+
                 if (oldData.length === 0 || newData.length < 2) return;
 
                 if (newData[0]._id !== oldData[0]._id) {
@@ -31,7 +34,8 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
                     let type = ResultStatus.know,
                         reward = 0,
                         amount = 0;
-                    if (!betaddresslist.includes((ele: any) => ele === user)) {
+
+                    if (!betaddresslist.includes(user)) {
                         type = ResultStatus.noJoin;
                     } else {
                         const selfIndex = betaddresslist.findIndex((ele: any) => ele === user);
@@ -39,7 +43,7 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
 
                         if (betaddresslist[winindex] === user) {
                             type = ResultStatus.success;
-                            reward = integralreward;
+                            reward = Number(BigNumber(integralreward).toFixed(4, 1));
                         } else if (betaddresslist[winindex] === null) {
                             type = ResultStatus.know;
                             reward = amount;
@@ -68,24 +72,24 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
         try {
             const { code, data, message } = await Server.getluckgamedata({ address: account }, auth);
             if (code !== 200) throw new Error(message);
-            await dealData(data.luckgameinfo, luckData.luckgamerecords);
+            await dealData(data.luckgameinfo);
             dispatch(setLuckData(omit(data, 'userinfo')));
             updateUser(data.userinfo);
 
             timer.current = setTimeout(() => {
                 getData();
-            }, 5000);
+            }, 3500);
         } catch (e: any) {
             message.error(e.message || 'error');
         }
-    }, [dispatch, luckData]);
+    }, [dispatch]);
 
     const updateGameData = useCallback(
         async (info: { [key: string]: any }) => {
-            if (info.luckgameinfo) await dealData(info.luckgameinfo, luckData.luckgamerecords);
+            if (info.luckgameinfo) await dealData(info.luckgameinfo);
             dispatch(updateLuckGameData(info));
         },
-        [dispatch, luckData]
+        [dispatch]
     );
 
     const closeResultModal = useCallback(() => {
@@ -116,10 +120,11 @@ export function useBtc(): [{ [key: string]: any }, { closeResultModal: () => voi
     const openBtcGameResult = useSelector<AppState, AppState['game']['openBtcGameResult']>((state: AppState) => state.game.openBtcGameResult);
 
     const dealData = useCallback(
-        async (newData: any[], oldData: any[]) => {
+        async (newData: any[]) => {
             try {
+                const data = JSON.parse(localStorage.getItem('btcData') || '{}');
+                const oldData = data.btcgamerecords || [];
                 if (oldData.length === 0 || newData.length < 2) return;
-
                 if (newData[0].state !== 'pending' && oldData[0].state === 'pending') {
                     const result = newData[0];
                     let type = ResultStatus.failed,
@@ -150,12 +155,12 @@ export function useBtc(): [{ [key: string]: any }, { closeResultModal: () => voi
         try {
             const { code, data, message } = await Server.getbtcgamedata({ address: account }, auth);
             if (code !== 200) throw new Error(message);
-            await dealData(data.btcgamerecords, btcData.btcgamerecords);
+            await dealData(data.btcgamerecords);
             dispatch(setBtcData(omit(data, 'userinfo')));
             updateUser(data.userinfo);
             timer.current = setTimeout(() => {
                 getData();
-            }, 5000);
+            }, 3500);
         } catch (e: any) {
             message.error(e.message || 'error');
         }
@@ -163,7 +168,7 @@ export function useBtc(): [{ [key: string]: any }, { closeResultModal: () => voi
 
     const updateGameData = useCallback(
         async (info: { [key: string]: any }) => {
-            if (info.btcgamerecords) await dealData(info.btcgamerecords, btcData.btcgamerecords);
+            if (info.btcgamerecords) await dealData(info.btcgamerecords);
             dispatch(updateBtcGameData(info));
         },
         [dispatch, btcData]
