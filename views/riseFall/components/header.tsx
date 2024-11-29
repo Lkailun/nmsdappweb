@@ -12,7 +12,7 @@ import { message } from 'antd';
 import generatedDataList from './generatedDataList';
 import RuleModal from '../modal/rule';
 import { useRouter } from 'next/router';
-import { ConfirmModal } from '../modal';
+import { ConfirmModal, ResultModal } from '../modal';
 import { useBtc } from '@/state/game/hooks';
 
 const stakeList = [0.05, 0.1, 0.3, 0.6, 1, 3, 10, 20];
@@ -58,7 +58,7 @@ const Header: FC = (): ReactElement => {
     const chart = useRef<Chart | null>();
 
     const [{ userinfo }] = useUser();
-    const [{ klines }, { getData, clearLoopData }] = useBtc();
+    const [{ klines, openBtcGameResult }, { closeResultModal }] = useBtc();
 
     const router = useRouter();
 
@@ -158,6 +158,7 @@ const Header: FC = (): ReactElement => {
                 </div>
             </div>
             {showRule && <RuleModal onClose={() => setShowRule(false)} />}
+            {openBtcGameResult.open && <ResultModal onClose={() => closeResultModal()} />}
             {showConfirm && <ConfirmModal direction={direction} amount={amount} onClose={() => setShowConfirm(false)} />}
         </>
     );

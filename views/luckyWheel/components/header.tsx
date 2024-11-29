@@ -39,13 +39,12 @@ const stakeList = [0.05, 0.1, 0.3, 0.5, 1, 3, 5, 10, 20];
 const Header: FC = (): ReactElement => {
     const { t }: any = useTranslation<any>(['common']);
     const [showRule, setShowRule] = useState<boolean>(false);
-    const [showResult, setShowResult] = useState<boolean>(false);
     const [showConfirm, setShowConfirm] = useState<boolean>(false);
     const [time, setTime] = useState<string>('00');
     const [amount, setAmount] = useState<number>(stakeList[0]);
     const [checkIndex, setCheckIndex] = useState<number>(-1);
     const [{ userinfo }] = useUser();
-    const [{ luckgameinfo }, {}] = useLuck();
+    const [{ luckgameinfo, openLuckGameResult }, { closeResultModal }] = useLuck();
     const router = useRouter();
     const timer = useRef<any>(null);
 
@@ -164,7 +163,7 @@ const Header: FC = (): ReactElement => {
                 </div>
             </div>
             {showRule && <RuleModal onClose={() => setShowRule(false)} />}
-            {showResult && <ResultModal onClose={() => setShowResult(false)} data={{}} />}
+            {openLuckGameResult.open && <ResultModal onClose={() => closeResultModal()} />}
             {showConfirm && <ConfirmModal amount={amount} checkIndex={checkIndex} onClose={() => setShowConfirm(false)} />}
         </>
     );
