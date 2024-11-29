@@ -9,7 +9,7 @@
             display: flex;
             align-items: center;
             padding-left: 0.24rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.7);
             font-family: 'PingFang SC';
             font-size: 0.13rem;
             font-weight: 400;
@@ -23,6 +23,7 @@
             }
             span {
                 color: #00db00;
+                padding-top: 0.03rem;
                 font-weight: 600;
             }
         }

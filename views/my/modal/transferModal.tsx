@@ -69,8 +69,6 @@ const TransferModal: FC<IProps> = ({ onClose, type }): ReactElement => {
                 await sendTransfer({ token: symbol === 'USDT' ? platforminfo.usdttoken : platforminfo.nmstoken, to: platforminfo.receive, value: amount });
                 onClose(true);
             } else {
-                if (Date.now() > auth.expired) throw new Error(t('common:base:SignatureExpired'));
-
                 const params = {
                     address: account!,
                     tokenname: symbol.toLowerCase(),

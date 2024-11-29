@@ -1,6 +1,6 @@
 {
     "base": {
-        "InsufficientBalance": "FLOKI余额不足",
+        "InsufficientBalance": "USDT/积分余额不足",
         "InsufficientGasBalance": "Gas费余额不足",
         "InsufficientUSDTBalance": "USDT余额不足",
         "SignatureExpired": "签名过期，请刷新页面",

@@ -25,13 +25,13 @@ const Header: FC = (): ReactElement => {
                     <h5>累计参与金额(NMS)</h5>
                     <div>
                         <span>
-                            <CountUp decimals={4} end={userinfo.totalspendnms} />
+                            <CountUp decimals={5} end={userinfo.totalspendnms} />
                         </span>
                         <img src="/images/symbol/NMS.svg" alt="" />
                     </div>
                 </div>
             </div>
-            <p>最近游戏: {userinfo.lastgametime === 0 ? '无记录' : moment(userinfo.lastgametime).endOf('m').fromNow()}</p>
+            <p>我的最近游戏: {userinfo.lastgametime === 0 ? '无记录' : moment(userinfo.lastgametime).endOf('m').fromNow()}</p>
         </div>
     );
 };

@@ -1,6 +1,6 @@
 {
     "base": {
-        "InsufficientBalance": "Insufficient FLOKI balance",
+        "InsufficientBalance": "Insufficient USDT / Integral balance",
         "InsufficientGasBalance": "Insufficient Gas Balance",
         "InsufficientUSDTBalance": "Insufficient USDT Balance",
         "SignatureExpired": "Signature expired, please refresh the page",

@@ -42,7 +42,7 @@ const Header: FC = (): ReactElement => {
                         NMS余额 <img src="/images/symbol/NMS.svg" alt="" />
                     </div>
                     <h5>
-                        <CountUp decimals={1} end={Number(userinfo.nmsbalance)} /> <img className={loading ? css.loading : ''} onClick={() => refreshAssets()} src="/images/my/reload.svg" alt="" />
+                        <CountUp decimals={5} end={Number(userinfo.nmsbalance)} /> <img className={loading ? css.loading : ''} onClick={() => refreshAssets()} src="/images/my/reload.svg" alt="" />
                     </h5>
 
                     <Button onClick={() => handTransfer('withdrawal')}>提现</Button>

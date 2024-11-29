@@ -26,7 +26,7 @@
                     margin-bottom: 0.11rem;
                 }
                 .label {
-                    color: rgba(255, 255, 255, 0.4);
+                    color: rgba(255, 255, 255, 0.6);
                     font-family: 'PingFang SC';
                     font-size: 0.12rem;
                     font-weight: 400;
@@ -34,13 +34,13 @@
                     margin-right: 0.04rem;
                 }
                 .date {
-                    flex: 1;
+                    flex: 1.4;
                 }
                 .days {
                     flex: 1;
                 }
                 .amount {
-                    flex: 1.5;
+                    flex: 1.4;
                     display: flex;
                     align-items: center;
                     div {
@@ -51,7 +51,10 @@
                         align-items: center;
                         img {
                             width: 0.14rem;
-                            margin: 0 0.02rem;
+                            margin: 0 0.02rem 0.02rem;
+                        }
+                        .pointsvg {
+                            width: 0.15rem;
                         }
                     }
                 }
@@ -64,6 +67,7 @@
                         align-items: center;
                         b {
                             font-size: 0.16rem;
+                            padding-bottom: 0.016rem;
                             background: linear-gradient(237deg, #5a9ff1 0%, #7592ff 100%);
                             background-clip: text;
                             -webkit-background-clip: text;

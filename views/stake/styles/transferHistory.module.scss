@@ -40,7 +40,7 @@
                     flex: 1.25;
                 }
                 &:nth-of-type(2) {
-                    flex: 1;
+                    flex: 0.5;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -52,16 +52,18 @@
                     justify-content: center;
                 }
                 &:last-child {
-                    flex: 0.8;
+                    flex: 0.7;
                     text-align: center;
                 }
             }
 
             .out {
                 color: #da4354;
+                font-weight: 500;
             }
             .in {
                 color: #16b17a;
+                font-weight: 500;
             }
         }
         .list {

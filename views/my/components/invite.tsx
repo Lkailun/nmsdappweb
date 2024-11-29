@@ -19,7 +19,7 @@ const Invite: FC = (): ReactElement => {
         <div className={classNames(css.view)}>
             <h4>我的邀请链接</h4>
             <div className={css.content}>
-                <div className={css.text}>{$hash(inviteLink, 20, 8)}</div>
+                <div className={css.text}>{$hash(inviteLink, 18, 12)}</div>
                 <div className={css.copy} onClick={() => $copy(inviteLink)}>
                     <img src="/images/my/copy.svg" alt="" />
                 </div>

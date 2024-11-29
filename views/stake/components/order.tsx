@@ -4,6 +4,7 @@ import { Button, NoData } from '@/components';
 import { useUser } from '@/state/user/hooks';
 import moment from 'moment';
 import CountUp from 'react-countup';
+import { $BigNumber } from '@/utils/met';
 import { useTranslation } from 'react-i18next';
 
 const Item: FC<{ [key: string]: any }> = ({ data }): ReactElement => {
@@ -14,27 +15,28 @@ const Item: FC<{ [key: string]: any }> = ({ data }): ReactElement => {
             <div className={css.item}>
                 <div className={css.line}>
                     <div className={css.date}>
-                        <span className={css.label}>开始时间</span>
-                        {moment(data.createtime).format('YY.MM.DD HH:mm')}
+                        <span className={css.label}>开始时间:</span>
+                        {moment(data.createtime).format('YYYY.MM.DD HH:mm')}
                     </div>
                     <div className={css.days}>
-                        <span className={css.label}>已产天数</span>
-                        {moment(data.createtime).endOf('m').fromNow()}
+                        <span className={css.label}>已产天数:</span>
+                        {/* {moment(data.createtime).endOf('m').fromNow()} */}
+                        { Math.floor((Date.now() - data.createtime) / (1000 * 60 * 60 * 24)) }天
                     </div>
                 </div>
                 <div className={css.line}>
                     <div className={css.amount}>
-                        <span className={css.label}>质押数量</span>
+                        <span className={css.label}>质押数量:</span>
                         <div>
                             {data.usdtamount}
                             <img src="/images/symbol/USDT.svg" alt="" />+{data.usdtamount}
-                            <img src="/images/stake/color-point.svg" alt="" />
+                            <img className={css.pointsvg} src="/images/stake/color-point.svg" alt="" />
                         </div>
                     </div>
                     <div className={css.reward}>
-                        <span className={css.label}>已产收益</span>
+                        <span className={css.label}>已产收益:</span>
                         <div>
-                            <b>{data.totalrelease} </b> <img src="/images/stake/point.svg" alt="" />
+                            <b>{$BigNumber(data.totalrelease).toFixed(3, 1)} </b> <img src="/images/stake/point.svg" alt="" />
                         </div>
                     </div>
                 </div>

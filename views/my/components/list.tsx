@@ -45,7 +45,7 @@ const List: FC = (): ReactElement => {
                 </div>
                 <div className={css.item}>
                     <img className={css.img} src="/images/my/fanyong.svg" alt="" />
-                    <p>我的累计返佣</p>
+                    <p>我的累计返佣(NMS)</p>
                     <h5>
                         <CountUp decimals={6} end={userinfo.totalrebatenms} /> <img src="/images/symbol/NMS.svg" alt="" />
                     </h5>
@@ -61,14 +61,14 @@ const List: FC = (): ReactElement => {
                 {userinfo.teamlist.map((item: any) => (
                     <div key={item._id} className={classNames(css.td, css.item)}>
                         <div className={css.user}>
-                            {$hash(item.address, 3, 3)}
+                            {$hash(item.address, 3, 5)}
                             <img className={css.copy} onClick={() => $copy(item.address)} src="/images/my/copy1.svg" alt="" />
                         </div>
                         <div className={css.total}>
                             <CountUp decimals={0} end={item.totalgamecount} />
                         </div>
                         <div className={css.cost}>
-                            <CountUp decimals={2} end={item.totalspendnms} />
+                            <CountUp decimals={3} end={item.totalspendnms} />
                             <img className={css.symbol} src="/images/symbol/NMS.svg" alt="" />
                         </div>
                         <div className={css.date}>{item.lastgametime === 0 ? '无记录' : moment(item.lastgametime).endOf('m').fromNow()}</div>

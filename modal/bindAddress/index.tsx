@@ -53,7 +53,13 @@ const BindAddressModal: FC<IProps> = ({ onClose }: IProps): ReactElement => {
                 {/* {inviter ? <p className={classNames(css.notice, css.label)}>{t('common:base:CurrentlyBindingInviter')}</p> : <p className={css.label}>{t('common:base:CurrentLinkHasNoInviter')}</p>} */}
                 <p className={css.label}>{t('common:base:CurrentlyBindingInviter')}:</p>
                 <div className={css.input}>
-                    <input type="text" maxLength={42} value={address} placeholder={t("common:base:PleaseEnterTheInviter'sAddress")} onChange={(e: any) => setAddress($trim(e))} />
+                    <input 
+                        type="text" 
+                        maxLength={42} 
+                        value={address.length == 42 ? `${address.slice(0,12)}...${address.slice(-12)}` : address}
+                        placeholder={t("common:base:PleaseEnterTheInviter'sAddress")} 
+                        onChange={(e: any) => setAddress($trim(e))} 
+                    />
                 </div>
                 <Button disabled={address.length !== 42} loading={loading} onClick={() => handBind()}>
                     <img className={css.icon} src="/images/base/bind.svg" alt="" />

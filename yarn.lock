@@ -3889,7 +3889,7 @@ keyvaluestorage-interface@^1.0.0:
   resolved "https://registry.yarnpkg.com/keyvaluestorage-interface/-/keyvaluestorage-interface-1.0.0.tgz#13ebdf71f5284ad54be94bd1ad9ed79adad515ff"
   integrity sha512-8t6Q3TclQ4uZynJY9IGr2+SsIGwK9JHcO6ootkHCGA0CrQCRy+VkouYNO2xicET6b9al7QKzpebNow+gkpCL8g==
 
-"klinecharts@9.5,1":
+klinecharts@9.5.1:
   version "9.5.1"
   resolved "https://registry.yarnpkg.com/klinecharts/-/klinecharts-9.5.1.tgz#31b175c51a14f57db0c3b8d34e038f4b2dc379d9"
   integrity sha512-jcGKpwbvKMBVTjW1YkKBGVOkY8adE5/kbd6e4exy4wGhxQ7OATkjBP7UsaA3/yScl8kJNq6a8hvJUsCJ5bqYDQ==

@@ -4,6 +4,7 @@ import css from '../styles/transferHistory.module.scss';
 import { Modal } from 'antd';
 import classNames from 'classnames';
 import moment from 'moment';
+import { useWallet } from '@/hooks';
 import { useUser } from '@/state/user/hooks';
 import { NoData } from '@/components';
 
@@ -13,14 +14,14 @@ type IProps = {
 };
 const TransferHistoryModal: FC<IProps> = ({ onClose }: IProps): ReactElement => {
     const [{ integraltransferrecords }] = useUser();
-
+    const { account } = useWallet();
     return (
         <Modal open={true} footer={null} onCancel={() => onClose()} className={css.view}>
             <h2>积分转移记录</h2>
             <div className={css.content}>
                 <div className={css.nav}>
                     <div>转移时间</div>
-                    {/* <div>类型</div> */}
+                    <div>类型</div>
                     <div>对手地址</div>
                     <div>转移金额</div>
                 </div>
@@ -28,9 +29,16 @@ const TransferHistoryModal: FC<IProps> = ({ onClose }: IProps): ReactElement => 
                     {integraltransferrecords.map((ele: any, index: number) => (
                         <div key={index} className={classNames(css.nav, css.list)}>
                             <div>{moment(ele.createtime).format('YYYY.MM.DD HH:mm')}</div>
-                            {/* <div className={css[ele.type]}>{ele.type === 'in' ? '转入' : '转出'}</div> */}
+                            <div className={css[ele.from === account?.toLowerCase() ? 'out' : 'in']}>
+                                {ele.from === account?.toLowerCase() ? '转出' : '转入'}
+                            </div>
                             <div>
-                                {$hash(ele.to, 4, 3)} <img className={css.copy} onClick={() => $copy(ele.to)} src="/images/my/copy1.svg" alt="" />
+                                {$hash(
+                                    ele.from === account?.toLowerCase() ? ele.to : ele.from,
+                                    3,
+                                    5
+                                )}
+                                <img className={css.copy} onClick={() => $copy(ele.from)} src="/images/my/copy1.svg" alt="" />
                             </div>
                             <div>
                                 {ele.amount} <img className={css.symbol} src="/images/stake/color-point.svg" alt="" />
