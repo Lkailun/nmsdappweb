@@ -26,6 +26,7 @@ const Header: FC<any> = (): ReactElement => {
     const contentRef = useRef<any>(null);
     const domRef = useRef<any>(null);
     const [show, setShow] = useState<boolean>(false);
+    const [voice, setVoice] = useState<boolean>(false);
     const router = useRouter();
 
     const { openConnectModal } = useConnectModal();
@@ -55,6 +56,10 @@ const Header: FC<any> = (): ReactElement => {
         setShow(false);
     };
 
+    const handVoice = () => {
+        setVoice(!voice);
+    };
+
     useLayoutEffect(() => {
         if (!ready) return;
         login();
@@ -78,6 +83,7 @@ const Header: FC<any> = (): ReactElement => {
         <header className={classNames(css.header, ['/rise-fall', '/lucky-wheel'].includes(router.pathname) ? css.opacity : '')}>
             <img className={css.logo} src="/images/logo-title.png" alt="" />
             <div className={css.content}>
+                <img onClick={() => handVoice()} className={css.voice} src={`/images/base/${voice ? 'voice' : 'mute'}.svg`} alt="" />
                 <div className={css.lang} ref={domRef}>
                     <img onClick={() => setShow(!show)} src="/images/lang.svg" alt="" />
                     <div
