@@ -75,10 +75,10 @@ const Header: FC = (): ReactElement => {
     const loopTime = () => {
         timer.current = setInterval(() => {
             const seconds = $diffDate(luckgameinfo[0].gametime, MomentUnit.seconds, 'start');
-            console.log('loopTime:::::', seconds);
             setTime(seconds < 10 ? `0${seconds}` : `${seconds}`);
             if (seconds <= 0) {
                 clearInterval(timer.current);
+                setTime('00');
             }
         }, 1000);
     };

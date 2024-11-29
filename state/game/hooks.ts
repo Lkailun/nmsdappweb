@@ -20,15 +20,16 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
     const openLuckGameResult = useSelector<AppState, AppState['game']['openLuckGameResult']>((state: AppState) => state.game.openLuckGameResult);
 
     const dealData = useCallback(
-        async (newData: any[]) => {
+        async (_newdata: any) => {
             try {
                 const data = JSON.parse(localStorage.getItem('luckData') || '{}');
                 const oldData = data.luckgameinfo || [];
+                const newData = _newdata.luckgameinfo || [];
 
                 if (oldData.length === 0 || newData.length < 2) return;
 
                 if (newData[0]._id !== oldData[0]._id) {
-                    const { betaddresslist, winindex, betamountlist, integralreward, rewardamountrate } = newData[1],
+                    const { betaddresslist, winindex, betamountlist, integralreward, rewardamountrate, _id } = newData[1],
                         user = account!.toLowerCase();
 
                     let type = ResultStatus.know,
@@ -49,7 +50,8 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
                             reward = amount;
                         } else {
                             type = ResultStatus.failed;
-                            reward = Number(new BigNumber(amount).multipliedBy(1 + rewardamountrate).toFixed(4, 1));
+                            const find = _newdata.luckgamerecords.find((ele: any) => ele._id === _id);
+                            reward = Number(new BigNumber(find.rewardamount || 0).toFixed(4, 1));
                         }
                     }
 
@@ -72,7 +74,7 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
         try {
             const { code, data, message } = await Server.getluckgamedata({ address: account }, auth);
             if (code !== 200) throw new Error(message);
-            await dealData(data.luckgameinfo);
+            await dealData(data);
             dispatch(setLuckData(omit(data, 'userinfo')));
             updateUser(data.userinfo);
 
@@ -86,7 +88,7 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
 
     const updateGameData = useCallback(
         async (info: { [key: string]: any }) => {
-            if (info.luckgameinfo) await dealData(info.luckgameinfo);
+            if (info.luckgameinfo) await dealData(info);
             dispatch(updateLuckGameData(info));
         },
         [dispatch]
