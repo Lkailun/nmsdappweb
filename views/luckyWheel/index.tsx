@@ -4,7 +4,7 @@ import { useLuck } from '@/state/game/hooks';
 import { useUser } from '@/state/user/hooks';
 const Main: FC = (): ReactElement => {
     const [{ userinfo }] = useUser();
-    const [_, { getData, clearLoopData }] = useLuck();
+    const [_, { getData, clearData }] = useLuck();
 
     useEffect(() => {
         if (userinfo.address) getData();
@@ -12,9 +12,9 @@ const Main: FC = (): ReactElement => {
 
     useEffect(() => {
         return () => {
-            clearLoopData();
+            clearData();
         };
-    });
+    }, []);
     return (
         <>
             <Header />

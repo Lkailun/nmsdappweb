@@ -1,14 +1,46 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export enum ResultStatus {
+    success = 'success',
+    failed = 'failed',
+    know = 'know',
+    noJoin = 'noJoin'
+}
+
+export type GameResult = {
+    open: boolean;
+    type: ResultStatus;
+    amount: number;
+    direction?: 'up' | 'down';
+    reward: number;
+    createtime: number;
+};
+
 const initialState = {
     luckData: {
         luckgameinfo: [],
         luckgamerecords: []
     } as any,
+    openLuckGameResult: {
+        open: false,
+        type: ResultStatus.know,
+        amount: 0,
+        reward: 0,
+        createtime: 0
+    } as GameResult,
+
     btcData: {
         klines: [],
         btcgamerecords: []
-    } as any
+    } as any,
+    openBtcGameResult: {
+        open: false,
+        type: ResultStatus.success,
+        amount: 0,
+        reward: 0,
+        direction: 'up',
+        createtime: 0
+    } as GameResult
 };
 
 const BaseSlice = createSlice({
@@ -18,7 +50,6 @@ const BaseSlice = createSlice({
         setLuckData(state, { payload: data }) {
             state.luckData = data;
         },
-
         updateLuckGameData(state, { payload: info }) {
             let update: { [key: string]: any } = {};
             Object.keys(info).forEach((ele) => {
@@ -32,6 +63,9 @@ const BaseSlice = createSlice({
                 }
             });
             state.luckData = { ...state.luckData, ...update };
+        },
+        setLuckGameResult(state, { payload: info }) {
+            state.openLuckGameResult = { ...state.openLuckGameResult, ...info };
         },
 
         setBtcData(state, { payload: data }) {
@@ -50,6 +84,9 @@ const BaseSlice = createSlice({
                 }
             });
             state.btcData = { ...state.btcData, ...update };
+        },
+        setBtcGameResult(state, { payload: info }) {
+            state.openLuckGameResult = { ...state.openLuckGameResult, ...info };
         }
     }
 });
