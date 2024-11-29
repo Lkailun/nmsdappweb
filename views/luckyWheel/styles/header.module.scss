@@ -238,10 +238,10 @@
                         }
                         div {
                             position: absolute;
-                            top: 0.03rem;
+                            top: 0.015rem;
                             width: 0.54rem;
-                            border-radius: 0.3rem;
-                            background: #e08033;
+                            border-radius: 0.1rem;
+                            background: #da8744;
                             height: 0.14rem;
                             left: 50%;
                             transform: translateX(-50%);
@@ -333,7 +333,7 @@
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
-                                color: #d96000;
+                                color: #ffffff;
                                 text-align: center;
                                 font-family: 'PingFang SC';
                                 font-size: 0.12rem;
@@ -345,6 +345,7 @@
                                 border: 1.5px solid #2d408b;
                                 background: #2d408b;
                                 &.active {
+                                    color: #D96000;
                                     border-color: #e07f33;
                                     background: linear-gradient(245deg, #fff8e5 13.07%, #e8c873 86.93%);
                                 }
