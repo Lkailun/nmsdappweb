@@ -21,6 +21,8 @@ const initialState = {
         luckgameinfo: [],
         luckgamerecords: []
     } as any,
+    marqueeIndex: -1,
+    prizeIng: false,
     openLuckGameResult: {
         open: false,
         type: ResultStatus.know,
@@ -68,6 +70,12 @@ const GameSlice = createSlice({
         },
         setLuckGameResult(state, { payload: info }) {
             state.openLuckGameResult = { ...state.openLuckGameResult, ...info };
+        },
+        setLuckMarqueeIndex(state, { payload: marqueeIndex }) {
+            state.marqueeIndex = marqueeIndex;
+        },
+        setLuckPrizeIng(state, { payload: flag }) {
+            state.prizeIng = flag;
         },
 
         setBtcData(state, { payload: data }) {

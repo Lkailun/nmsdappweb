@@ -1,21 +1,19 @@
 import { FC, ReactElement, useEffect, useMemo, useRef, useState } from 'react';
 
 import css from '../styles/header.module.scss';
-import { useLogs, usePrice, useUser } from '@/state/user/hooks';
-import { $BigNumber, $diffDate, $hash, $momentTimes, $toFixed, MomentUnit } from '@/utils/met';
-import CountUp from 'react-countup';
+import { useUser } from '@/state/user/hooks';
+import { $diffDate, $hash, $sleep, MomentUnit } from '@/utils/met';
 import { useTranslation } from 'next-i18next';
-import moment from 'moment';
 import classNames from 'classnames';
-import { Button } from '@/components';
 import { message } from 'antd';
 import RuleModal from '../modal/rule';
 import ResultModal from '../modal/result';
 import { useRouter } from 'next/router';
 import { ConfirmModal } from '../modal';
 import { useLuck } from '@/state/game/hooks';
-import { Storage } from '@/utils/storage';
 import { useImmer } from 'use-immer';
+import { useVoice } from '@/state/base/hooks';
+import { Storage } from '@/utils/storage';
 
 const list = [
     { icon: 1, index: 0 },
@@ -47,12 +45,16 @@ const Header: FC = (): ReactElement => {
     const [checkIndex, setCheckIndex] = useState<number>(-1);
     const [gameStatusInfo, setGameStatusInfo] = useImmer<{ [key: string]: any }>({
         open: false,
-        status: 'waitingPrize' // waitingPrize 、  start
+        status: 'waitingPrize' // waitingPrize 、  start 、prizeIng
     });
     const [{ userinfo }] = useUser();
-    const [{ luckgameinfo, openLuckGameResult }, { closeResultModal }] = useLuck();
+    const [{ luckgameinfo, openLuckGameResult, marqueeIndex, prizeIng }, { closeResultModal, handOpenPrizeIng }] = useLuck();
     const router = useRouter();
+    const [voice] = useVoice();
     const timer = useRef<any>(null);
+    const remindAudio = useRef<HTMLAudioElement | null>(null);
+    const lotteryAudio = useRef<HTMLAudioElement | null>(null);
+    const countAudio = useRef<any>(null);
 
     const joined = useMemo(() => {
         return (luckgameinfo[0]?.betaddresslist || []).filter((ele: string) => ele).length;
@@ -70,7 +72,10 @@ const Header: FC = (): ReactElement => {
     }, [luckgameinfo[0]]);
 
     const handStake = (index: number) => {
-        if ((luckgameinfo[0]?.betaddresslist || []).includes(userinfo.address)) {
+        const list = luckgameinfo[0]?.betaddresslist || [];
+        console.log(list, list[index]);
+        if (list[index]) return;
+        if (list.includes(userinfo.address)) {
             message.warning(t('common:game:YouHaveJoinedThisRound'));
             return;
         }
@@ -85,20 +90,24 @@ const Header: FC = (): ReactElement => {
             setGameStatusInfo((draft) => {
                 draft.open = false;
             });
-        }, 5000);
+        }, 3000);
     };
 
     const loopTime = () => {
         timer.current = setInterval(() => {
             const seconds = $diffDate(luckgameinfo[0].gametime, MomentUnit.seconds, 'start');
             setTime(seconds < 10 ? `0${seconds}` : `${seconds}`);
+            const _voice = Storage.getItem('voice');
             if (seconds <= 0) {
                 clearInterval(timer.current);
                 setTime('00');
-                setGameStatusInfo({
-                    open: true,
-                    status: 'waitingPrize'
-                });
+                countAudio.current?.pause();
+                countAudio.current = null;
+                handOpenPrizeIng();
+            } else if (seconds < 15 && countAudio.current === null) {
+                countAudio.current = new Audio('/voice/countdown.mp3');
+                countAudio.current.loop = true;
+                _voice === 'open' && countAudio.current.play();
             }
         }, 1000);
     };
@@ -122,24 +131,67 @@ const Header: FC = (): ReactElement => {
     }, [openLuckGameResult.open]);
 
     useEffect(() => {
-        let backgroundAudio: HTMLAudioElement | null = null;
-
-        if (router.pathname === '/lucky-wheel' && Storage.getItem('audio') === 'true') {
-            backgroundAudio = new Audio('/voice/background.mp3');
-            backgroundAudio.loop = true;
-            backgroundAudio.play();
+        if (voice === 'open') {
+            countAudio.current?.play();
+            remindAudio.current?.play();
+            lotteryAudio.current?.play();
+        } else {
+            countAudio.current?.pause();
+            remindAudio.current?.pause();
+            lotteryAudio.current?.pause();
         }
-        return () => {
-            if (backgroundAudio) {
-                backgroundAudio.pause();
-                backgroundAudio = null;
-            }
-        };
-    }, [router.pathname]);
+    }, [voice]);
+
+    useEffect(() => {
+        if (time === '00') {
+            remindAudio.current?.pause();
+            remindAudio.current = null;
+        } else if (time !== '00' && !remindAudio.current) {
+            setGameStatusInfo({
+                open: true,
+                status: 'waitingPrize'
+            });
+            remindAudio.current = new Audio('/voice/remind.mp3');
+            // remindAudio.current.play();
+            setTimeout(() => {
+                remindAudio.current?.pause();
+                setGameStatusInfo((draft) => {
+                    draft.open = false;
+                });
+            }, 5000);
+        }
+    }, [time]);
+
+    useEffect(() => {
+        if (marqueeIndex === -1) {
+            lotteryAudio.current?.pause();
+            lotteryAudio.current = null;
+        } else if (!lotteryAudio.current) {
+            const _voice = Storage.getItem('voice');
+            lotteryAudio.current = new Audio('/voice/lottery.mp3');
+            _voice === 'open' && lotteryAudio.current.play();
+        }
+    }, [marqueeIndex]);
+
+    useEffect(() => {
+        if (prizeIng) {
+            setGameStatusInfo({
+                open: true,
+                status: 'prizeIng'
+            });
+        } else {
+            setGameStatusInfo((draft) => {
+                draft.open = false;
+            });
+        }
+    }, [prizeIng]);
 
     useEffect(() => {
         return () => {
             timer.current && clearInterval(timer.current);
+            countAudio.current?.pause();
+            remindAudio.current?.pause();
+            lotteryAudio.current?.pause();
         };
     }, []);
 
@@ -187,7 +239,7 @@ const Header: FC = (): ReactElement => {
                         <div className={css.mask_bg}>
                             <div className={css.list}>
                                 {list.map((ele, index) => (
-                                    <div key={index} onClick={() => handStake(ele.index)} className={classNames(css.item, joinInfo[ele.index]?.address ? css.active : '')}>
+                                    <div key={index} onClick={() => handStake(ele.index)} className={classNames(css.item, marqueeIndex === ele.index ? css.hover : '', joinInfo[ele.index]?.address ? css.active : '')}>
                                         {joinInfo[ele.index]?.address && (
                                             <>
                                                 <div>
@@ -197,7 +249,6 @@ const Header: FC = (): ReactElement => {
                                                 <p>{joinInfo[ele.index].address === userinfo.address ? 'You' : $hash(joinInfo[ele.index].address, 4, 3)}</p>
                                             </>
                                         )}
-
                                         <img className={css.icon} src={`/images/luckWheel/${ele.icon}.png`} alt="" />
                                     </div>
                                 ))}
@@ -234,7 +285,7 @@ const Header: FC = (): ReactElement => {
                     <div className={css.mask}></div>
                     <div className={css.content}>
                         <img src="/images/luckWheel/gametip.gif" alt="" />
-                        <div>{gameStatusInfo.status === 'waitingPrize' ? '游戏即将开奖!!' : '新一轮游戏开始!!'}</div>
+                        <div>{gameStatusInfo.status === 'waitingPrize' ? '游戏即将开奖!!' : gameStatusInfo.status === 'prizeIng' ? '正在开奖中!!' : '新一轮游戏开始!!'}</div>
                     </div>
                 </div>
             )}

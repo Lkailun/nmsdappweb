@@ -161,6 +161,7 @@
                         // opacity: 0.8;
                         cursor: pointer;
                         background: linear-gradient(180deg, #e5e9ff 0%, #7386e8 100%);
+
                         &:nth-of-type(1) {
                             top: 0.04rem;
                             left: 0.04rem;
@@ -236,6 +237,11 @@
                                 height: 0.33rem;
                                 transform: translate(-50%, -43%);
                             }
+                        }
+                        &.hover {
+                            border-radius: 10px;
+                            border-color: #3135af;
+                            background: linear-gradient(236deg, #3135af 25.71%, #9450ec 94.81%);
                         }
                         div {
                             position: absolute;

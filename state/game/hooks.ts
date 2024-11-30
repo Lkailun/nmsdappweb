@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useCallback, useEffect, useRef } from 'react';
-import { setLuckData, setBtcData, updateLuckGameData, updateBtcGameData, setLuckGameResult, setBtcGameResult } from './actions';
+import { setLuckData, setBtcData, updateLuckGameData, updateBtcGameData, setLuckGameResult, setBtcGameResult, setLuckMarqueeIndex, setLuckPrizeIng } from './actions';
 import { AppState, useAppDispatch } from '../index';
 import { message } from 'antd';
 import Server from '@/service/api';
@@ -10,8 +10,18 @@ import { omit } from 'lodash';
 import { ResultStatus } from './reducer';
 import BigNumber from 'bignumber.js';
 import { Storage } from '@/utils/storage';
+import { $sleep } from '@/utils/met';
 
-export function useLuck(): [{ [key: string]: any }, { getData: () => void; closeResultModal: () => void; updateGameData: (info: { [key: string]: any }) => void; clearData: () => void }] {
+export function useLuck(): [
+    { [key: string]: any },
+    {
+        getData: () => void; //
+        handOpenPrizeIng: () => void;
+        closeResultModal: () => void;
+        updateGameData: (info: { [key: string]: any }) => void;
+        clearData: () => void;
+    }
+] {
     const dispatch = useAppDispatch();
     const [auth] = useAuth();
     const [_, { updateUser }] = useUser();
@@ -19,6 +29,26 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
     const timer = useRef<any>(null);
     const luckData = useSelector<AppState, AppState['game']['luckData']>((state: AppState) => state.game.luckData);
     const openLuckGameResult = useSelector<AppState, AppState['game']['openLuckGameResult']>((state: AppState) => state.game.openLuckGameResult);
+    const marqueeIndex = useSelector<AppState, AppState['game']['marqueeIndex']>((state: AppState) => state.game.marqueeIndex);
+    const prizeIng = useSelector<AppState, AppState['game']['prizeIng']>((state: AppState) => state.game.prizeIng);
+
+    const marquee = async (endIndex: number) => {
+        let once = 3,
+            intervalDuration = 78;
+
+        while (once > 0) {
+            for (let index = 0; index < 16; index++) {
+                await $sleep(intervalDuration);
+                dispatch(setLuckMarqueeIndex(index));
+            }
+            once--;
+        }
+
+        for (let index = 0; index < endIndex + 1; index++) {
+            await $sleep(intervalDuration);
+            dispatch(setLuckMarqueeIndex(index));
+        }
+    };
 
     const dealData = useCallback(
         async (_newdata: any) => {
@@ -65,11 +95,14 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
                         reward,
                         createtime
                     };
+                    dispatch(setLuckPrizeIng(false));
+                    await marquee(winindex);
+                    dispatch(setLuckMarqueeIndex(-1));
+                    await $sleep(1500);
                     dispatch(setLuckGameResult(params));
-
                     if (Storage.getItem('voice') === 'open') {
                         let remindAudio: HTMLAudioElement | null = null;
-                        remindAudio = new Audio('/voice/remind.mp3');
+                        remindAudio = new Audio(type === ResultStatus.success ? '/voice/success.mp3' : '/voice/failed.mp3');
                         remindAudio.play();
                     }
                 }
@@ -103,11 +136,18 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
         [dispatch]
     );
 
+    const handOpenPrizeIng = useCallback(() => {
+        dispatch(setLuckPrizeIng(true));
+    }, [dispatch]);
+
     const closeResultModal = useCallback(() => {
         dispatch(setLuckGameResult({ open: false }));
+        dispatch(setLuckMarqueeIndex(-1));
     }, [dispatch]);
 
     const clearData = useCallback(() => {
+        dispatch(setLuckPrizeIng(false));
+        dispatch(setLuckMarqueeIndex(-1));
         dispatch(setLuckGameResult({ open: false }));
         dispatch(setLuckData({ luckgameinfo: [], luckgamerecords: [] }));
         clearTimeout(timer.current);
@@ -115,8 +155,8 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
     }, [dispatch]);
 
     return [
-        { ...luckData, openLuckGameResult },
-        { getData, updateGameData, closeResultModal, clearData }
+        { ...luckData, openLuckGameResult, marqueeIndex, prizeIng },
+        { getData, updateGameData, closeResultModal, clearData, handOpenPrizeIng }
     ];
 }
 
@@ -160,7 +200,7 @@ export function useBtc(): [{ [key: string]: any }, { closeResultModal: () => voi
 
                     if (Storage.getItem('voice') === 'open') {
                         let remindAudio: HTMLAudioElement | null = null;
-                        remindAudio = new Audio('/voice/remind.mp3');
+                        remindAudio = new Audio(type === ResultStatus.success ? '/voice/success.mp3' : '/voice/failed.mp3');
                         remindAudio.play();
                     }
                 }
