@@ -19,6 +19,7 @@ const Main: FC = (): ReactElement => {
             if (!backgroundAudio.current) {
                 backgroundAudio.current = new Audio('/voice/background.mp3');
                 backgroundAudio.current.loop = true;
+                backgroundAudio.current.volume = 0.4;
             }
             backgroundAudio.current.play();
         } else {

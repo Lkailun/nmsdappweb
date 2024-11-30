@@ -152,7 +152,7 @@ const Header: FC = (): ReactElement => {
                 status: 'waitingPrize'
             });
             remindAudio.current = new Audio('/voice/remind.mp3');
-            // remindAudio.current.play();
+            remindAudio.current.play();
             setTimeout(() => {
                 remindAudio.current?.pause();
                 setGameStatusInfo((draft) => {
