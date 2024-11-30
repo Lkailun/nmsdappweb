@@ -8,3 +8,4 @@ export const setFirstScreen = createAction<boolean>('base/setFirstScreen');
 export const setProcessModal = createAction<boolean>('base/setProcessModal');
 export const setProcessTime = createAction<number>('base/setProcessTime');
 export const setMaxProcessTime = createAction<number>('base/setMaxProcessTime');
+export const setVoice = createAction<'open' | 'close'>('base/setVoice');

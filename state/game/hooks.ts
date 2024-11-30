@@ -9,6 +9,7 @@ import { useAuth, useUser } from '../user/hooks';
 import { omit } from 'lodash';
 import { ResultStatus } from './reducer';
 import BigNumber from 'bignumber.js';
+import { Storage } from '@/utils/storage';
 
 export function useLuck(): [{ [key: string]: any }, { getData: () => void; closeResultModal: () => void; updateGameData: (info: { [key: string]: any }) => void; clearData: () => void }] {
     const dispatch = useAppDispatch();
@@ -65,6 +66,12 @@ export function useLuck(): [{ [key: string]: any }, { getData: () => void; close
                         createtime
                     };
                     dispatch(setLuckGameResult(params));
+
+                    if (Storage.getItem('voice') === 'open') {
+                        let remindAudio: HTMLAudioElement | null = null;
+                        remindAudio = new Audio('/voice/remind.mp3');
+                        remindAudio.play();
+                    }
                 }
                 return '';
             } catch (e: any) {}
@@ -148,11 +155,14 @@ export function useBtc(): [{ [key: string]: any }, { closeResultModal: () => voi
                         direction: result.direction,
                         createtime: result.createtime
                     };
-                    console.log("voice::::::");
-                    let remindAudio: HTMLAudioElement | null = null;
-                    remindAudio = new Audio('/voice/remind.mp3');
-                    remindAudio.play();
+
                     dispatch(setBtcGameResult(params));
+
+                    if (Storage.getItem('voice') === 'open') {
+                        let remindAudio: HTMLAudioElement | null = null;
+                        remindAudio = new Audio('/voice/remind.mp3');
+                        remindAudio.play();
+                    }
                 }
                 return '';
             } catch (e: any) {}

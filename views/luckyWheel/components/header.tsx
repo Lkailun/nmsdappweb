@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import { ConfirmModal } from '../modal';
 import { useLuck } from '@/state/game/hooks';
 import { Storage } from '@/utils/storage';
+import { useImmer } from 'use-immer';
 
 const list = [
     { icon: 1, index: 0 },
@@ -44,6 +45,10 @@ const Header: FC = (): ReactElement => {
     const [time, setTime] = useState<string>('00');
     const [amount, setAmount] = useState<number>(stakeList[0]);
     const [checkIndex, setCheckIndex] = useState<number>(-1);
+    const [gameStatusInfo, setGameStatusInfo] = useImmer<{ [key: string]: any }>({
+        open: false,
+        status: 'waitingPrize' // waitingPrize 、  start
+    });
     const [{ userinfo }] = useUser();
     const [{ luckgameinfo, openLuckGameResult }, { closeResultModal }] = useLuck();
     const router = useRouter();
@@ -73,6 +78,16 @@ const Header: FC = (): ReactElement => {
         setShowConfirm(true);
     };
 
+    const handClose = () => {
+        closeResultModal();
+        setGameStatusInfo({ open: true, status: 'start' });
+        setTimeout(() => {
+            setGameStatusInfo((draft) => {
+                draft.open = false;
+            });
+        }, 5000);
+    };
+
     const loopTime = () => {
         timer.current = setInterval(() => {
             const seconds = $diffDate(luckgameinfo[0].gametime, MomentUnit.seconds, 'start');
@@ -80,15 +95,13 @@ const Header: FC = (): ReactElement => {
             if (seconds <= 0) {
                 clearInterval(timer.current);
                 setTime('00');
+                setGameStatusInfo({
+                    open: true,
+                    status: 'waitingPrize'
+                });
             }
         }, 1000);
     };
-
-    useEffect(() => {
-        return () => {
-            clearInterval(timer.current);
-        };
-    }, []);
 
     useEffect(() => {
         if (luckgameinfo[0] && luckgameinfo[0].gametime) {
@@ -101,10 +114,12 @@ const Header: FC = (): ReactElement => {
     }, [luckgameinfo[0]]);
 
     useEffect(() => {
-        return () => {
-            timer.current && clearInterval(timer.current);
-        };
-    }, []);
+        if (openLuckGameResult.open) {
+            setGameStatusInfo((draft) => {
+                draft.open = false;
+            });
+        }
+    }, [openLuckGameResult.open]);
 
     useEffect(() => {
         let backgroundAudio: HTMLAudioElement | null = null;
@@ -122,14 +137,23 @@ const Header: FC = (): ReactElement => {
         };
     }, [router.pathname]);
 
+    useEffect(() => {
+        return () => {
+            timer.current && clearInterval(timer.current);
+        };
+    }, []);
+
     return (
         <>
-            <div className={css.main}>
-                <div className={css.back} onClick={() => {
+            <div
+                className={css.back}
+                onClick={() => {
                     router.push('/');
-                }}>
-                    <img src="/images/luckWheel/back.svg" alt="" />
-                </div>
+                }}
+            >
+                <img src="/images/luckWheel/back.svg" alt="" />
+            </div>
+            <div className={css.main}>
                 <img className={css.title} src="/images/luckWheel/title.png" alt="" />
                 <img className={css.bg} src="/images/luckWheel/bg.png" alt="" />
 
@@ -204,8 +228,19 @@ const Header: FC = (): ReactElement => {
                     </div>
                 </div>
             </div>
+
+            {gameStatusInfo.open && (
+                <div className={css.game_status}>
+                    <div className={css.mask}></div>
+                    <div className={css.content}>
+                        <img src="/images/luckWheel/gametip.gif" alt="" />
+                        <div>{gameStatusInfo.status === 'waitingPrize' ? '游戏即将开奖!!' : '新一轮游戏开始!!'}</div>
+                    </div>
+                </div>
+            )}
+
             {showRule && <RuleModal onClose={() => setShowRule(false)} />}
-            {openLuckGameResult.open && <ResultModal onClose={() => closeResultModal()} />}
+            {openLuckGameResult.open && <ResultModal onClose={() => handClose()} />}
             {showConfirm && <ConfirmModal amount={amount} checkIndex={checkIndex} onClose={() => setShowConfirm(false)} />}
         </>
     );

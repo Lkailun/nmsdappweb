@@ -115,10 +115,10 @@ const Header: FC = (): ReactElement => {
 
     return (
         <>
+            <div className={css.back} onClick={() => router.push('/')}>
+                <img src="/images/luckWheel/back.svg" alt="" />
+            </div>
             <div className={css.main}>
-                <div className={css.back} onClick={() => router.push('/')}>
-                    <img src="/images/luckWheel/back.svg" alt="" />
-                </div>
                 <img className={css.title} src="/images/rise-fall/bg.png" alt="" />
                 <div className={css.kline}>
                     <div className={css.info}>

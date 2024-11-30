@@ -11,6 +11,7 @@ import { useWalletClient } from 'wagmi';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { Storage } from '@/utils/storage';
+import { useVoice } from '@/state/base/hooks';
 
 const langs = [
     { icon: 'zh', title: '中文', key: 'zh' },
@@ -23,11 +24,10 @@ const langs = [
 
 const Header: FC<any> = (): ReactElement => {
     const { t, i18n }: any = useTranslation<any>(['common']);
-    const { data: walletClient } = useWalletClient();
     const contentRef = useRef<any>(null);
     const domRef = useRef<any>(null);
     const [show, setShow] = useState<boolean>(false);
-    const [voice, setVoice] = useState<boolean>(false);
+    const [voice, handVoice] = useVoice();
     const router = useRouter();
 
     const { openConnectModal } = useConnectModal();
@@ -57,16 +57,6 @@ const Header: FC<any> = (): ReactElement => {
         setShow(false);
     };
 
-    const handVoice = () => {
-        if (voice) {
-            Storage.setItem('audio', 'false');
-            setVoice(false);
-        } else {
-            Storage.setItem('audio', 'true');
-            setVoice(true);
-        }
-    };
-
     useLayoutEffect(() => {
         if (!ready) return;
         login();
@@ -80,8 +70,6 @@ const Header: FC<any> = (): ReactElement => {
     }, [show]);
     useEffect(() => {
         i18n.changeLanguage('zh');
-        const audio = Storage.getItem('audio');
-        setVoice(audio === 'true');
     }, []);
 
     useEffect(() => {
@@ -92,7 +80,7 @@ const Header: FC<any> = (): ReactElement => {
         <header className={classNames(css.header, ['/rise-fall', '/lucky-wheel'].includes(router.pathname) ? css.opacity : '')}>
             <img className={css.logo} src="/images/logo-title.png" alt="" />
             <div className={css.content}>
-                <img onClick={() => handVoice()} className={css.voice} src={`/images/base/${voice ? 'voice' : 'mute'}.svg`} alt="" />
+                <img onClick={() => handVoice(voice === 'open' ? 'close' : 'open')} className={css.voice} src={`/images/base/${voice === 'open' ? 'voice' : 'mute'}.svg`} alt="" />
                 <div className={css.lang} ref={domRef}>
                     <img onClick={() => setShow(!show)} src="/images/lang.svg" alt="" />
                     <div

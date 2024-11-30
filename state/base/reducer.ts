@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Storage } from '@/utils/storage';
 
 const initialState = {
     showBindModal: false,
@@ -7,7 +8,8 @@ const initialState = {
     showNoticeModal: false,
     processTime: 30,
     maxProcessTime: 30,
-    firstScreen: true
+    firstScreen: true,
+    voice: typeof window === 'undefined' ? 'close' : Storage.getItem('voice') || ('close' as 'open' | 'close')
 };
 
 const BaseSlice = createSlice({
@@ -31,6 +33,10 @@ const BaseSlice = createSlice({
         },
         setMaxProcessTime(state, { payload: time }) {
             state.maxProcessTime = time;
+        },
+        setVoice(state, { payload: status }) {
+            state.voice = status;
+            Storage.setItem('voice', status);
         },
         setFirstScreen(state, { payload: flag }) {
             state.firstScreen = flag;

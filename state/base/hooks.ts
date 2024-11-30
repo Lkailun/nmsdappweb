@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useCallback, useRef } from 'react';
-import { setBindInviteTipModal, setBindModal, setFirstScreen, setMaxProcessTime, setNoticeModal, setProcessModal, setProcessTime, setWithdrawAleoModal } from './actions';
+import { setBindInviteTipModal, setBindModal, setFirstScreen, setMaxProcessTime, setNoticeModal, setProcessModal, setProcessTime, setVoice, setWithdrawAleoModal } from './actions';
 import { AppState, useAppDispatch } from '../index';
 
 export function useBindModal(): [boolean, (open: boolean) => void] {
@@ -37,6 +37,18 @@ export function useBindInviteTipModal(): [boolean, (open: boolean) => void] {
         [dispatch]
     );
     return [showBindInviteTipModal, handBindInviteTipModal];
+}
+
+export function useVoice(): ['open' | 'close', (status: 'open' | 'close') => void] {
+    const dispatch = useAppDispatch();
+    const voice = useSelector<AppState, AppState['base']['voice']>((state: AppState) => state.base.voice);
+    const handVoice = useCallback(
+        (status: 'open' | 'close') => {
+            dispatch(setVoice(status));
+        },
+        [dispatch]
+    );
+    return [voice, handVoice];
 }
 
 export function useFirstScreen(): [boolean, (flag: boolean) => void] {
