@@ -84,7 +84,6 @@ function App({ Component, pageProps }: AppProps) {
                 <title>NMS</title>
                 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
                 <meta name="msapplication-tap-highlight" content="no" />
-                <script type="text/javascript" async src="https://unpkg.com/klinecharts/dist/klinecharts.min.js"></script>
             </Head>
             <GlobalStyle />
             {/* <ErrorBoundary> */}
