@@ -36,6 +36,25 @@ const ActionComponent = ({ children }: any) => {
             {!ready ? <NoConnect>用户数据加载中! 请稍后..</NoConnect> : <></>}
             {children}
             <Footer />
+            <Preloading>
+                <img src="/images/rise-fall/bg.png" alt="" />
+                <img src="/images/rise-fall/confirm_bg.png" alt="" />
+                <img src="/images/rise-fall/confirm_title.png" alt="" />
+                <img src="/images/rise-fall/modal/success.png" alt="" />
+                <img src="/images/rise-fall/modal/fail.png" alt="" />
+
+                <img src="/images/luckWheel/bg.png" alt="" />
+                <img src="/images/luckWheel/card-bg.gif" alt="" />
+                <img src="/images/luckWheel/confirm_bg.png" alt="" />
+                <img src="/images/luckWheel/title.png" alt="" />
+                <img src="/images/luckWheel/confirm_title.png" alt="" />
+                <img src="/images/luckWheel/gametip.gif" alt="" />
+
+                <img src="/images/luckWheel/modal/fail.png" alt="" />
+                <img src="/images/luckWheel/modal/know.png" alt="" />
+                <img src="/images/luckWheel/modal/noJoin.png" alt="" />
+                <img src="/images/luckWheel/modal/success.png" alt="" />
+            </Preloading>
             {/* </>
             )} */}
         </>
@@ -70,6 +89,9 @@ const NoConnect = styled.div`
     z-index: 99;
 `;
 
+const Preloading = styled.div`
+    display: none;
+`;
 const Loading = styled.div`
     margin-top: 30vh;
     display: flex;
