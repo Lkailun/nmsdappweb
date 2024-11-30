@@ -167,7 +167,7 @@ const Stake: FC = (): ReactElement => {
                         </h4>
                         <div>
                             ({100 * amount}U
-                            <img src="/images/stake/USDT.svg" alt="" />+{100 * amount} {t('common:stake:Integral')}
+                            <img src="/images/stake/usdt.svg" alt="" />+{100 * amount} {t('common:stake:Integral')}
                             <img src="/images/stake/color-point.svg" alt="" />)
                         </div>
                     </div>

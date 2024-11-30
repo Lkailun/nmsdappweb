@@ -18,11 +18,11 @@ const Header: FC = (): ReactElement => {
     const [{ userinfo }] = useUser();
     const [getUserRecords] = useUserRecords();
 
-    useEffect(() => {
-        if (userinfo.address) {
-            getUserRecords();
-        }
-    }, [userinfo.address]);
+    // useEffect(() => {
+    //     if (userinfo.address) {
+    //         getUserRecords();
+    //     }
+    // }, [userinfo.address]);
 
     return (
         <>
@@ -38,7 +38,14 @@ const Header: FC = (): ReactElement => {
                     <Button onClick={() => setShow(true)}>
                         <img src="/images/stake/transfer.svg" alt="" /> {t('common:stake:Transfer')}
                     </Button>
-                    <span onClick={() => setShowTransferHistory(true)}>{t('common:stake:TransferRecord')}</span>
+                    <span
+                        onClick={() => {
+                            getUserRecords();
+                            setShowTransferHistory(true);
+                        }}
+                    >
+                        {t('common:stake:TransferRecord')}
+                    </span>
                 </div>
                 <div className={css.item}>
                     <div className={css.title}>
@@ -51,7 +58,14 @@ const Header: FC = (): ReactElement => {
                     <Button className={css.recharge} onClick={() => setShowSwap(true)}>
                         <img src="/images/stake/swap.svg" alt="" /> {t('common:stake:Swap')}
                     </Button>
-                    <span onClick={() => setShowSwapHistory(true)}>{t('common:stake:SwapRecord')}</span>
+                    <span
+                        onClick={() => {
+                            getUserRecords();
+                            setShowSwapHistory(true);
+                        }}
+                    >
+                        {t('common:stake:SwapRecord')}
+                    </span>
                 </div>
             </div>
             {show && <TransferModal onClose={() => setShow(false)} />}

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useCallback, useRef, useState } from 'react';
-import { handUpdateUser, setAuth, setInviter, setUserInfo } from './actions';
+import { handUpdateUser, setAuth, setInviter, setIsGotRecords, setUserInfo } from './actions';
 import { AppState, useAppDispatch } from '../index';
 import Server from '@/service/api';
 import { Address } from 'viem';
@@ -111,25 +111,27 @@ export function useAssets(): [boolean, () => void] {
 }
 
 export function useUserRecords(): [() => void, boolean] {
-    const { account } = useWallet();
-    const [, { updateUser }] = useUser();
+    const [{ userinfo }, { updateUser }] = useUser();
     const dispatch = useAppDispatch();
     const auth = useSelector<AppState, AppState['user']['auth']>((state: AppState) => state.user.auth);
-
+    const isGotRecords = useSelector<AppState, AppState['user']['isGotRecords']>((state: AppState) => state.user.isGotRecords);
     const [loading, setLoading] = useState(false);
 
     const getUserRecords = useCallback(async () => {
         try {
+            if (!userinfo.address || isGotRecords) return;
+
             setLoading(true);
-            const { code, data, message } = await Server.userrecords({ address: account }, auth);
+            const { code, data, message } = await Server.userrecords({ address: userinfo.address }, auth);
             if (code !== 200) throw new Error(message);
+            dispatch(setIsGotRecords(true));
             updateUser(data);
         } catch (e: any) {
             message.error(e.message || 'error');
         } finally {
             setLoading(false);
         }
-    }, [dispatch, account]);
+    }, [dispatch, userinfo, isGotRecords]);
     return [getUserRecords, loading];
 }
 

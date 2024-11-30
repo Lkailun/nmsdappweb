@@ -29,11 +29,11 @@ const Header: FC = (): ReactElement => {
         setTransferType(type);
     };
 
-    useEffect(() => {
-        if (userinfo.address) {
-            getUserRecords();
-        }
-    }, [userinfo.address]);
+    // useEffect(() => {
+    //     if (userinfo.address) {
+    //         getUserRecords();
+    //     }
+    // }, [userinfo.address]);
 
     return (
         <>
@@ -47,7 +47,14 @@ const Header: FC = (): ReactElement => {
                     </h5>
 
                     <Button onClick={() => handTransfer('withdrawal')}>{t('common:my:Withdrawal')}</Button>
-                    <span onClick={() => setShowWithdrawalHistory(true)}>{t('common:my:WithdrawalRecord')}</span>
+                    <span
+                        onClick={() => {
+                            getUserRecords();
+                            setShowWithdrawalHistory(true);
+                        }}
+                    >
+                        {t('common:my:WithdrawalRecord')}
+                    </span>
                 </div>
                 <div className={css.item}>
                     <div className={css.title}>
@@ -60,7 +67,14 @@ const Header: FC = (): ReactElement => {
                     <Button className={css.recharge} onClick={() => handTransfer('recharge')}>
                         {t('common:my:Recharge')}
                     </Button>
-                    <span onClick={() => setShowRechargeHistory(true)}>{t('common:my:RechargeRecord')}</span>
+                    <span
+                        onClick={() => {
+                            getUserRecords();
+                            setShowRechargeHistory(true);
+                        }}
+                    >
+                        {t('common:my:RechargeRecord')}
+                    </span>
                 </div>
             </div>
             {show && (

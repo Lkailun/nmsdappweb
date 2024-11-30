@@ -26,6 +26,7 @@ const initialState = {
     withdrawrecords: [] as any[],
     swaprecords: [] as any[],
     integraltransferrecords: [] as any[],
+    isGotRecords: false,
     info: {
         userinfo: {
             _id: '',
@@ -113,6 +114,9 @@ const UserSlice = createSlice({
             if (typeof window !== 'undefined' && inviter && inviter.length === 42) {
                 window.sessionStorage.setItem('inviter', inviter);
             }
+        },
+        setIsGotRecords(state, { payload: flag }) {
+            state.isGotRecords = flag;
         }
     }
 });
