@@ -30,7 +30,7 @@ const Main: FC = (): ReactElement => {
     useEffect(() => {
         return () => {
             clearData();
-            backgroundAudio.current.pause();
+            backgroundAudio.current?.pause();
             backgroundAudio.current = null;
         };
     }, []);
