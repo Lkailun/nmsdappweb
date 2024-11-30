@@ -6,8 +6,10 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 0 0.23rem;
+        flex-shrink: 0;
         .item {
             text-align: center;
+            overflow: hidden;
             h5 {
                 color: #fff;
                 font-family: 'PingFang SC';
