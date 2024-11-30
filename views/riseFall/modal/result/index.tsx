@@ -32,6 +32,16 @@ const ResultModal: FC<IProps> = ({ onClose }): ReactElement => {
         <Modal open={true} footer={null} onCancel={() => onClose()} className={classNames(css.view, 'luckyWheel-result-modal')}>
             <section className={classNames(css.main, openBtcGameResult.type === ResultStatus.success ? css.success : '')}>
                 <div className={classNames(css.tip, openBtcGameResult.type === ResultStatus.success ? css.tip_success : '')}>{getTipFont(openBtcGameResult.type)}</div>
+                {[ResultStatus.success, ResultStatus.failed].includes(openBtcGameResult.type) && (
+                    <>
+                        <img className={css.gift} src="/images/luckWheel/modal/gift.png" alt="" />
+                        <img className={css.mask} src="/images/luckWheel/modal/mask.png" alt="" />
+                    </>
+                )}
+
+                {openBtcGameResult.type === ResultStatus.failed && <img className={css.reward_icon} src="/images/rise-fall/modal/success_icon.png" alt="" />}
+                {openBtcGameResult.type === ResultStatus.success && <img className={css.reward_icon} src="/images/symbol/NMS.svg" alt="" />}
+
                 <div className={css.cont}>
                     {openBtcGameResult.type === ResultStatus.success ? (
                         <h5>
