@@ -23,7 +23,7 @@ const Main: FC = (): ReactElement => {
             }
             backgroundAudio.current.play();
         } else {
-            backgroundAudio.current.pause();
+            backgroundAudio.current?.pause();
         }
     }, [voice]);
 

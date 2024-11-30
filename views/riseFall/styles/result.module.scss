@@ -15,6 +15,15 @@
             .tip {
                 top: 0.23rem;
             }
+            .gift {
+                top: 0.32rem;
+            }
+            .mask {
+                top: 0.18rem;
+            }
+            .reward_icon {
+                top: 0.8rem;
+            }
             .cont {
                 padding-top: 1.43rem;
                 h5 {
@@ -45,6 +54,39 @@
             }
         }
 
+        .gift {
+            position: absolute;
+            top: 0.86rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2rem;
+        }
+        .mask {
+            @keyframes rotate {
+                0% {
+                    transform: translateX(-50%) rotate(0deg);
+                }
+                100% {
+                    transform: translateX(-50%) rotate(360deg);
+                }
+            }
+            position: absolute;
+            top: 0.74rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1.7rem;
+            animation: rotate 5s linear infinite;
+        }
+
+        .reward_icon {
+            width: 0.5rem;
+            height: 0.5rem;
+            margin-bottom: 0.08rem;
+            position: absolute;
+            top: 1.34rem;
+            left: 50%;
+            transform: translateX(-50%);
+        }
         .cont {
             position: relative;
             z-index: 3;

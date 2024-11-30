@@ -35,7 +35,12 @@ const ResultModal: FC<IProps> = ({ onClose }): ReactElement => {
         <Modal open={true} footer={null} onCancel={() => onClose()} className={classNames(css.view, 'luckyWheel-result-modal')}>
             <section className={classNames(css.main, openLuckGameResult.type === ResultStatus.success ? css.success : openLuckGameResult.type === ResultStatus.noJoin ? css.noJoin : openLuckGameResult.type === ResultStatus.failed ? css.fail : '')}>
                 <div className={classNames(css.tip, openLuckGameResult.type === ResultStatus.success ? css.tip_success : '')}>{getTipFont(openLuckGameResult.type)}</div>
-                {[ResultStatus.success, ResultStatus.failed].includes(openLuckGameResult.type) && <img className={css.gift} src="/images/luckWheel/modal/gift.png" alt="" />}
+                {[ResultStatus.success, ResultStatus.failed].includes(openLuckGameResult.type) && (
+                    <>
+                        <img className={css.gift} src="/images/luckWheel/modal/gift.png" alt="" />
+                        <img className={css.mask} src="/images/luckWheel/modal/mask.png" alt="" />
+                    </>
+                )}
                 {openLuckGameResult.type !== ResultStatus.noJoin && (
                     <div className={css.cont}>
                         {openLuckGameResult.type === ResultStatus.success && <img src="/images/luckWheel/modal/reward.png" alt="" />}
