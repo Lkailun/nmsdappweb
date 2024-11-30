@@ -1,28 +1,29 @@
 import { FC, ReactElement } from 'react';
 
 import css from '../../../stake/styles/rule.module.scss';
-
+import { useTranslation } from 'next-i18next';
 import { Modal } from 'antd';
 
 type IProps = {
     onClose: Function;
 };
 const RuleModal: FC<IProps> = ({ onClose }: IProps): ReactElement => {
+    const { t }: any = useTranslation<any>(['common']);
     return (
         <Modal open={true} footer={null} className={css.view} onCancel={() => onClose()}>
-            <h2>BTC猜涨跌游戏规则</h2>
+            <h2>{t('common:game:BTCBetRules')}</h2>
             <section>
                 <div>
-                    <span>1</span>只竞猜下一根3分钟K线，竞猜结果将在下一根3分钟K线结束后10秒内公布
+                    <span>1</span>{t('common:game:OnlyGuessTheNext3MinuteKLine')}
                 </div>
                 <div>
-                    <span>2</span>可押注不同金额的NMS,下一根3分钟K线开始前30秒内不可下注
+                    <span>2</span>{t('common:game:CanBetDifferentAmountsOfNMS')}
                 </div>
                 <div>
-                    <span>3</span>竞猜失败获得押注金额U价值50%等值的游戏积分(1积分=1U)
+                    <span>3</span>{t('common:game:GuessFailedWillGet50PercentOfTheBetAmountInGamePoints')}
                 </div>
                 <div>
-                    <span>4</span>竞猜成功获得80%的押注金额奖励,5%将用于推荐返佣,15%将直接销毁
+                    <span>4</span>{t('common:game:GuessSuccessWillGet80PercentOfTheBetAmountReward')}
                 </div>
             </section>
         </Modal>

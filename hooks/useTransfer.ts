@@ -12,7 +12,7 @@ import useCatchTx from './useCatchTx';
 import useTransaction from './useTransaction';
 import useBalance from './useBalance';
 import { $BigNumber } from '@/utils/met';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 type SendTransaction = {
     account?: Account | Address;

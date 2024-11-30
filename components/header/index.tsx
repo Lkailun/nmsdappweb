@@ -6,7 +6,7 @@ import { useChainModal, useConnectModal, useAccountModal } from '@rainbow-me/rai
 import { useWallet, useThrottled } from '@/hooks';
 import { $hash } from '@/utils/met';
 import { useUser } from '@/state/user/hooks';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { useWalletClient } from 'wagmi';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
@@ -81,7 +81,7 @@ const Header: FC<any> = (): ReactElement => {
     useEffect(() => {
         i18n.changeLanguage('zh');
         const audio = Storage.getItem('audio');
-        setVoice(audio === 'true')
+        setVoice(audio === 'true');
     }, []);
 
     useEffect(() => {

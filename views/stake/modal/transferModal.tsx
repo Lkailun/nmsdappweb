@@ -11,7 +11,7 @@ import Server from '@/service/api';
 import CountUp from 'react-countup';
 import moment from 'moment';
 import useTransfer from '@/hooks/useTransfer';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import classNames from 'classnames';
 
 type IProps = {

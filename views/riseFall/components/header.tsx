@@ -143,16 +143,18 @@ const Header: FC = (): ReactElement => {
                 </div>
                 <div className={css.action}>
                     <div className={classNames(css.down, direction === 'up' ? css.active : '')} onClick={() => setDirection('up')}>
-                        看涨{direction === 'up' && <img src="/images/rise-fall/check.svg" alt="" />}
+                        {t('common:game:Rise')}
+                        {direction === 'up' && <img src="/images/rise-fall/check.svg" alt="" />}
                     </div>
                     <div className={classNames(css.up, direction === 'down' ? css.active : '')} onClick={() => setDirection('down')}>
-                        看跌{direction === 'down' && <img src="/images/rise-fall/check.svg" alt="" />}
+                        {t('common:game:Fall')}
+                        {direction === 'down' && <img src="/images/rise-fall/check.svg" alt="" />}
                     </div>
                 </div>
                 <div className={css.cont}>
                     <div className={css.top}>
                         <img src={`/images/luckWheel/right.svg`} alt="" />
-                        <span>选择下注数量(NMS)</span>
+                        <span>{t('common:game:SelectBetAmount')}(NMS)</span>
                         <img src={`/images/luckWheel/left.svg`} alt="" />
                     </div>
                     <section>
@@ -165,11 +167,11 @@ const Header: FC = (): ReactElement => {
                     </section>
                 </div>
                 <Button className={css.btn} onClick={() => setShowConfirm(true)}>
-                    下注竞猜
+                    {t('common:game:BTCBet')}
                 </Button>
                 <div className={css.rule}>
                     <img className={css.icon} src={`/images/luckWheel/warn.svg`} alt="" />
-                    <span onClick={() => setShowRule(true)}>竞猜规则</span>
+                    <span onClick={() => setShowRule(true)}>{t('common:game:BTCBetRules')}</span>
                 </div>
             </div>
             {showRule && <RuleModal onClose={() => setShowRule(false)} />}

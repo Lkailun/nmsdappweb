@@ -5,7 +5,7 @@ import { useUser } from '@/state/user/hooks';
 import moment from 'moment';
 import CountUp from 'react-countup';
 import { $BigNumber } from '@/utils/met';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 const Item: FC<{ [key: string]: any }> = ({ data }): ReactElement => {
     const { t }: any = useTranslation<any>(['common']);
@@ -21,7 +21,7 @@ const Item: FC<{ [key: string]: any }> = ({ data }): ReactElement => {
                     <div className={css.days}>
                         <span className={css.label}>{t('common:stake:Days')}:</span>
                         {/* {moment(data.createtime).endOf('m').fromNow()} */}
-                        { Math.floor((Date.now() - data.createtime) / (1000 * 60 * 60 * 24)) }天
+                        {Math.floor((Date.now() - data.createtime) / (1000 * 60 * 60 * 24))}天
                     </div>
                 </div>
                 <div className={css.line}>

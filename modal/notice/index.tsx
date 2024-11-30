@@ -4,7 +4,7 @@ import css from './index.module.scss';
 import { Modal } from 'antd';
 import { useNoticeModal } from '@/state/base/hooks';
 import { useUser } from '@/state/user/hooks';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import classNames from 'classnames';
 
 const NoticeModal: FC = (): ReactElement => {

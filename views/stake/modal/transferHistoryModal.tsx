@@ -7,7 +7,7 @@ import moment from 'moment';
 import { useWallet } from '@/hooks';
 import { useUser } from '@/state/user/hooks';
 import { NoData } from '@/components';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 type IProps = {
     list: any[];
     onClose: Function;
@@ -30,15 +30,9 @@ const TransferHistoryModal: FC<IProps> = ({ onClose }: IProps): ReactElement => 
                     {integraltransferrecords.map((ele: any, index: number) => (
                         <div key={index} className={classNames(css.nav, css.list)}>
                             <div>{moment(ele.createtime).format('YYYY.MM.DD HH:mm')}</div>
-                            <div className={css[ele.from === account?.toLowerCase() ? 'out' : 'in']}>
-                                {ele.from === account?.toLowerCase() ? t('common:stake:TransferOut') : t('common:stake:TransferIn')}
-                            </div>
+                            <div className={css[ele.from === account?.toLowerCase() ? 'out' : 'in']}>{ele.from === account?.toLowerCase() ? t('common:stake:TransferOut') : t('common:stake:TransferIn')}</div>
                             <div>
-                                {$hash(
-                                    ele.from === account?.toLowerCase() ? ele.to : ele.from,
-                                    3,
-                                    5
-                                )}
+                                {$hash(ele.from === account?.toLowerCase() ? ele.to : ele.from, 3, 5)}
                                 <img className={css.copy} onClick={() => $copy(ele.from)} src="/images/my/copy1.svg" alt="" />
                             </div>
                             <div>

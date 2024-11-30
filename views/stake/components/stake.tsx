@@ -8,7 +8,7 @@ import { $BigNumber } from '@/utils/met';
 import CountUp from 'react-countup';
 import { useImmer } from 'use-immer';
 import BigNumber from 'bignumber.js';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { Button } from '@/components';
 import { max, maxBy, min, set } from 'lodash';
 import moment from 'moment';
@@ -51,7 +51,7 @@ const Stake: FC = (): ReactElement => {
             },
             grid: {
                 left: '-2%',
-                right: '-2%', 
+                right: '-2%',
                 top: '2%',
                 bottom: '0%',
                 containLabel: true
@@ -65,15 +65,15 @@ const Stake: FC = (): ReactElement => {
                     name: 'price',
                     show: false,
                     scale: true,
-                    min: function(value: { min: number }) {
+                    min: function (value: { min: number }) {
                         return value.min * 0.95;
                     }
                 },
                 {
-                    name: 'kline', 
+                    name: 'kline',
                     show: false,
                     scale: true,
-                    min: function(value: { min: number }) {
+                    min: function (value: { min: number }) {
                         return value.min * 0.95;
                     }
                 }
@@ -94,7 +94,7 @@ const Stake: FC = (): ReactElement => {
                     }
                 },
                 {
-                    type: 'line', 
+                    type: 'line',
                     name: 'kline',
                     yAxisIndex: 1,
                     smooth: 0.3,
@@ -103,7 +103,7 @@ const Stake: FC = (): ReactElement => {
                         color: '#5ED675',
                         width: 2
                     },
-                    data: yData.map(v => v * 1.3)
+                    data: yData.map((v) => v * 1.3)
                 }
             ]
         };
@@ -152,7 +152,7 @@ const Stake: FC = (): ReactElement => {
             <div className={css.view}>
                 <div className={css.dashboard}>
                     <div className={css.tip}>
-                        {t('common:stake:NMMPrice')}: <b>${BigNumber(price).toFixed(4, 1)}</b> <span>+{ BigNumber(platforminfo?.nmmriserate).multipliedBy(100).toFixed(2, 1) }%</span>
+                        {t('common:stake:NMMPrice')}: <b>${BigNumber(price).toFixed(4, 1)}</b> <span>+{BigNumber(platforminfo?.nmmriserate).multipliedBy(100).toFixed(2, 1)}%</span>
                     </div>
                     <div className={css.kline} ref={chartRef}></div>
                 </div>

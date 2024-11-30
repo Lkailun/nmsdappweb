@@ -5,7 +5,7 @@ import css from '../../styles/confirm.module.scss';
 import { message, Modal } from 'antd';
 import { Button } from '@/components';
 import { useAuth, useUser } from '@/state/user/hooks';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import BigNumber from 'bignumber.js';
 import Server from '@/service/api';
 import { useLuck } from '@/state/game/hooks';
@@ -41,7 +41,7 @@ const ConfirmModal: FC<IProps> = ({ onClose, checkIndex, amount }: IProps): Reac
             if (code !== 200) throw new Error(msg);
             updateGameData(omit(data, 'userinfo'));
             updateUser(data.userinfo);
-            message.success('下注成功');
+            message.success(t('common:game:BetSuccess'));
             onClose();
         } catch (e: any) {
             message.error(e.message || 'error');
@@ -51,12 +51,14 @@ const ConfirmModal: FC<IProps> = ({ onClose, checkIndex, amount }: IProps): Reac
     };
     return (
         <Modal open={true} footer={null} className={css.view} onCancel={() => onClose()}>
-            <h2>确认下注</h2>
+            <h2>{t('common:game:ConfirmStake')}</h2>
             <section>
                 <img src="/images/luckWheel/confirm_title.png" alt="" />
-                <p>我已知悉游戏规则</p>
-                <p className={css.tip}>确定本局下注{amount}NMS</p>
-                <Button onClick={handStake}>确认下注</Button>
+                <p>{t('common:game:IHaveReadTheGameRules')}</p>
+                <p className={css.tip}>
+                    {t('common:game:ConfirmThisStake')} {amount}NMS
+                </p>
+                <Button onClick={handStake}>{t('common:game:ConfirmStake')}</Button>
             </section>
         </Modal>
     );

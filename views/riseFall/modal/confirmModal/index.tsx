@@ -44,7 +44,7 @@ const ConfirmModal: FC<IProps> = ({ onClose, amount, direction }: IProps): React
             if (code !== 200) throw new Error(msg);
             updateGameData(omit(data, 'userinfo'));
             updateUser(data.userinfo);
-            message.success('下注成功');
+            message.success(t('common:game:BetSuccess'));
             onClose();
         } catch (e: any) {
             message.error(e.message || 'error');
@@ -54,13 +54,13 @@ const ConfirmModal: FC<IProps> = ({ onClose, amount, direction }: IProps): React
     };
     return (
         <Modal open={true} footer={null} className={css.view} onCancel={() => onClose()}>
-            <h2>确认下注</h2>
+            <h2>{t('common:game:ConfirmThisStake')}</h2>
             <section>
                 <img src="/images/rise-fall/confirm_title.png" alt="" />
-                <p>我已知悉游戏规则</p>
-                <p className={classNames(css.tip, css[direction])}>确定下注{amount}NMS看涨</p>
-                <p className={css.fontWeight}>下一根3分钟K线</p>
-                <Button onClick={handStake}>确认下注</Button>
+                <p>{t('common:game:IKnowTheGameRules')}</p>
+                <p className={classNames(css.tip, css[direction])}>{t('common:game:ConfirmThisStake')} {amount}NMS {direction === 'up' ? t('common:game:Rise') : t('common:game:Fall')}</p>
+                <p className={css.fontWeight}>{t('common:game:Next3MinuteKLine')}</p>
+                <Button onClick={handStake}>{t('common:game:ConfirmThisStake')}</Button>
             </section>
         </Modal>
     );

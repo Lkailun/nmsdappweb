@@ -2,32 +2,34 @@ import { FC, ReactElement } from 'react';
 
 import css from '../../../stake/styles/rule.module.scss';
 import { Modal } from 'antd';
+import { useTranslation } from 'next-i18next';
 
 type IProps = {
     onClose: Function;
 };
 const RuleModal: FC<IProps> = ({ onClose }: IProps): ReactElement => {
+    const { t }: any = useTranslation<any>(['common']);
     return (
         <Modal open={true} footer={null} className={css.view} onCancel={() => onClose()}>
-            <h2>幸运转转转游戏规则</h2>
+            <h2>{t('common:game:LuckyWheelGameRules')}</h2>
             <section>
                 <div>
-                    <span>1</span>每局16个空位,每个空位仅限1人,可押注不同金额
+                    <span>1</span>{t('common:game:EachRoundHas16EmptyPositions')}
                 </div>
                 <div>
-                    <span>2</span>每局封顶16人,满3人后激活开奖倒计时30秒
+                    <span>2</span>{t('common:game:EachRoundHas16EmptyPositions')}
                 </div>
                 <div>
-                    <span>3</span>每局在16个位置中随机选择1个作为赢家,如果中奖位置为空,押注金额全额退还
+                    <span>3</span>{t('common:game:TheWinnerIsSelectedRandomlyFromThe16Positions')}
                 </div>
                 <div>
-                    <span>4</span>赢家将获得押注金额U价值50%等值的游戏积分
+                    <span>4</span>{t('common:game:TheWinnerWillReceive50PercentOfTheBetAmountInGamePoints')}
                 </div>
                 <div>
-                    <span>5</span>赢家押注金额的80%将被瓜分给未中奖玩家(根据下注金额比例)
+                    <span>5</span>{t('common:game:The80PercentOfTheWinnerBetAmountWillBeDistributedToUnluckyPlayers')}
                 </div>
                 <div>
-                    <span>6</span>赢家押注金额的5%将用于推荐返佣，15%将直接销毁
+                    <span>6</span>{t('common:game:5PercentOfTheWinnerBetAmountWillBeUsedForReferralRebates')}
                 </div>
             </section>
         </Modal>

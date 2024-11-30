@@ -7,7 +7,7 @@ import { $BigNumber } from '@/utils/met';
 import { useAuth, useUser } from '@/state/user/hooks';
 import { useSign, useWallet } from '@/hooks';
 import Server from '@/service/api';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 type IProps = {
     onClose: Function;

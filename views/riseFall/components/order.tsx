@@ -3,7 +3,7 @@ import css from '../styles/order.module.scss';
 import { Button, NoData } from '@/components';
 import moment from 'moment';
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { useBtc } from '@/state/game/hooks';
 import BigNumber from 'bignumber.js';
 
@@ -28,38 +28,38 @@ const Order: FC = (): ReactElement => {
     const getFont = (status: string) => {
         switch (status) {
             case 'pending':
-                return '等待开奖';
+                return t('common:game:WaitingForResults');
             case 'success':
-                return '已中奖';
+                return t('common:game:Winning');
             case 'failed':
-                return '未中奖';
+                return t('common:game:Failed');
             default:
-                return '无人获奖';
+                return t('common:game:NoOneWon');
         }
     };
 
     return (
         <div className={css.view}>
             <header>
-                我的游戏记录
-                <span>(最近30条下注记录)</span>
+                {t('common:game:MyGameRecords')}
+                <span>{t('common:game:Recent30BetRecords')}</span>
             </header>
             <div className={css.section}>
                 {btcgamerecords.map((ele: any, index: number) => (
                     <div className={css.item} key={index}>
                         <div className={css.line}>
                             <div className={css.left}>
-                                <span className={css.label}>竞猜时间::</span>
+                                <span className={css.label}>{t('common:game:BetTime')}:</span>
                                 <div>{moment(ele.createtime).format('YYYY.MM.DD HH:mm')}</div>
                             </div>
                             <div className={css.right}>
-                                <span className={css.label}>开奖状态:</span>
+                                <span className={css.label}>{t('common:game:LotteryStatus')}:</span>
                                 <div className={ele.status === 'success' ? css.success : ele.state === 'failed' ? css.fail : ele.state === 'pending' ? css.pending : css.know}>{getFont(ele.state)}</div>
                             </div>
                         </div>
                         <div className={css.line}>
                             <div className={css.left}>
-                                <span className={css.label}>竞猜金额:</span>
+                                <span className={css.label}>{t('common:game:BetAmount')}:</span>
                                 <div>
                                     -{ele.amount}
                                     <img src="/images/symbol/NMS.svg" alt="" />
@@ -67,7 +67,7 @@ const Order: FC = (): ReactElement => {
                                 </div>
                             </div>
                             <div className={css.right}>
-                                <span className={css.label}>获得奖励:</span>
+                                <span className={css.label}>{t('common:game:Reward')}:</span>
                                 <div>
                                     {ele.state === 'pending' ? (
                                         '--'

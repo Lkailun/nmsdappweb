@@ -18,7 +18,6 @@ type IProps = {
 };
 const ResultModal: FC<IProps> = ({ onClose }): ReactElement => {
     const [{ openLuckGameResult }] = useLuck();
-
     const getTipFont = (type: string) => {
         switch (type) {
             case ResultStatus.success:

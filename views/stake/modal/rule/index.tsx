@@ -1,5 +1,5 @@
 import { FC, ReactElement } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import css from '../../styles/rule.module.scss';
 import { Modal } from 'antd';
 

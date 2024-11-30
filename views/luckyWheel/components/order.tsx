@@ -4,7 +4,7 @@ import { Button, NoData } from '@/components';
 import moment from 'moment';
 import { $BigNumber, $diffDate, $toFixed } from '@/utils/met';
 import CountUp from 'react-countup';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { useLuck } from '@/state/game/hooks';
 import BigNumber from 'bignumber.js';
 
