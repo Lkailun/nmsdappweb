@@ -55,7 +55,7 @@ const Header: FC<any> = (): ReactElement => {
 
     useLayoutEffect(() => {
         if (!ready) return;
-        login();
+        login(true);
     }, [ready, account]);
 
     useEffect(() => {
@@ -67,10 +67,6 @@ const Header: FC<any> = (): ReactElement => {
     useEffect(() => {
         i18n.changeLanguage('zh');
     }, []);
-
-    // useEffect(() => {
-    //     console.log('router', router);
-    // }, [router]);
 
     return (
         <header className={classNames(css.header, ['/rise-fall', '/lucky-wheel'].includes(router.pathname) ? css.opacity : '')}>

@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { handUpdateUser, setAuth, setInviter, setIsGotRecords, setUserInfo } from './actions';
 import { AppState, useAppDispatch } from '../index';
 import Server from '@/service/api';
