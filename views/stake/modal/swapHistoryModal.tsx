@@ -23,7 +23,7 @@ const SwapHistoryModal: FC<IProps> = ({ onClose, list }: IProps): ReactElement =
                     <div>{t('common:stake:SellNMM')}</div>
                     <div>{t('common:stake:GetUSDT')}</div>
                 </div>
-                <div className={classNames(css.cont, 'hidden-scroll')}>
+                <div className={classNames(swaprecords?.length > 0 ? css.cont : '', 'hidden-scroll')}>
                     {swaprecords.map((ele: any, index: number) => (
                         <div key={index} className={classNames(css.nav, css.list)}>
                             <div>{moment(ele.createtime).format('YYYY.MM.DD HH:mm')}</div>

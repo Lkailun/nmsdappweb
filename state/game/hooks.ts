@@ -33,7 +33,7 @@ export function useLuck(): [
     const prizeIng = useSelector<AppState, AppState['game']['prizeIng']>((state: AppState) => state.game.prizeIng);
 
     const marquee = async (endIndex: number) => {
-        let once = 3,
+        let once = 4,
             intervalDuration = 78;
 
         while (once > 0) {
@@ -97,8 +97,8 @@ export function useLuck(): [
                     };
                     dispatch(setLuckPrizeIng(false));
                     await marquee(winindex);
-                    dispatch(setLuckMarqueeIndex(-1));
                     await $sleep(1500);
+                    dispatch(setLuckMarqueeIndex(-1));
                     dispatch(setLuckGameResult(params));
                     if (Storage.getItem('voice') === 'open') {
                         let remindAudio: HTMLAudioElement | null = null;

@@ -44,7 +44,7 @@ const WithdrawalHistoryModal: FC<IProps> = ({ onClose, list }: IProps): ReactEle
                     <div>{t('common:my:WithdrawalAmount')}</div>
                     <div>{t('common:my:Status')}</div>
                 </div>
-                <div className={classNames(css.cont, 'hidden-scroll')}>
+                <div className={classNames(withdrawrecords?.length > 0 ? css.cont : '', 'hidden-scroll')}>
                     {withdrawrecords.map((ele: any) => (
                         <div key={ele._id} className={classNames(css.nav, css.list)}>
                             <div>{moment(ele.createtime).format('YYYY.MM.DD HH:mm')}</div>

@@ -26,7 +26,7 @@ const TransferHistoryModal: FC<IProps> = ({ onClose }: IProps): ReactElement => 
                     <div>{t('common:stake:OppositeAddress')}</div>
                     <div>{t('common:stake:TransferAmount')}</div>
                 </div>
-                <div className={classNames(css.cont, 'hidden-scroll')}>
+                <div className={classNames(integraltransferrecords?.length > 0 ? css.cont : '', 'hidden-scroll')}>
                     {integraltransferrecords.map((ele: any, index: number) => (
                         <div key={index} className={classNames(css.nav, css.list)}>
                             <div>{moment(ele.createtime).format('YYYY.MM.DD HH:mm')}</div>
