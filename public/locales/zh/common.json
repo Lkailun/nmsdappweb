@@ -23,6 +23,12 @@
         "stake": "质押",
         "my": "我的"
     },
+    "home": {
+        "my_total_game_count": "我的累计场次(次)",
+        "my_total_spend_nms": "累计参与金额(NMS)",
+        "my_recent_game": "我的最近游戏",
+        "no_record": "无记录"
+    },
     "game": {
         "YouHaveJoinedThisRound": "本轮游戏您已参与!!!",
         "ThisRoundParticipants": "本局参与人数",

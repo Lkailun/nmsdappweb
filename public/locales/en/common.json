@@ -23,6 +23,12 @@
         "stake": "Stake",
         "my": "My"
     },
+    "home": {
+        "my_total_game_count": "Total Game Count",
+        "my_total_spend_nms": "Total Spend NMS",
+        "my_recent_game": "Recent Game",
+        "no_record": "No Record"
+    },
     "game": {
         "YouHaveJoinedThisRound": "This round you have participated!!!",
         "ThisRoundParticipants": "This Round Participants",
