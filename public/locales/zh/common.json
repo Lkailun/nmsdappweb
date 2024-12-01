@@ -15,7 +15,8 @@
         "CurrentlyBindingInviter": "当前绑定的邀请人地址",
         "CurrentLinkHasNoInviter": "当前链接无邀请人",
         "PleaseEnterTheInviter'sAddress": "请输入邀请人地址",
-        "ConfirmBinding": "确认绑定"
+        "ConfirmBinding": "确认绑定",
+        "PleaseBindInviterFirst": "请先绑定邀请人"
     },
     "nav": {
         "game": "游戏",

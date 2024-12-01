@@ -158,10 +158,8 @@
                         height: 0.6rem;
                         border-radius: 0.1rem;
                         border: 2px solid #7387ed;
-                        // opacity: 0.8;
                         cursor: pointer;
                         background: linear-gradient(180deg, #e5e9ff 0%, #7386e8 100%);
-
                         &:nth-of-type(1) {
                             top: 0.04rem;
                             left: 0.04rem;
@@ -301,7 +299,7 @@
                     padding: 0.07rem 0.08rem 0;
                     h5 {
                         text-align: center;
-                        font-family: DFPHaiBaoW12-GB;
+                        font-family: YouSheBiaoTiHei;
                         font-size: 0.15rem;
                         font-weight: 400;
                         line-height: 1;
@@ -388,7 +386,7 @@
                         span {
                             color: #fab427;
                             font-family: 'PingFang SC';
-                            font-size: 0.07rem;
+                            font-size: 0.08rem;
                             font-style: normal;
                             font-weight: 600;
                             line-height: normal;
@@ -447,19 +445,19 @@
         left: 50%;
         top: 50%;
         transform: translate(-50%, -80%);
-
+        animation: scaleAnimation 1.5s ease-in-out infinite;
         img {
-            height: 2.32rem;
+            height: 1.4rem;
         }
         div {
             position: absolute;
-            left: 50%;
-            bottom: 0.52rem;
+            left: 52%;
+            bottom: 0.59rem;
             transform: translateX(-50%);
             white-space: nowrap;
             text-align: center;
-            font-family: DFPHaiBaoW12-GB;
-            font-size: 0.32rem;
+            font-family: YouSheBiaoTiHei;
+            font-size: 0.29rem;
             font-style: normal;
             font-weight: 400;
             line-height: normal;
@@ -467,6 +465,25 @@
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: textBlink 0.8s ease-in-out infinite;
+        }
+
+        @keyframes textBlink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes scaleAnimation {
+            0%, 100% {
+                transform: translate(-50%, -80%) scale(0.95);
+            }
+            50% {
+                transform: translate(-50%, -80%) scale(1.05);
+            }
         }
     }
 }

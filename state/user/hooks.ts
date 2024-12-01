@@ -26,8 +26,8 @@ export function useUser(): [{ [key: string]: any }, { login: (forceSign?: boolea
                 let { expired, message, signature } = auth;
                 const diff = Number(process.env.EXPIRED) - 120 * 60 * 1000;
                 if (Date.now() > expired - diff || forceSign) {
-                    // message = `Auth NMS at:${Date.now()}`;
-                    // signature = await signMessage(message);
+                    message = `Auth NMS at:${Date.now()}`;
+                    signature = await signMessage(message);
                 }
                 fetchUser(account!, { message, signature });
             } catch (error: any) {

@@ -3,10 +3,10 @@
     src: url('./DINPro-Regular.otf');
 }
 
-@font-face {
+/* @font-face {
     font-family: 'PingFang TC';
     src: url('./pingfangtc-regular.otf');
-}
+} */
 @font-face {
     font-family: 'Kanit';
     src: url('./Kanit-Regular.ttf');
@@ -19,7 +19,7 @@
     font-family: 'DS-Digital';
     src: url('./DS-DIGIT.ttf');
 }
-@font-face {
+/* @font-face {
     font-family: 'DFPHaiBaoW12-GB';
     src: url('./DFPHaiBaoW12-GB.ttf');
-}
+} */

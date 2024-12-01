@@ -3,37 +3,27 @@
 import Footer from '@/components/footer';
 import Header from '@/components/header';
 import { useWallet } from '@/hooks';
-import { BindAddressModal, NoticeModal, ProcessModal } from '@/modal';
-import { useBindModal, useFirstScreen, useNoticeModal, useProcessModal } from '@/state/base/hooks';
+import { BindAddressModal } from '@/modal';
+import { useBindModal, useFirstScreen } from '@/state/base/hooks';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const ActionComponent = ({ children }: any) => {
     const [showBindModal, handShowBindModal] = useBindModal();
-    const [showNoticeModal] = useNoticeModal();
-    const [firstScreen, handFirstScreen] = useFirstScreen();
-    const [{ showProcessModal }] = useProcessModal();
     const { ready } = useWallet();
-
-    useEffect(() => {
-        setTimeout(() => {
-            handFirstScreen(false);
-        }, 10000);
-    }, []);
 
     return (
         <>
-            {/* {firstScreen ? (
-                <FirstScreen playsInline autoPlay muted loop>
-                    <source src="/images/home/openscreen.mp4" type="video/mp4" />
-                </FirstScreen>
-            ) : (
-                <> */}
             <Header />
-            {showNoticeModal && <NoticeModal />}
-            {showProcessModal && <ProcessModal />}
             {showBindModal && <BindAddressModal onClose={() => handShowBindModal(false)} />}
-            {!ready ? <NoConnect>用户数据加载中! 请稍后..</NoConnect> : <></>}
+            {!ready ? (
+                <NoConnect>
+                    <img src="/images/loadding.svg" alt="" className="loading-icon" />
+                    <span className="dot-loading">用户数据加载中! 请稍后...</span>
+                </NoConnect>
+            ) : (
+                <></>
+            )}
             {children}
             <Footer />
             <Preloading>
@@ -61,16 +51,6 @@ const ActionComponent = ({ children }: any) => {
     );
 };
 
-const FirstScreen = styled.video`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: 99;
-    object-fit: cover;
-`;
-
 const NoConnect = styled.div`
     background: rgba(47, 64, 82, 0.9);
     backdrop-filter: blur(2px);
@@ -87,6 +67,42 @@ const NoConnect = styled.div`
     top: 0.65rem;
     left: 0;
     z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1rem;
+
+    .loading-icon {
+        filter: brightness(0) invert(1);
+        width: 0.2rem;
+        height: 0.2rem;
+        animation: rotate 1s linear infinite;
+    }
+
+    .dot-loading {
+        animation: dotLoading 1s linear infinite;
+    }
+
+    @keyframes rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes dotLoading {
+        0% {
+            opacity: 0.3;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0.3;
+        }
+    }
 `;
 
 const Preloading = styled.div`

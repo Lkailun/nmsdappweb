@@ -46,11 +46,10 @@ const BindAddressModal: FC<IProps> = ({ onClose }: IProps): ReactElement => {
     };
 
     return (
-        <Modal open={true} footer={null} className="bind-modal" onCancel={() => onClose()}>
+        <Modal open={true} footer={null} className="bind-modal" onCancel={() => message.warning(t('common:base:PleaseBindInviterFirst'))}>
             <div className={css.view}>
                 <header>{t('common:base:BindingInviter')}</header>
 
-                {/* {inviter ? <p className={classNames(css.notice, css.label)}>{t('common:base:CurrentlyBindingInviter')}</p> : <p className={css.label}>{t('common:base:CurrentLinkHasNoInviter')}</p>} */}
                 <p className={css.label}>{t('common:base:CurrentlyBindingInviter')}:</p>
                 <div className={css.input}>
                     <input type="text" maxLength={42} value={address.length == 42 ? `${address.slice(0, 12)}...${address.slice(-12)}` : address} placeholder={t("common:base:PleaseEnterTheInviter'sAddress")} onChange={(e: any) => setAddress($trim(e))} />

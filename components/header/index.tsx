@@ -15,11 +15,7 @@ import { useVoice } from '@/state/base/hooks';
 
 const langs = [
     { icon: 'zh', title: '中文', key: 'zh' },
-    { icon: 'en', title: 'EN', key: 'en' },
-    { icon: 'ja', title: 'じゃ', key: 'ja' },
-    { icon: 'ko', title: '한국', key: 'ko' },
-    { icon: 'tr', title: '繁体', key: 'tr' },
-    { icon: 'th', title: 'ไทย', key: 'th' }
+    { icon: 'en', title: 'EN', key: 'en' }
 ];
 
 const Header: FC<any> = (): ReactElement => {

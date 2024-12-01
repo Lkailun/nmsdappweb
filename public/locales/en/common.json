@@ -15,7 +15,8 @@
         "CurrentlyBindingInviter": "Currently binding inviter",
         "CurrentLinkHasNoInviter": "Current link has no inviter",
         "PleaseEnterTheInviter'sAddress": "Please enter the inviter's address",
-        "ConfirmBinding": "Confirm binding"
+        "ConfirmBinding": "Confirm binding",
+        "PleaseBindInviterFirst": "Please bind inviter first"
     },
     "nav": {
         "game": "Game",

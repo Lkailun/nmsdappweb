@@ -1,1 +1,1 @@
-ssh root@45.77.31.181 "cd /www/wwwroot/flokiweb && . ./deploy.sh"
+ssh root@127.0.0.1 "cd /www/wwwroot/NMSweb && . ./deploy.sh"
