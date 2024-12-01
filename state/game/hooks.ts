@@ -176,6 +176,7 @@ export function useBtc(): [{ [key: string]: any }, { closeResultModal: () => voi
             try {
                 const data = JSON.parse(localStorage.getItem('btcData') || '{}');
                 const oldData = data.btcgamerecords || [];
+
                 if (oldData.length === 0 || newData.length === 0) return;
                 if (newData[0].state !== 'pending' && oldData[0].state === 'pending') {
                     const result = newData[0];

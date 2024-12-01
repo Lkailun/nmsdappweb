@@ -68,9 +68,9 @@ const Header: FC<any> = (): ReactElement => {
         i18n.changeLanguage('zh');
     }, []);
 
-    useEffect(() => {
-        console.log('router', router);
-    }, [router]);
+    // useEffect(() => {
+    //     console.log('router', router);
+    // }, [router]);
 
     return (
         <header className={classNames(css.header, ['/rise-fall', '/lucky-wheel'].includes(router.pathname) ? css.opacity : '')}>

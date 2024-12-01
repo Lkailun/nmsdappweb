@@ -73,7 +73,7 @@ const Header: FC = (): ReactElement => {
 
     const handStake = (index: number) => {
         const list = luckgameinfo[0]?.betaddresslist || [];
-        console.log(list, list[index]);
+        // console.log(list, list[index]);
         if (list[index]) return;
         if (list.includes(userinfo.address)) {
             message.warning(t('common:game:YouHaveJoinedThisRound'));
