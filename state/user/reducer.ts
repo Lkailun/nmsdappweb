@@ -46,8 +46,8 @@ const initialState = {
         },
         platforminfo: {
             _id: '',
-            nmmprice: 3.018036024,
-            nmmriserate: 0.00225,
+            nmmprice: 0,
+            nmmriserate: 0.002,
             nmmpricehistory: {
                 "1731788000000": 2.92,
                 "1731888000000": 2.93,
@@ -77,7 +77,7 @@ const initialState = {
             receive: '',
             usdttoken: '0x55d398326f99059ff775485246999027b3197955',
             nmstoken: '0x45016163d6843280d086b52162708633b328032D',
-            topaddress: '0x59a8082bC047de76209ca00d2E2C1856aAf70000'
+            topaddress: '0x2142879D138eaef298AA17368010f721cfc50eAb'
         },
         stakingrecords: [],
         depositrecords: [],
