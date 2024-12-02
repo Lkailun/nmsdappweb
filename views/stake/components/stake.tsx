@@ -52,7 +52,7 @@ const Stake: FC = (): ReactElement => {
             grid: {
                 left: '-2%',
                 right: '-2%',
-                top: '2%',
+                top: '5%',
                 bottom: '0%',
                 containLabel: true
             },
@@ -80,20 +80,6 @@ const Stake: FC = (): ReactElement => {
             ],
             series: [
                 {
-                    data: yData,
-                    name: 'price',
-                    type: 'bar',
-                    yAxisIndex: 0,
-                    itemStyle: {
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                            { offset: 0, color: '#6FF0F7' },
-                            { offset: 0.35, color: '#486FCF' },
-                            { offset: 1, color: '#192B5C' }
-                        ]),
-                        borderRadius: 6
-                    }
-                },
-                {
                     type: 'line',
                     name: 'kline',
                     yAxisIndex: 1,
@@ -103,7 +89,21 @@ const Stake: FC = (): ReactElement => {
                         color: '#5ED675',
                         width: 2
                     },
-                    data: yData.map((v) => v * 1.3)
+                    data: yData
+                },
+                {
+                    data: yData,
+                    name: 'price',
+                    type: 'bar',
+                    yAxisIndex: 0,
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 2, [
+                            { offset: 0, color: '#6FF0F7' },
+                            { offset: 0.35, color: '#486FCF' },
+                            { offset: 1, color: '#192B5C' }
+                        ]),
+                        borderRadius: 6
+                    }
                 }
             ]
         };
