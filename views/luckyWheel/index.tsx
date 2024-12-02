@@ -28,6 +28,7 @@ const Main: FC = (): ReactElement => {
     }, [voice]);
 
     useEffect(() => {
+        clearData();
         return () => {
             backgroundAudio.current?.pause();
             backgroundAudio.current = null;
