@@ -76,8 +76,6 @@ export function useLuck(): [
                         const find = _newdata.luckgamerecords.find((ele: any) => ele._id === _id);
                         createtime = find['createtime'] || 0;
 
-                        console.log('dealData ', betaddresslist, user, winindex);
-
                         if (betaddresslist[winindex] === user) {
                             type = ResultStatus.success;
                             reward = Number(BigNumber(integralreward).toFixed(4, 1));
