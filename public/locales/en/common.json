@@ -1,6 +1,7 @@
 {
     "base": {
         "InsufficientBalance": "Insufficient USDT / Integral balance",
+        "InsufficientNMSBalance": "Insufficient NMS Balance",
         "InsufficientGasBalance": "Insufficient Gas Balance",
         "InsufficientUSDTBalance": "Insufficient USDT Balance",
         "SignatureExpired": "Signature expired, please refresh the page",

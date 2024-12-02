@@ -26,7 +26,7 @@ const ConfirmModal: FC<IProps> = ({ onClose, checkIndex, amount }: IProps): Reac
 
     const handStake = async () => {
         try {
-            if (BigNumber(amount).gt(userinfo.nmsbalance)) throw new Error(t('common:base:InsufficientBalance'));
+            if (BigNumber(amount).gt(userinfo.nmsbalance)) throw new Error(t('common:base:InsufficientNMSBalance'));
             setLoading(true);
             const params = {
                 address: userinfo.address,

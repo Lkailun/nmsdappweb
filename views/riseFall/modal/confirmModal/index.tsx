@@ -28,7 +28,7 @@ const ConfirmModal: FC<IProps> = ({ onClose, amount, direction }: IProps): React
 
     const handStake = async () => {
         try {
-            if (BigNumber(amount).gt(userinfo.nmsbalance)) throw new Error(t('common:base:InsufficientBalance'));
+            if (BigNumber(amount).gt(userinfo.nmsbalance)) throw new Error(t('common:base:InsufficientNMSBalance'));
             setLoading(true);
             const params = {
                 symbol: 'BTC',
